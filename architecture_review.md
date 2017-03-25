@@ -5,6 +5,7 @@ We are building a price predictor which will allow the user to choose an item an
 * Lasso Regression
 * Ridge Regression
 * Singular Value Decomposition
+
 The background information for each of these algorithms is on our powerpoint.
 
 # Key questions

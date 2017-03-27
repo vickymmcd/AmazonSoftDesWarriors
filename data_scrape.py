@@ -30,4 +30,4 @@ def get_id(url, file_name):
             return myLine[num:endnum]
 
 
-get_id('https://thetracktor.com/detail/B00006IV4N/', 'myhtml2.txt')
+get_id('https://thetracktor.com/detail/B00GJWJI88/', 'bugspray.txt')

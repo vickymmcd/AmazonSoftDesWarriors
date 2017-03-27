@@ -30,4 +30,10 @@ def get_id(url, file_name):
             return myLine[num:endnum]
 
 
-get_id('https://thetracktor.com/detail/B00006IV4N/', 'myhtml2.txt')
+def get_dataURL(id):
+    url = "https://thetracktor.com/ajax/prices/?id=" + str(id) + "&days=360"
+    return url
+
+
+id = get_id('https://thetracktor.com/detail/B00006IV4N/', 'myhtml2.txt')
+print(get_dataURL(id))

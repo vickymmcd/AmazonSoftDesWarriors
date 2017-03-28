@@ -30,4 +30,22 @@ def get_id(url, file_name):
             return myLine[num:endnum]
 
 
-get_id('https://thetracktor.com/detail/B00GJWJI88/', 'bugspray.txt')
+def get_dataURL(url, file_name):
+    id = get_id(url, file_name)
+    url = "https://thetracktor.com/ajax/prices/?id=" + str(id) + "&days=360"
+    return url
+
+
+def get_data(url, file_name, data_file_name):
+    if exists(data_file_name):
+        f = open(data_file_name, 'rb+')
+        data = load(f)
+    else:
+        data_url = get_dataURL(url, file_name)
+        f = open(data_file_name, 'wb+')
+        data = requests.get(data_url)
+        dump(data, f)
+    print(data)
+
+
+print(get_data('', 'camera.txt', 'camera_data.txt'))

@@ -75,8 +75,24 @@ def get_data_dict(url, file_name, data_file_name):
                 data += str(line)[start_num:]
 
 
-get_data('https://thetracktor.com/detail/B01L8Q5NXS/', 'gloves.txt',
-         'gloves_data.txt')
+# get_data('https://thetracktor.com/detail/B01L8Q5NXS/', 'camera.txt',
+#          'camera_data.txt')
+info = get_data_dict('https://thetracktor.com/detail/B01L8Q5NXS/', 'phone.txt',
+         'phone_data.txt')
+
+info
+info = info.strip('{}\b')
+info = info.split('], "')
+info
+
+price_dict = {}
+for foo in info:
+    foo = foo + ']'
+    foo = foo.strip('\\b"')
+    # foo = foo.split(':')
+    # foo[1] = foo[1].strip('"')
+    print(foo)
+    print('\n\n')
 '''mydict = get_data_dict('', 'phone.txt', 'phone_data.txt')
 json_string = json.dumps(mydict)
 mynewdict = json.loads(mydict)

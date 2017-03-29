@@ -1,6 +1,8 @@
 from os.path import exists
 import requests
 from pickle import dump, load
+import ast
+import json
 
 
 def get_id(url, file_name):
@@ -45,7 +47,40 @@ def get_data(url, file_name, data_file_name):
         f = open(data_file_name, 'wb+')
         data = requests.get(data_url)
         dump(data, f)
-    print(data)
+    return data
 
 
-print(get_data('', 'phone.txt', 'phone_data.txt'))
+def get_data_dict(url, file_name, data_file_name):
+    data_file = get_data(url, file_name, data_file_name)
+    start_key = '"prices": '
+    end_key = '}}'
+    data = ''
+    started = False
+    for line in data_file:
+        if start_key not in str(line) and started:
+            if end_key in str(line):
+                end_num = (str(line).index(end_key)) + len(end_key) - 1
+                data += str(line)[: end_num]
+                return data
+            else:
+                data += str(line)
+        if start_key in str(line):
+            started = True
+            start_num = str(line).index(start_key) + len(start_key)
+            if end_key in str(line):
+                end_num = (str(line).index(end_key)) + len(end_key)
+                data = str(line)[start_num: end_num]
+                return data
+            else:
+                data += str(line)[start_num:]
+
+
+get_data('https://thetracktor.com/detail/B01L8Q5NXS/', 'gloves.txt',
+         'gloves_data.txt')
+'''mydict = get_data_dict('', 'phone.txt', 'phone_data.txt')
+json_string = json.dumps(mydict)
+mynewdict = json.loads(mydict)
+x = mynewdict["1459677512000.0"]
+# print((get_data_dict('', 'phone.txt', 'phone_data.txt')))
+print(x)
+# print(mydict["1459677512000.0"])'''

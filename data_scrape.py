@@ -56,47 +56,48 @@ def get_data_dict(url, file_name, data_file_name):
     end_key = '}}'
     data = ''
     started = False
+    finished_flag = False
     for line in data_file:
-        if start_key not in str(line) and started:
-            if end_key in str(line):
-                end_num = (str(line).index(end_key)) + len(end_key) - 1
-                data += str(line)[: end_num]
-                return data
-            else:
-                data += str(line)
-        if start_key in str(line):
-            started = True
-            start_num = str(line).index(start_key) + len(start_key)
-            if end_key in str(line):
-                end_num = (str(line).index(end_key)) + len(end_key)
-                data = str(line)[start_num: end_num]
-                return data
-            else:
-                data += str(line)[start_num:]
+        if finished_flag == False:
+            if start_key not in str(line) and started:
+                if end_key in str(line):
+                    end_num = (str(line).index(end_key)) + len(end_key) - 1
+                    data += str(line)[: end_num]
+                    finished_flag = True
+                else:
+                    data += str(line)
+            if start_key in str(line):
+                started = True
+                start_num = str(line).index(start_key) + len(start_key)
+                if end_key in str(line):
+                    end_num = (str(line).index(end_key)) + len(end_key)
+                    data = str(line)[start_num: end_num]
+                    finished_flag = True
+                else:
+                    data += str(line)[start_num:]
+    info = data.strip('{}\b')
+    info = info.split('], "')
+    data_dict = {}
+    for foo in info:
+        foo = foo + ']'
+        foo = foo.replace('\'b\'','')
+        foo = foo.replace('\"','')
+        bar = foo.split(':')
+        bar[1] = bar[1].strip()
+        bar[1] = bar[1].replace('[', '')
+        bar[1] = bar[1].replace(']', '')
+        bar[1] = bar[1].split(',')
+        bar[1][0] = float(bar[1][0])
+        bar[1][1] = float(bar[1][1])
+        if bar[0] not in data_dict:
+            data_dict[bar[0]] = bar[1]
+    return data_dict
+
+
+
 
 
 # get_data('https://thetracktor.com/detail/B01L8Q5NXS/', 'camera.txt',
 #          'camera_data.txt')
-info = get_data_dict('https://thetracktor.com/detail/B01L8Q5NXS/', 'phone.txt',
-         'phone_data.txt')
+print(get_data_dict('https://thetracktor.com/detail/B01L8Q5NXS/', 'phone.txt','phone_data.txt'))
 
-info
-info = info.strip('{}\b')
-info = info.split('], "')
-info
-
-price_dict = {}
-for foo in info:
-    foo = foo + ']'
-    foo = foo.strip('\\b"')
-    # foo = foo.split(':')
-    # foo[1] = foo[1].strip('"')
-    print(foo)
-    print('\n\n')
-'''mydict = get_data_dict('', 'phone.txt', 'phone_data.txt')
-json_string = json.dumps(mydict)
-mynewdict = json.loads(mydict)
-x = mynewdict["1459677512000.0"]
-# print((get_data_dict('', 'phone.txt', 'phone_data.txt')))
-print(x)
-# print(mydict["1459677512000.0"])'''

@@ -97,7 +97,5 @@ def get_data_dict(url, file_name, data_file_name):
 
 
 
-# get_data('https://thetracktor.com/detail/B01L8Q5NXS/', 'camera.txt',
-#          'camera_data.txt')
-print(get_data_dict('https://thetracktor.com/detail/B01L8Q5NXS/', 'phone.txt','phone_data.txt'))
-
+get_data('https://thetracktor.com/detail/B00EPGMN1E/', 'bottle.txt', 'bottle_data.txt')
+# print(get_data_dict('https://thetracktor.com/detail/B01L8Q5NXS/', 'phone.txt','phone_data.txt'))

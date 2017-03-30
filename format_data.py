@@ -28,11 +28,6 @@ class Formatter:
         t = time.gmtime(epoch_time)
         return t
 
-    def add_day(self, eposch_time):
+    def add_day(self, epoch_time):
         t = epoch_time + (3600 * 24)
         return t
-
-t = time.time()
-t = t + (3600 * 24)
-for i in range(100):
-    t = add_day(t)

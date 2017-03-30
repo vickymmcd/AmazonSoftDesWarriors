@@ -4,21 +4,35 @@ formats dates and times, and prepares data for machine learning process
 '''
 
 import time
-
-t = time.gmtime()
-print(t)
-print(time.strftime("%x, %X", t))
+from data_scrape import get_data_dict
 
 
-def get_date(epoch_time):
-    t = time.gmtime(epoch_time)
-    return t
+class Formatter:
+    def __init__(self, url, file_name, data_file_name):
+        '''
+        Initializes the data Formatter object with
+        a dictionary of data to be formatted.
 
-def add_day(epoch_time):
-    return epoch_time + (3600 * 24)
+        url: url of data to obtain from Tracktor
+        file_name: name of file where id of data is saved
+        data_file_name: name of file where data is saved
+        NOTE: Only need data_file_name if it already exists
+        other two inputs can be empty strings
+        '''
+        self.data_dict = get_data_dict(url, file_name, data_file_name)
+
+    def add_in_between_dates(self):
+        self.data_dict
+
+    def get_date(self, epoch_time):
+        t = time.gmtime(epoch_time)
+        return t
+
+    def add_day(self, eposch_time):
+        t = epoch_time + (3600 * 24)
+        return t
 
 t = time.time()
 t = t + (3600 * 24)
 for i in range(100):
     t = add_day(t)
-    print(get_date(t))

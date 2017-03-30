@@ -48,4 +48,4 @@ def get_data(url, file_name, data_file_name):
     print(data)
 
 
-print(get_data('', 'phone.txt', 'phone_data.txt'))
+print(get_data('https://thetracktor.com/detail/B00EPGMN1E/', 'bottle.txt', 'bottle_data.txt'))

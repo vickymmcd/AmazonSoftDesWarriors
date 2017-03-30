@@ -1,8 +1,8 @@
+
 '''
 helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
 '''
-
 import time
 from data_scrape import get_data_dict
 
@@ -40,6 +40,11 @@ class Formatter:
     def add_day(self, epoch_time):
         t = epoch_time + (3600 * 24)
         return t
+
+    def data_to_matrix(self):
+        self.x_values = [key for key in self.data_dict.keys()]
+        self.y_values = [val[0] for val in self.data_dict.values()]
+        return self.x_values, self.y_values
 
     def get_formatted_dict(self):
         self.add_in_between_dates()

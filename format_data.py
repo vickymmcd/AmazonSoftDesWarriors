@@ -20,20 +20,31 @@ class Formatter:
         already exist, the other input can be an empty string.
         '''
         self.data_dict = get_data_dict(url, file_name, data_file_name)
-        self.poly_func = 0
+        self.x_values = []
+        self.y_values = []
 
     def add_in_between_dates(self):
-        self.data_dict
+        keys = [float(key) for key in self.data_dict]
+        keys.sort()
+        for i, key in enumerate(keys):
+            temp = key
+            if i < len(keys) - 1:
+                while(self.add_day(temp) < keys[i+1]):
+                    self.data_dict[str(self.add_day(key))] = self.data_dict[str(key)]
+                    temp = self.add_day(temp)
 
     def get_date(self, epoch_time):
         t = time.gmtime(epoch_time)
         return t
 
-    def add_day(self, eposch_time):
+    def add_day(self, epoch_time):
         t = epoch_time + (3600 * 24)
         return t
 
-t = time.time()
-t = t + (3600 * 24)
-for i in range(100):
-    t = add_day(t)
+    def get_formatted_dict(self):
+        self.add_in_between_dates()
+        return self.data_dict
+
+
+test_formatter = Formatter('', 'camera.txt', 'camera_data.txt')
+print(test_formatter.get_formatted_dict())

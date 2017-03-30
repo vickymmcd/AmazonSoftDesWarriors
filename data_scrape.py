@@ -90,6 +90,3 @@ def get_data_dict(url, file_name, data_file_name):
         if bar[0] not in data_dict:
             data_dict[bar[0]] = bar[1]
     return data_dict
-
-
-print(get_data_dict('', 'gloves.txt', 'gloves_data.txt'))

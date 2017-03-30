@@ -51,7 +51,7 @@ def get_data(url, file_name, data_file_name):
 
 
 
-print(get_data('https://thetracktor.com/detail/B00EPGMN1E/', 'bottle.txt', 'bottle_data.txt'))
+#print(get_data('https://thetracktor.com/detail/B00EPGMN1E/', 'bottle.txt', 'bottle_data.txt'))
 
 def get_data_dict(url, file_name, data_file_name):
     data_file = get_data(url, file_name, data_file_name)

@@ -1,8 +1,6 @@
 from os.path import exists
 import requests
 from pickle import dump, load
-import ast
-import json
 
 
 def get_id(url, file_name):
@@ -50,9 +48,6 @@ def get_data(url, file_name, data_file_name):
     return data
 
 
-
-print(get_data('https://thetracktor.com/detail/B00EPGMN1E/', 'bottle.txt', 'bottle_data.txt'))
-
 def get_data_dict(url, file_name, data_file_name):
     data_file = get_data(url, file_name, data_file_name)
     start_key = '"prices": '
@@ -61,7 +56,7 @@ def get_data_dict(url, file_name, data_file_name):
     started = False
     finished_flag = False
     for line in data_file:
-        if finished_flag == False:
+        if not finished_flag:
             if start_key not in str(line) and started:
                 if end_key in str(line):
                     end_num = (str(line).index(end_key)) + len(end_key) - 1
@@ -83,8 +78,8 @@ def get_data_dict(url, file_name, data_file_name):
     data_dict = {}
     for foo in info:
         foo = foo + ']'
-        foo = foo.replace('\'b\'','')
-        foo = foo.replace('\"','')
+        foo = foo.replace('\'b\'', '')
+        foo = foo.replace('\"', '')
         bar = foo.split(':')
         bar[1] = bar[1].strip()
         bar[1] = bar[1].replace('[', '')
@@ -97,8 +92,4 @@ def get_data_dict(url, file_name, data_file_name):
     return data_dict
 
 
-
-
-
-get_data('https://thetracktor.com/detail/B00EPGMN1E/', 'bottle.txt', 'bottle_data.txt')
-print(get_data_dict('https://thetracktor.com/detail/B01L8Q5NXS/', 'phone.txt','phone_data.txt'))
+print(get_data_dict('', 'gloves.txt', 'gloves_data.txt'))

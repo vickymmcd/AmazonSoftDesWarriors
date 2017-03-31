@@ -20,6 +20,7 @@ class Formatter:
         already exist, the other input can be an empty string.
         '''
         self.data_dict = get_data_dict(url, file_name, data_file_name)
+        self.add_in_between_dates()
         self.x_values = []
         self.y_values = []
 
@@ -47,7 +48,6 @@ class Formatter:
         return self.x_values, self.y_values
 
     def get_formatted_dict(self):
-        self.add_in_between_dates()
         return self.data_dict
 
 

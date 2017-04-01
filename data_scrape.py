@@ -44,9 +44,9 @@ class Collector:
                 return myLine[num:endnum]
 
     def get_dataURL(self):
-        id = self.get_id(self.url, self.file_name)
+        id = self.get_id()
         url = ("https://thetracktor.com/ajax/prices/?id=" + str(id) +
-               "&days=360")
+               "&days=1825")
         return url
 
     def get_data(self):
@@ -54,15 +54,14 @@ class Collector:
             f = open(self.data_file_name, 'rb+')
             data = load(f)
         else:
-            data_url = self.get_dataURL(self.url, self.file_name)
+            data_url = self.get_dataURL()
             f = open(self.data_file_name, 'wb+')
             data = requests.get(data_url)
             dump(data, f)
         return data
 
     def get_data_dict(self):
-        data_file = self.get_data(self.url, self.file_name,
-                                  self.data_file_name)
+        data_file = self.get_data()
         start_key = '"prices": '
         end_key = '}}'
         data = ''
@@ -103,3 +102,8 @@ class Collector:
             if bar[0] not in self.data_dict:
                 self.data_dict[bar[0]] = bar[1]
         return self.data_dict
+
+
+collect = Collector('https://thetracktor.com/detail/B00363WZY2/',
+                    'sleepingbag.txt', 'sleepingbag_data.txt')
+collect.get_data()

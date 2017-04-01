@@ -97,4 +97,4 @@ def get_data_dict(url, file_name, data_file_name):
     return data_dict
 
 
-print(get_data_dict('', 'gloves.txt', 'gloves_data.txt'))
+print(get_data_dict('https://thetracktor.com/detail/B00R5VM3FM/', 'flashilight.txt', 'flashlight_data.txt'))

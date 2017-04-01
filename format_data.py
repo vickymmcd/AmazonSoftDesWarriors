@@ -1,19 +1,8 @@
 
-from scipy.interpolate import KroghInterpolator
-
-def data_to_matrix():
-    self.x_values = [key for key in self.data_dict.keys()]
-    self.y_values =[val[0] for val in self.data_dict.values()]
-    return self.x_values , self.y_values
-
-dict1= {1:[2,3], 3:[4,5]}
-data_to_function(dict1)
-
 '''
 helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
 '''
-
 import time
 from data_scrape import get_data_dict
 
@@ -27,13 +16,23 @@ class Formatter:
         url: url of data to obtain from Tracktor
         file_name: name of file where id of data is saved
         data_file_name: name of file where data is saved
-        NOTE: Only need data_file_name if it already exists
-        other two inputs can be empty strings
+        NOTE: Only need data_file_name and data_file if they
+        already exist, the other input can be an empty string.
         '''
         self.data_dict = get_data_dict(url, file_name, data_file_name)
+        self.add_in_between_dates()
+        self.x_values = []
+        self.y_values = []
 
     def add_in_between_dates(self):
-        self.data_dict
+        keys = [float(key) for key in self.data_dict]
+        keys.sort()
+        for i, key in enumerate(keys):
+            temp = key
+            if i < len(keys) - 1:
+                while(self.add_day(temp) < keys[i+1]):
+                    self.data_dict[str(self.add_day(key))] = self.data_dict[str(key)]
+                    temp = self.add_day(temp)
 
     def get_date(self, epoch_time):
         t = time.gmtime(epoch_time)
@@ -42,3 +41,15 @@ class Formatter:
     def add_day(self, epoch_time):
         t = epoch_time + (3600 * 24)
         return t
+
+    def data_to_matrix(self):
+        self.x_values = [key for key in self.data_dict.keys()]
+        self.y_values = [val[0] for val in self.data_dict.values()]
+        return self.x_values, self.y_values
+
+    def get_formatted_dict(self):
+        return self.data_dict
+
+
+test_formatter = Formatter('', 'camera.txt', 'camera_data.txt')
+print(test_formatter.get_formatted_dict())

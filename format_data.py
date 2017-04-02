@@ -4,7 +4,7 @@ helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
 '''
 import time
-from data_scrape import get_data_dict
+from data_scrape import Collector
 
 
 class Formatter:
@@ -19,7 +19,8 @@ class Formatter:
         NOTE: Only need data_file_name and data_file if they
         already exist, the other input can be an empty string.
         '''
-        self.data_dict = get_data_dict(url, file_name, data_file_name)
+        self.collector = Collector(url, file_name, data_file_name)
+        self.data_dict = self.collector.get_data_dict()
         self.add_in_between_dates()
         self.x_values = []
         self.y_values = []

@@ -1,20 +1,23 @@
 from scipy.interpolate import UnivariateSpline
 from format_data import Formatter
 import matplotlib.pyplot as plt
+import time
 
 
 class Interpreter:
     def __init__(self, url, file_name, data_file_name, n_days):
         self.formatter = Formatter(url, file_name, data_file_name)
-        self.x_values, self.y_values = Formatter.data_to_matrix()
+        self.x_values, self.y_values = self.formatter.data_to_matrix()
         self.intra_x_values = []
         self.n_days = n_days
-        self.n_days = self.creating_wanted_days(30)
+        self.n_days = self.creating_wanted_days()
         self.intra_y_values = intra_y_values
 
     def creating_wanted_days(self):
         epoch_time = time.time()
-        self.intra_x_values = [Formatter.add_day(epoch_time) for day in self.n_days]
+        for day in self.n_days:
+            self.intra_x_values.append(self.formatter.add_day(epoch_time))
+            epoch_time = self.formatter.add_day(epoch_time)
         return self.intra_x_values
 
     def data_to_function(self):
@@ -31,3 +34,6 @@ class Interpreter:
 
     def find_lowest_price(self):
         price = min(self.intra_y_values)
+
+myinterpreter = Interpreter('', 'phone.txt', 'phone_data.txt', 40)
+myinterpreter.graph_intra_val()

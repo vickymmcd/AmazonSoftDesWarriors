@@ -21,7 +21,6 @@ class Formatter:
         '''
         self.collector = Collector(url, file_name, data_file_name)
         self.data_dict = self.collector.get_data_dict()
-        self.add_in_between_dates()
         self.x_values = []
         self.y_values = []
 

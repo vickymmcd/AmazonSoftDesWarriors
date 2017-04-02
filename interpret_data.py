@@ -3,6 +3,7 @@ from scipy.interpolate import KroghInterpolator
 from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
+import numpy as np
 
 
 class Interpreter:
@@ -22,8 +23,11 @@ class Interpreter:
         return self.intra_x_values
 
     def data_to_function(self):
-        poly_func = KroghInterpolator(self.x_values,self.y_values)
-        self.intra_y_values = [poly_func.__call__(self.intra_x_values)]
+        print(self.x_values)
+        print(self.y_values)
+        poly_func = KroghInterpolator(self.x_values[-10:],self.y_values[-10:])
+        self.intra_x_values = np.array(self.intra_x_values)
+        self.intra_y_values = poly_func.__call__(self.intra_x_values)
         print(self.intra_y_values)
         return self.intra_x_values, self.intra_y_values
 
@@ -38,10 +42,8 @@ class Interpreter:
         price = min(self.intra_y_values)
         dic_intra = {key:value for key, value in zip(intra_x_values, intra_y_values)}
         #returns the day
-        return key for key,value in dic_intra if value == price
+        return [key for key,value in dic_intra if value == price]
 
-test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
-print(test_interpreter.data_to_function)
 
-myinterpreter = Interpreter('', 'camera.txt', 'camera_data.txt', 40)
+myinterpreter = Interpreter('', 'camera.txt', 'camera_data.txt', 30)
 myinterpreter.data_to_function()

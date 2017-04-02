@@ -36,6 +36,12 @@ class Interpreter:
 
     def find_lowest_price(self):
         price = min(self.intra_y_values)
+        dic_intra = {key:value for key, value in zip(intra_x_values, intra_y_values)}
+        #returns the day
+        return key for key,value in dic_intra if value == price
+
+test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
+print(test_interpreter.data_to_function)
 
 myinterpreter = Interpreter('', 'camera.txt', 'camera_data.txt', 40)
 myinterpreter.data_to_function()

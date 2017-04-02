@@ -9,7 +9,7 @@ class Interpreter:
         self.x_values, self.y_values = Formatter.data_to_matrix()
         self.intra_x_values = []
         self.n_days = n_days
-        self.n_days = self.creating_wanted_days(30)
+        self.n_days = self.creating_wanted_days(n_days)
         self.intra_y_values = intra_y_values
 
     def creating_wanted_days(self):
@@ -31,3 +31,9 @@ class Interpreter:
 
     def find_lowest_price(self):
         price = min(self.intra_y_values)
+        dic_intra = {key:value for key, value in zip(intra_x_values, intra_y_values)}
+        #returns the day
+        return key for key,value in dic_intra if value == price
+
+test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
+print(test_interpreter.data_to_function)

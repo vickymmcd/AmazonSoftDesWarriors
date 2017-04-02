@@ -4,10 +4,7 @@ from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
 import numpy as np
-<<<<<<< HEAD
 
-=======
->>>>>>> 08be8db31a2f10954c11b3be6fdaa15eb6335b7a
 
 class Interpreter:
     def __init__(self, url, file_name, data_file_name, n_days):

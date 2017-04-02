@@ -43,6 +43,7 @@ class Formatter:
         return t
 
     def data_to_matrix(self):
+        self.x_values = [float(key)/1000 for key in self.data_dict.keys()]
         self.x_values = [float(key) for key in self.data_dict.keys()]
         self.y_values = [float(val[0]) for val in self.data_dict.values()]
         return self.x_values, self.y_values

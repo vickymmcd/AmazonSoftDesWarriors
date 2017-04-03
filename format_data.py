@@ -21,7 +21,7 @@ class Formatter:
         '''
         self.collector = Collector(url, file_name, data_file_name)
         self.data_dict = self.collector.get_data_dict()
-        self.add_in_between_dates()
+        #self.add_in_between_dates()
         self.x_values = []
         self.y_values = []
 
@@ -44,6 +44,7 @@ class Formatter:
         return t
 
     def data_to_matrix(self):
+        self.x_values = [float(key)/1000 for key in self.data_dict.keys()]
         self.x_values = [float(key) for key in self.data_dict.keys()]
         self.y_values = [float(val[0]) for val in self.data_dict.values()]
         return self.x_values, self.y_values

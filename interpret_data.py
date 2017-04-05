@@ -4,6 +4,9 @@ from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
 import numpy as np
+#import seaborn as sns; sns.set()
+from statsmodels.tsa.stattools import acf, pacf
+from sklearn.linear_model import LinearRegression
 
 class Interpreter:
     def __init__(self, url, file_name, data_file_name, n_days):
@@ -16,7 +19,7 @@ class Interpreter:
         self.intra_y_values = []
 
     def creating_wanted_days(self,days):
-        epoch_time = time.time()
+        epoch_time = time.time()*1000
         #print(self.x_values)
         #print(self.y_values)
         for day in range(self.n_days):
@@ -26,11 +29,13 @@ class Interpreter:
 
     def data_to_function(self):
         print(self.x_values)
+        print(self.y_values)
         poly_func = KroghInterpolator(self.x_values,self.y_values)
         self.creating_wanted_days(self.n_days)
         #self.intra_x_values= [1477492378020,1477492378030]
         #self.intra_x_values = self.intra_x_values[:-1]
         self.intra_x_values = np.asarray(self.intra_x_values)
+        #print(self.intra_x_values)
         print(self.intra_x_values)
         self.intra_y_values = poly_func.__call__(self.intra_x_values)
         #self.intra_y_values = [poly_func.__call__(self.intra_x_values)]
@@ -54,8 +59,6 @@ class Interpreter:
 
 test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
 myinterpreter = Interpreter('', 'phone.txt', 'phone_data.txt', 30)
+#myinterpreter.data_to_function()
 myinterpreter.data_to_function()
 #myinterpreter.graph_intra_val()
-
-#myinterpreter.graph_intra_val()
-print(test_interpreter.data_to_function)

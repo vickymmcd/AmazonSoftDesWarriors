@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from data_scrape import Collector
 app = Flask(__name__)
 
 
@@ -20,6 +21,14 @@ def result():
         for key, val in result.items():
             if key == 'prod':
                 prod = val
+                filename = '' + prod + '.txt'
+                print(filename)
+                filedataname = '' + prod + '_data.txt'
+                print(filedataname)
+
+                collect = Collector('', filename, filedataname)
+                prod = collect.get_id()
+                print(prod)
             elif key == 'timeWindow':
                 time = val
             elif key == 'where':

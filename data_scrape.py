@@ -98,12 +98,15 @@ class Collector:
             bar[1] = bar[1].replace(']', '')
             bar[1] = bar[1].split(',')
             bar[1][0] = float(bar[1][0])
-            bar[1][1] = float(bar[1][1])
+            try:
+                bar[1][1] = float(bar[1][1])
+            except:
+                bar[1][1] = 0
             if bar[0] not in self.data_dict:
                 self.data_dict[bar[0]] = bar[1]
         return self.data_dict
 
 
-collect = Collector('https://thetracktor.com/detail/B00363WZY2/',
-                    'sleepingbag.txt', 'sleepingbag_data.txt')
-collect.get_data()
+collect = Collector('https://thetracktor.com/detail/B000WY36HI/',
+                    'christmas.txt', 'christmas_data.txt')
+# collect.get_data()

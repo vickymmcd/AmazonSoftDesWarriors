@@ -4,6 +4,8 @@ helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
 '''
 import time
+import datetime
+import pandas as pd
 from data_scrape import Collector
 
 
@@ -51,3 +53,16 @@ class Formatter:
 
     def get_formatted_dict(self):
         return self.data_dict
+
+    def data_to_dataframe(self):
+        formatted_dict = {}
+        for key in self.data_dict:
+            new_key = datetime.datetime.fromtimestamp(float(key) / 1000).strftime('%Y-%m-%d')
+            if new_key not in formatted_dict:
+                formatted_dict[new_key] = self.data_dict[key]
+        return pd.DataFrame(formatted_dict)
+
+myformat = Formatter('', 'phone.txt', 'phone_data.txt')
+myformat.data_to_dataframe()
+# new_key = time.time()
+# datetime.datetime.fromtimestamp(new_key).strftime('%Y-%m-%d')

@@ -16,7 +16,7 @@ class Interpreter:
         self.intra_y_values = []
 
     def creating_wanted_days(self,days):
-        epoch_time = time.time()
+        epoch_time = time.time() * 1000
         #print(self.x_values)
         #print(self.y_values)
         for day in range(self.n_days):

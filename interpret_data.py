@@ -4,6 +4,10 @@ from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
 import numpy as np
+from sklearn import svm, linear_model
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
 
 
 class Interpreter:
@@ -16,8 +20,8 @@ class Interpreter:
         self.creating_wanted_days()
         self.intra_y_values = []
 
-    def creating_wanted_days(self,days):
-        epoch_time = time.time()
+    def creating_wanted_days(self):
+        epoch_time = time.time() * 1000
         #print(self.x_values)
         #print(self.y_values)
         for day in range(self.n_days):
@@ -27,12 +31,7 @@ class Interpreter:
 
     def data_to_function(self):
         print(self.x_values)
-<<<<<<< HEAD
         print(self.y_values)
-        poly_func = KroghInterpolator(self.x_values[-10:],self.y_values[-10:])
-        self.intra_x_values = np.array(self.intra_x_values)
-        self.intra_y_values = poly_func.__call__(self.intra_x_values)
-=======
         poly_func = KroghInterpolator(self.x_values,self.y_values)
         self.creating_wanted_days(self.n_days)
         #self.intra_x_values= [1477492378020,1477492378030]
@@ -40,13 +39,31 @@ class Interpreter:
         self.intra_x_values = np.asarray(self.intra_x_values)
         print(self.intra_x_values)
         self.intra_y_values = poly_func.__call__(self.intra_x_values)
-        self.intra_y_values = [poly_func.__call__(self.intra_x_values)]
->>>>>>> 08be8db31a2f10954c11b3be6fdaa15eb6335b7a
         print(self.intra_y_values)
         return self.intra_x_values, self.intra_y_values
 
+    def do_the_svm(self):
+        self.func = svm.SVR(kernel='poly')
+        self.func.fit(np.array(self.x_values).reshape(-1,1),np.ravel(np.array(self.y_values).reshape(-1,1)))
+        print(self.func.predict(np.array(self.intra_x_values).reshape(-1,1)))
+
+    def do_linear_regression(self):
+        regr = linear_model.LinearRegression()
+        train_data_X = map(lambda x: [self.x_values], list(self.x_values))
+        train_data_Y = list(self.y_values)
+        regr.fit(np.array(self.x_values).reshape(-1,1),np.array(self.y_values).reshape(-1,1))
+        print(self.y_values)
+        a= np.array(self.intra_x_values).reshape(-1,1)
+        print(regr.predict(a))
+
+    def make_poly_model(self):
+        poly_model = make_pipeline(PolynomialFeatures(3),
+                           LinearRegression())
+        poly_model.fit(np.array(self.x_values).reshape(-1,1),np.array(self.y_values).reshape(-1,1))
+        print(poly_model.predict(np.array(self.intra_x_values).reshape(-1,1)))
+
     def graph_intra_val(self):
-        self.data_to_function()
+        #self.data_to_function()
         fig = plt.figure()
         subplot = fig.add_subplot(111)
         p = subplot.plot(self.x_values+self.intra_x_values,self.y_values+self.intra_y_values[0])
@@ -56,22 +73,10 @@ class Interpreter:
         price = min(self.intra_y_values)
         dic_intra = {key:value for key, value in zip(intra_x_values, intra_y_values)}
         #returns the day
-<<<<<<< HEAD
+
         return [key for key,value in dic_intra if value == price]
 
-=======
-        for key,value in dic_intra:
-            if value == price:
-                return key
 
 test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
 myinterpreter = Interpreter('', 'phone.txt', 'phone_data.txt', 30)
-myinterpreter.data_to_function()
-myinterpreter.graph_intra_val()
-
-#myinterpreter.graph_intra_val()
-print(test_interpreter.data_to_function)
->>>>>>> 08be8db31a2f10954c11b3be6fdaa15eb6335b7a
-
-myinterpreter = Interpreter('', 'camera.txt', 'camera_data.txt', 30)
-myinterpreter.data_to_function()
+myinterpreter.make_poly_model()

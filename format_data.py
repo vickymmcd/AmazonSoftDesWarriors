@@ -60,9 +60,11 @@ class Formatter:
             new_key = datetime.datetime.fromtimestamp(float(key) / 1000).strftime('%Y-%m-%d')
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
-        return pd.DataFrame(formatted_dict)
+        frame = pd.DataFrame(formatted_dict).T
+        frame.index = frame.index.astype('datetime64[ns]')
+        return frame
 
 myformat = Formatter('', 'phone.txt', 'phone_data.txt')
-myformat.data_to_dataframe()
-# new_key = time.time()
-# datetime.datetime.fromtimestamp(new_key).strftime('%Y-%m-%d')
+data = myformat.data_to_dataframe()
+# data.index = data.index.astype('datetime64[ns]')
+data.index

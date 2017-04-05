@@ -8,7 +8,9 @@ from sklearn import svm, linear_model
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
-
+#import seaborn as sns; sns.set()
+from statsmodels.tsa.stattools import acf, pacf
+from sklearn.linear_model import LinearRegression
 
 class Interpreter:
     def __init__(self, url, file_name, data_file_name, n_days):
@@ -59,6 +61,7 @@ class Interpreter:
         #self.intra_x_values= [1477492378020,1477492378030]
         #self.intra_x_values = self.intra_x_values[:-1]
         self.intra_x_values = np.asarray(self.intra_x_values)
+        #print(self.intra_x_values)
         print(self.intra_x_values)
         self.intra_y_values = poly_func.__call__(self.intra_x_values)
         print(self.intra_y_values)
@@ -101,4 +104,3 @@ class Interpreter:
 
 test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
 myinterpreter = Interpreter('', 'phone.txt', 'phone_data.txt', 30)
-myinterpreter.make_poly_model()

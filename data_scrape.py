@@ -109,4 +109,3 @@ class Collector:
 
 collect = Collector('https://thetracktor.com/detail/B000WY36HI/',
                     'christmas.txt', 'christmas_data.txt')
-# collect.get_data()

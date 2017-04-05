@@ -1,4 +1,5 @@
 from scipy.interpolate import KroghInterpolator
+
 #from format_data import Formatter
 import matplotlib.pyplot as plt
 import time

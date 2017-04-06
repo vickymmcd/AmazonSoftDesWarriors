@@ -16,8 +16,8 @@ class Collector:
         already exist, the url input can be an empty string.
         '''
         self.url = url
-        self.file_name = file_name
-        self.data_file_name = data_file_name
+        self.file_name = 'data/' + file_name
+        self.data_file_name = 'data/' + data_file_name
 
     def get_id(self):
         '''Gets the product id for the specified html file.
@@ -107,5 +107,6 @@ class Collector:
         return self.data_dict
 
 
-collect = Collector('https://thetracktor.com/detail/B000WY36HI/',
+collect = Collector('',
                     'christmas.txt', 'christmas_data.txt')
+print(collect.get_data_dict())

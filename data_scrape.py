@@ -109,4 +109,4 @@ class Collector:
 
 collect = Collector('',
                     'christmas.txt', 'christmas_data.txt')
-print(collect.get_data_dict())
+#print(collect.get_data_dict())

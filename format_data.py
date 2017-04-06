@@ -25,6 +25,8 @@ class Formatter:
         self.data_dict = self.collector.get_data_dict()
         self.x_values = []
         self.y_values = []
+        self.dict = {}
+        self.add_in_between_dates()
 
     def add_in_between_dates(self):
         keys = [float(key) for key in self.data_dict]
@@ -33,7 +35,7 @@ class Formatter:
             temp = key
             if i < len(keys) - 1:
                 while(self.add_day(temp) < keys[i+1]):
-                    self.data_dict[str(self.add_day(key))] = self.data_dict[str(key)]
+                    self.data_dict[str(self.add_day(temp))] = self.data_dict[str(key)]
                     temp = self.add_day(temp)
 
     def get_date(self, epoch_time):
@@ -41,7 +43,7 @@ class Formatter:
         return t
 
     def add_day(self, epoch_time):
-        t = epoch_time + (3600 * 24)
+        t = ((epoch_time/1000) + (3600 * 24)) * 1000
         return t
 
     def data_to_matrix(self):
@@ -68,3 +70,4 @@ myformat = Formatter('', 'phone.txt', 'phone_data.txt')
 data = myformat.data_to_dataframe()
 # data.index = data.index.astype('datetime64[ns]')
 data.index
+print(data)

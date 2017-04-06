@@ -107,5 +107,6 @@ class Collector:
         return self.data_dict
 
 
-collect = Collector('',
-                    'christmas.txt', 'christmas_data.txt')
+collect = Collector('https://thetracktor.com/detail/B00K1XANDK/',
+                    'snowboots.txt', 'snowboots_data.txt')
+collect.get_data_dict()

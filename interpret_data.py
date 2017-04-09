@@ -8,7 +8,6 @@ from sklearn import svm, linear_model
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
-#import seaborn as sns; sns.set()
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
 from sklearn.linear_model import LinearRegression
@@ -43,17 +42,26 @@ class Interpreter:
         #print(self.ts_log_diff)
 
     def create_acf(self):
-        print(self.ts_log_diff)
-        lag_acf = acf(self.ts_log_diff,nlags=15)
-        print(lag_acf)
-        lag_pacf = pacf(self.ts_log_diff,nlags=20, method = 'ols')
-        print(lag_pacf)
-        plt.figure()
-        plt.plot(lag_acf, 'ro')
-        plt.show()
-
-
-
+        print(self.ts_log_diff.columns[1])
+        lag_acf = acf(self.ts_log_diff,nlags=20)
+        # print(lag_acf)
+        # lag_pacf = pacf(self.ts_log_diff, nlags=20, method='ols')
+        #Plot ACF:
+        plt.subplot(121)
+        plt.plot(lag_acf,color='red')
+        plt.axhline(y=0,linestyle='--',color='gray')
+        plt.axhline(y=-1.96/np.sqrt(len(self.ts_log_diff)),linestyle='--',color='gray')
+        plt.axhline(y=1.96/np.sqrt(len(self.ts_log_diff)),linestyle='--',color='gray')
+        plt.title('Autocorrelation Function')
+        #Plot PACF:
+        plt.subplot(122)
+        # plt.plot(lag_pacf)
+        plt.axhline(y=0,linestyle='--',color='gray')
+        plt.axhline(y=-1.96/np.sqrt(len(self.ts_log_diff)),linestyle='--',color='gray')
+        plt.axhline(y=1.96/np.sqrt(len(self.ts_log_diff)),linestyle='--',color='gray')
+        plt.title('Partial Autocorrelation Function')
+        plt.tight_layout()
+        # plt.show()
 
 
 

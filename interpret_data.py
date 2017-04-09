@@ -35,24 +35,28 @@ class Interpreter:
 
     def differencing(self):
         ts_log = np.log(self.time_series)
-        print(self.time_series)
+        #print(self.time_series)
         print(ts_log.shift())
+        print(ts_log)
         self.ts_log_diff = ts_log - ts_log.shift()
+        #print(self.ts_log_diff)
 
     def create_acf(self):
         print(self.ts_log_diff)
-        lag_acf = acf(self.ts_log_diff,nlags=20)
-        lag_pacf = pacf(self.ts_log_diff,nlages=20, method = 'ols')
-        plt.subplot(121)
-        plt.plot(lag_acf)
-        plt.subplot(122)
-        plt.plot(lag_pacf)
-        plt.tight_layout
+        lag_acf = acf(self.ts_log_diff,nlags=15)
+        print(lag_acf)
+        lag_pacf = pacf(self.ts_log_diff,nlags=20, method = 'ols')
+        print(lag_pacf)
+        plt.figure()
+        plt.plot(lag_acf, 'ro')
+        plt.show()
 
 
 
 
-test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
+
+
+#test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
 myinterpreter = Interpreter('', 'phone.txt', 'phone_data.txt', 30)
-test_interpreter.differencing()
-test_interpreter.create_acf()
+myinterpreter.differencing()
+myinterpreter.create_acf()

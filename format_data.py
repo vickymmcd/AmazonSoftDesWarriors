@@ -69,5 +69,5 @@ class Formatter:
 myformat = Formatter('', 'bottle.txt', 'snowboots_data.txt')
 data = myformat.data_to_dataframe()
 # data.index = data.index.astype('datetime64[ns]')
-data.index
+data
 print(data)

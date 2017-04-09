@@ -71,9 +71,14 @@ class Formatter:
         #frame.index.astype('datetime64[ns]')
         return frame
 
+<<<<<<< HEAD
 
 myformat = Formatter('', 'bottle.txt', 'bottle_data.txt')
 data = myformat.data_to_dataframe()
+=======
+#myformat = Formatter('', 'bottle.txt', 'snowboots_data.txt')
+#data = myformat.data_to_dataframe()
+>>>>>>> d18db0a838c93b6b9c3e948c0fe84c07037b94df
 # data.index = data.index.astype('datetime64[ns]')
 #data.index
 #print(data)

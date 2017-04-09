@@ -1,7 +1,5 @@
 from os.path import exists
 import requests
-from pickle import dump, load
-
 
 class Collector:
     def __init__(self, url, file_name, data_file_name):
@@ -27,11 +25,11 @@ class Collector:
         '''
         if exists(self.file_name):
             f = open(self.file_name, 'rb+')
-            page = load(f)
+            page = f.read()
         else:
             f = open(self.file_name, 'wb+')
             page = requests.get(self.url)
-            dump(page, f)
+            f.write(page)
 
         key = 'Tracktor.loadPrices'
         for line in page:
@@ -52,16 +50,17 @@ class Collector:
     def get_data(self):
         if exists(self.data_file_name):
             f = open(self.data_file_name, 'rb+')
-            data = load(f)
+            data = f.read()
         else:
             data_url = self.get_dataURL()
             f = open(self.data_file_name, 'wb+')
             data = requests.get(data_url)
-            dump(data, f)
+            f.write(data)
         return data
 
     def get_data_dict(self):
         data_file = self.get_data()
+        '''
         start_key = '"prices": '
         end_key = '}}'
         data = ''
@@ -85,7 +84,9 @@ class Collector:
                         finished_flag = True
                     else:
                         data += str(line)[start_num:]
-        info = data.strip('{}\b')
+        '''
+        data = str(data_file)
+        info = data.strip('b\'{}}\n')
         info = info.split('], "')
         self.data_dict = {}
         for foo in info:
@@ -93,19 +94,30 @@ class Collector:
             foo = foo.replace('\'b\'', '')
             foo = foo.replace('\"', '')
             bar = foo.split(':')
-            bar[1] = bar[1].strip()
+            try:
+                bar[1] = bar[1].strip()
+            except:
+                print(bar)
             bar[1] = bar[1].replace('[', '')
             bar[1] = bar[1].replace(']', '')
             bar[1] = bar[1].split(',')
-            bar[1][0] = float(bar[1][0])
-            try:
-                bar[1][1] = float(bar[1][1])
-            except:
-                bar[1][1] = 0
+            while len(bar[1][0]) > 0 and not bar[1][0].replace('.','',1).isdigit():
+                bar[1][0] = bar[1][0][:-1]
+            if bar[1][0] == '': bar[1][0] = 0
+            else: bar[1][0] = float(bar[1][0])
+            if len(bar[1]) > 1:
+                bar[1][1] = bar[1][1].strip()
+                while len(bar[1][1]) > 0 and not bar[1][1].replace('.','',1).isdigit():
+                    bar[1][1] = bar[1][1][:-1]
+                if bar[1][1] == '':
+                    bar[1][1] = 0
+                else:
+                    bar[1][1] = float(bar[1][1])
             if bar[0] not in self.data_dict:
                 self.data_dict[bar[0]] = bar[1]
         return self.data_dict
 
 
 collect = Collector('',
-                    'christmas.txt', 'christmas_data.txt')
+                    'snowboots.txt', 'snowboots_data.txt')
+# collect.get_data_dict()

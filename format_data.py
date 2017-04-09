@@ -7,6 +7,7 @@ import time
 import datetime
 import pandas as pd
 from data_scrape import Collector
+import numpy as np
 
 
 class Formatter:
@@ -63,11 +64,15 @@ class Formatter:
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
         frame = pd.DataFrame(formatted_dict).T
-        frame.index = frame.index.astype('datetime64[ns]')
+        #print(frame)
+        frame.index = np.array(frame.index)
+        frame.index= np.array(frame.index, dtype='datetime64[us]')
+        frame = frame.drop(frame.columns[1],axis =1)
+        #frame.index.astype('datetime64[ns]')
         return frame
 
 myformat = Formatter('', 'bottle.txt', 'snowboots_data.txt')
 data = myformat.data_to_dataframe()
 # data.index = data.index.astype('datetime64[ns]')
-data
-print(data)
+#data.index
+#print(data)

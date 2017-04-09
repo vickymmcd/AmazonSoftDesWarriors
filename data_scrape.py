@@ -114,10 +114,10 @@ class Collector:
                 else:
                     bar[1][1] = float(bar[1][1])
             if bar[0] not in self.data_dict:
-                self.data_dict[bar[0]] = bar[1]
+                self.data_dict[bar[0]] = [bar[1][0]]
         return self.data_dict
 
 
 collect = Collector('',
                     'snowboots.txt', 'snowboots_data.txt')
-# collect.get_data_dict()
+collect.get_data_dict()

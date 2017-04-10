@@ -60,8 +60,8 @@ class Interpreter:
         	x = x - min_val
         	x_values.append(x)
         	print(x)
-        print(np_to_list)
-        print(x_values)
+        # print(np_to_list)
+        # print(x_values)
         lag_acf = acf(x_values[1:],nlags=20)
         #print(lag_acf)
         lag_pacf = pacf(x_values[1:],nlags=20, method = 'ols')
@@ -69,27 +69,43 @@ class Interpreter:
         """plt.figure()
         plt.subplot(lag_acf, 'ro')
         plt.show()"""
+        threshold = .03
+        top_y = 1.65/np.sqrt(len(x_values))
+        for i, val in enumerate(lag_acf):
+            if val < top_y + threshold:
+                p = i
+                break
+        for i, val in enumerate(lag_pacf):
+            if val < top_y + threshold:
+                q = i
+                break
+        print('the p')
+        print(p)
+        print('the q')
+        print(q)
         #for a 95% confidence interval
         #Plot ACF:
         plt.subplot(121)
         plt.plot(lag_acf)
         plt.axhline(y=0,linestyle='--',color='gray')
-        plt.axhline(y=-1.96/np.sqrt(len(x_values)),linestyle='--',color='gray')
-        plt.axhline(y=1.96/np.sqrt(len(x_values)),linestyle='--',color='gray')
+        plt.axhline(y=-1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
+        plt.axhline(y=1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
         plt.title('Autocorrelation Function')
 
         plt.subplot(122)
         plt.plot(lag_pacf)
         plt.axhline(y=0,linestyle='--',color='gray')
-        plt.axhline(y=-1.96/np.sqrt(len(x_values)),linestyle='--',color='gray')
-        plt.axhline(y=1.96/np.sqrt(len(x_values)),linestyle='--',color='gray')
+        plt.axhline(y=-1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
+        plt.axhline(y=1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
         plt.title('Partial Autocorrelation Function')
         plt.tight_layout()
         plt.show()
 
+        # Find intersection with the top line for each graph
+
 
 
 #test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
-myinterpreter = Interpreter('', 'phone.txt', 'phone_data.txt', 30)
+myinterpreter = Interpreter('', 'christmas.txt', 'christmas_data.txt', 30)
 myinterpreter.differencing()
 myinterpreter.create_acf()

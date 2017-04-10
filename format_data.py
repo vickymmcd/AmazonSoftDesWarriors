@@ -1,4 +1,3 @@
-
 '''
 helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
@@ -67,12 +66,9 @@ class Formatter:
         #print(frame)
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
-        #frame = frame.drop(frame.columns[1],axis =1)
-        #frame.index.astype('datetime64[ns]')
+        frame.index.astype('datetime64[ns]')
         return frame
 
-#myformat = Formatter('', 'bottle.txt', 'snowboots_data.txt')
-#data = myformat.data_to_dataframe()
-# data.index = data.index.astype('datetime64[ns]')
-#data.index
-#print(data)
+
+# myformat = Formatter('', 'bottle.txt', 'bottle_data.txt')
+# data = myformat.data_to_dataframe()

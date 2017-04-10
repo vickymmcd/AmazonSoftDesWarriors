@@ -4,21 +4,22 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 
 
 class Grapher:
-    '''
-    contains functions and classes to graph time series
-    '''
-    def __init__(self, url, file_name, data_file_name):
-        self.ts_data = Formatter(url, file_name, data_file_name)
-        self.ts_frame = self.ts_data.data_to_dataframe()
+	'''
+	contains functions and classes to graph time series
+	'''
+	def __init__(self, url, file_name, data_file_name):
+		self.ts_data = Formatter(url, file_name, data_file_name)
+		self.ts_frame = self.ts_data.data_to_dataframe()
 
-    def decompose_ts(self):
-        self.ts_decomposition = seasonal_decompose(self.ts_frame, freq=365)
-        self.seasonal = self.ts_decomposition.seasonal.dropna()
-        self.trend = self.ts_decomposition.trend.dropna()
-        self.resid = self.ts_decomposition.resid.dropna()
+	def decompose_ts(self):
+		self.ts_decomposition = seasonal_decompose(self.ts_frame, freq=365)
+		self.seasonal = self.ts_decomposition.seasonal.dropna()
+		self.trend = self.ts_decomposition.trend.dropna()
+		self.resid = self.ts_decomposition.resid.dropna()
+		return self.resid
 
-    def graph_data(self):
-        pass
+	def graph_data(self):
+		pass
 
 # from bokeh.charts import Line, show, output_file
 mygrapher = Grapher("", "christmas.txt", "christmas_data.txt")
@@ -30,4 +31,3 @@ plt.plot(mygrapher.trend)
 plt.plot(mygrapher.seasonal)
 plt.plot(mygrapher.resid)
 plt.show()
-print(graph.resid)

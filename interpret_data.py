@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 import numpy as np
 import pandas as pd
-from graphingdata import resid
+from graphing_data import Grapher
 from sklearn import svm, linear_model
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -30,6 +30,8 @@ class Interpreter:
 		self.time_series = self.formatter.data_to_dataframe()
 		self.ts_log_diff = 0
 		self.ts_log = 0
+		self.graphing = Grapher(url,file_name,data_file_name)
+		self.resid = self.graphing.decompose_ts()
 
 	def differencing(self):
 		'''
@@ -84,32 +86,28 @@ class Interpreter:
 		print(p)
 		print('the q')
 		print(q)
+		print(self.resid)
 		#determining whether or not we use the stationary time series data: why is it not working?
 		resid_list = []
-		for i in resid.dropna().iloc[:, 0].tolist():
+		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
 		print(resid_list)
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
-		predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
-		#print(predictions_ARIMA_diff.head())
-		predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
-		#print(predictions_ARIMA_diff_cumsum.head())
-		predictions_ARIMA_log = pd.Series(self.ts_log.ix[0], index=self.ts_log.index)
-		predictions_ARIMA_log = predictions_ARIMA_log.add(predictions_ARIMA_diff_cumsum,fill_value=0)
-		predictions_ARIMA_log.head()
-		predictions_ARIMA = np.exp(predictions_ARIMA_log)
-		print(predictions_ARIMA.dropna)
-		plt.plot(self.time_series)
-		#plt.plot(predictions_ARIMA)
-		# plt.title('RMSE: %.4f'% np.sqrt(sum((predictions_ARIMA-self.time_series)**2)/len(self.time_series)))
-		#plt.plot(self.ts_log_diff)
-		'''plt.subplot(122)
+
+		"""plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
 		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
-		plt.show()'''
-		plt.show()
+		plt.show()"""
 
+		predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
+		predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
+		predictions_Arima_original= pd.Series(self.time_series[0], index = self.time_series.index)
+		predictions_ARIMA_log = predictions_Arima_original.add(predictions_ARIMA_diff_cumsum, fill_value =0)
+		print(predictions_ARIMA_log.head())
+		plt.subplot(122)
+		plt.plot(predictions_ARIMA_log)
+		plt.show()
 
 myinterpreter = Interpreter('', 'christmas.txt', 'christmas_data.txt', 30)
 myinterpreter.differencing()

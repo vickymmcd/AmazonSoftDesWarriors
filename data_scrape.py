@@ -42,12 +42,20 @@ class Collector:
                 return myLine[num:endnum]
 
     def get_dataURL(self):
+        '''
+        Gets the url that is associated with the product's
+        data based on its id.
+        '''
         id = self.get_id()
         url = ("https://thetracktor.com/ajax/prices/?id=" + str(id) +
                "&days=1825")
         return url
 
     def get_data(self):
+        '''
+        Returns the data as read from the stored
+        file.
+        '''
         if exists(self.data_file_name):
             f = open(self.data_file_name, 'rb+')
             data = f.read()
@@ -59,32 +67,11 @@ class Collector:
         return data
 
     def get_data_dict(self):
+        '''
+        Returns a dictionary of the data for the
+        given product.
+        '''
         data_file = self.get_data()
-        '''
-        start_key = '"prices": '
-        end_key = '}}'
-        data = ''
-        started = False
-        finished_flag = False
-        for line in data_file:
-            if not finished_flag:
-                if start_key not in str(line) and started:
-                    if end_key in str(line):
-                        end_num = (str(line).index(end_key)) + len(end_key) - 1
-                        data += str(line)[: end_num]
-                        finished_flag = True
-                    else:
-                        data += str(line)
-                if start_key in str(line):
-                    started = True
-                    start_num = str(line).index(start_key) + len(start_key)
-                    if end_key in str(line):
-                        end_num = (str(line).index(end_key)) + len(end_key)
-                        data = str(line)[start_num: end_num]
-                        finished_flag = True
-                    else:
-                        data += str(line)[start_num:]
-        '''
         data = str(data_file)
         info = data.strip('b\'{}}\n')
         info = info.split('], "')

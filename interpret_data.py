@@ -39,74 +39,78 @@ class Interpreter:
 		self.ts_log_diff = 0
 		self.ts_log = 0
 
-    def differencing(self):
-        '''
-        Does the differencing for the time series and its shift
-        '''
-        self.ts_log = np.log(self.time_series)
-        self.ts_log_diff = self.ts_log - self.ts_log.shift()
+	def differencing(self):
+		'''
+		Does the differencing for the time series and its shift
+		'''
+		self.ts_log = np.log(self.time_series)
+		self.ts_log_diff = self.ts_log - self.ts_log.shift()
 
-    def create_acf(self):
-        '''
-        Creates acf and pacf plots for the time series data
-        '''
-        np_to_list= []
-        for i in self.ts_log_diff.iloc[:, 0].tolist():
-        	np_to_list.append(i)
+	def create_acf(self):
+		'''
+		Creates acf and pacf plots for the time series data
+		'''
+		np_to_list= []
+		for i in self.ts_log_diff.iloc[:, 0].tolist():
+			np_to_list.append(i)
 
-        self.x_values =[]
-        min_val = min(np_to_list[1:])
-        for x in np_to_list:
-        	x = x - min_val
-        	self.x_values.append(x)
-        self.lag_acf = acf(self.x_values[1:],nlags=20)
-        self.lag_pacf = pacf(self.x_values[1:],nlags=20, method = 'ols')
-        #for a 95% confidence interval
-        #Plot ACF:
-        plt.subplot(121)
-        plt.plot(self.lag_acf)
-        plt.axhline(y=0,linestyle='--',color='gray')
-        plt.axhline(y=-1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
-        plt.axhline(y=1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
-        plt.title('Autocorrelation Function')
+		self.prices =[]
+		min_val = min(np_to_list[1:])
+		for x in np_to_list:
+			x = x - min_val
+			self.prices.append(x)
+		self.lag_acf = acf(self.prices[1:],nlags=20)
+		self.lag_pacf = pacf(self.prices[1:],nlags=20, method = 'ols')
+		#for a 95% confidence interval
+		#Plot ACF:
+		plt.subplot(121)
+		plt.plot(self.lag_acf)
+		plt.axhline(y=0,linestyle='--',color='gray')
+		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
+		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
+		plt.title('Autocorrelation Function')
 
-        plt.subplot(122)
-        plt.plot(self.lag_pacf)
-        plt.axhline(y=0,linestyle='--',color='gray')
-        plt.axhline(y=-1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
-        plt.axhline(y=1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
-        plt.title('Partial Autocorrelation Function')
-        plt.tight_layout()
-        plt.show()
+		plt.subplot(122)
+		plt.plot(self.lag_pacf)
+		plt.axhline(y=0,linestyle='--',color='gray')
+		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
+		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
+		plt.title('Partial Autocorrelation Function')
+		plt.tight_layout()
+		plt.show()
 
-    def do_ARIMA(self):
-        '''
-        Sets up and graphs the ARIMA forecasting for the time series
-        '''
-        # Find intersection with the top line for each graph
-        threshold = .03
-        top_y = 1.65/np.sqrt(len(self.x_values))
-        for i, val in enumerate(self.lag_acf):
-            if val < top_y + threshold:
-                q = i
-                break
-        for i, val in enumerate(self.lag_pacf):
-            if val < top_y + threshold:
-                p = i
-                break
-        print('the p')
-        print(p)
-        print('the q')
-        print(q)
-        model = ARIMA(self.ts_log, order=(p, 1, q))
-        results_ARIMA = model.fit(disp=-1)
-        plt.plot(self.ts_log_diff)
-        plt.plot(results_ARIMA.fittedvalues, color='red')
-        plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
-        plt.show()
-
+	def do_ARIMA(self):
+		'''
+		Sets up and graphs the ARIMA forecasting for the time series
+		Continous error at line 102:  ufunc 'add' did not contain a loop with signature matching types dtype('<U21') dtype('<U21') dtype('<U21')
+		We are trying to use the stationary time series as an input to our model, but neither the stationary
+		nor the original work.
+		'''
+		# Find intersection with the top line for each graph
+		threshold = .03
+		top_y = 1.65/np.sqrt(len(self.prices))
+		for i, val in enumerate(self.lag_acf):
+		    if val < top_y + threshold:
+		        q = i
+		        break
+		for i, val in enumerate(self.lag_pacf):
+		    if val < top_y + threshold:
+		        p = i
+		        break
+		print('the p')
+		print(p)
+		print('the q')
+		print(q)
+		#determining whether or not we use the stationary time series data: why is it not working?
+		model = ARIMA(self.ts_log, order=(p, 1, q))
+		results_ARIMA = model.fit(disp=-1)
+		plt.plot(self.ts_log_diff)
+		plt.plot(results_ARIMA.fittedvalues, color='red')
+		plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
+		plt.show()
 
 
 myinterpreter = Interpreter('', 'christmas.txt', 'christmas_data.txt', 30)
 myinterpreter.differencing()
 myinterpreter.create_acf()
+myinterpreter.do_ARIMA()

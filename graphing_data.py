@@ -29,8 +29,9 @@ trend = decomposition.trend
 resid = decomposition.resid
 
 plt.figure()
-plt.plot(frame)
-plt.plot(trend)
-plt.plot(seasonal)
+#plt.plot(frame)
+#plt.plot(trend)
+#plt.plot(seasonal)
 plt.plot(resid)
+print(resid.dropna())
 plt.show()

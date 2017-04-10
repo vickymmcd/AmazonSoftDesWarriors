@@ -13,7 +13,6 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
 from sklearn.linear_model import LinearRegression
-from statsmodels.tsa.arima_model import ARIMA
 
 
 
@@ -85,6 +84,8 @@ class Interpreter:
 		print('the q')
 		print(q)
 		#determining whether or not we use the stationary time series data: why is it not working?
+		self.ts_log = self.ts_log.dropna()
+		print(self.ts_log)
 		model = ARIMA(self.ts_log, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
 		plt.plot(self.ts_log_diff)

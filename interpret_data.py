@@ -4,6 +4,7 @@ from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
 import numpy as np
+import pandas as pd
 from graphingdata import resid
 from sklearn import svm, linear_model
 from sklearn.pipeline import make_pipeline
@@ -54,12 +55,12 @@ class Interpreter:
 		self.lag_pacf = pacf(self.prices[1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
-		plt.subplot(121)
+		'''plt.subplot(121)
 		plt.plot(self.lag_acf)
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.title('Autocorrelation Function')
+		plt.title('Autocorrelation Function')'''
 
 	def do_ARIMA(self):
 		'''
@@ -84,13 +85,29 @@ class Interpreter:
 		print('the q')
 		print(q)
 		#determining whether or not we use the stationary time series data: why is it not working?
-		self.ts_log = self.ts_log.dropna()
-		print(self.ts_log)
-		model = ARIMA(self.ts_log, order=(p, 1, q))
+		resid_list = []
+		for i in resid.dropna().iloc[:, 0].tolist():
+			resid_list.append(i)
+		print(resid_list)
+		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
-		plt.plot(self.ts_log_diff)
+		predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
+		#print(predictions_ARIMA_diff.head())
+		predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
+		#print(predictions_ARIMA_diff_cumsum.head())
+		predictions_ARIMA_log = pd.Series(self.ts_log.ix[0], index=self.ts_log.index)
+		predictions_ARIMA_log = predictions_ARIMA_log.add(predictions_ARIMA_diff_cumsum,fill_value=0)
+		predictions_ARIMA_log.head()
+		predictions_ARIMA = np.exp(predictions_ARIMA_log)
+		print(predictions_ARIMA.dropna)
+		plt.plot(self.time_series)
+		#plt.plot(predictions_ARIMA)
+		# plt.title('RMSE: %.4f'% np.sqrt(sum((predictions_ARIMA-self.time_series)**2)/len(self.time_series)))
+		#plt.plot(self.ts_log_diff)
+		'''plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
-		plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
+		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
+		plt.show()'''
 		plt.show()
 
 

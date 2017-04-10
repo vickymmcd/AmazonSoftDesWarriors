@@ -10,6 +10,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.tsa.arima_model import ARIMA
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.arima_model import ARIMA
 
@@ -31,10 +32,11 @@ class Interpreter:
         already exist, the url input can be an empty string.
         n_days: number of days user wants the model to extrapolate
         into the future
-        '''
-        self.formatter = Formatter(url, file_name, data_file_name)
-        self.time_series = self.formatter.data_to_dataframe()
-        self.ts_log_diff = 0
+		'''
+		self.formatter = Formatter(url, file_name, data_file_name)
+		self.time_series = self.formatter.data_to_dataframe()
+		self.ts_log_diff = 0
+		self.ts_log = 0
 
     def differencing(self):
         '''

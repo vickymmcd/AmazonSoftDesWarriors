@@ -85,11 +85,16 @@ class Interpreter:
 		print('the q')
 		print(q)
 		#determining whether or not we use the stationary time series data: why is it not working?
-		model = ARIMA(self.ts_log, order=(p, 1, q))
+		resid_list = []
+		for i in resid.dropna().iloc[:, 0].tolist():
+			resid_list.append(i)
+		print(resid_list)
+		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
-		plt.plot(self.ts_log_diff)
+		#plt.plot(self.ts_log_diff)
+		plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
-		plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
+		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
 		plt.show()
 
 

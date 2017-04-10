@@ -4,7 +4,7 @@ from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
 import numpy as np
-from graphingdata import resid
+from graphing_data import Grapher
 from sklearn import svm, linear_model
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -14,6 +14,7 @@ from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.arima_model import ARIMA
+import pandas as pd
 
 
 
@@ -30,6 +31,8 @@ class Interpreter:
 		self.time_series = self.formatter.data_to_dataframe()
 		self.ts_log_diff = 0
 		self.ts_log = 0
+		self.graphing = Grapher(url,file_name,data_file_name)
+		self.resid = self.graphing.decompose_ts()
 
 	def differencing(self):
 		'''
@@ -84,19 +87,28 @@ class Interpreter:
 		print(p)
 		print('the q')
 		print(q)
+		print(self.resid)
 		#determining whether or not we use the stationary time series data: why is it not working?
 		resid_list = []
-		for i in resid.dropna().iloc[:, 0].tolist():
+		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
 		print(resid_list)
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
 		#plt.plot(self.ts_log_diff)
-		plt.subplot(122)
+		"""plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
 		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
-		plt.show()
+		plt.show()"""
 
+		predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
+		predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
+		predictions_Arima_original= pd.Series(self.time_series[0], index = self.time_series.index)
+		predictions_ARIMA_log = predictions_Arima_original.add(predictions_ARIMA_diff_cumsum, fill_value =0)
+		print(predictions_ARIMA_log.head())
+		plt.subplot(122)
+		plt.plot(predictions_ARIMA_log)
+		plt.show()
 
 myinterpreter = Interpreter('', 'christmas.txt', 'christmas_data.txt', 30)
 myinterpreter.differencing()

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 
-class grapher:
+class Grapher:
     '''
     contains functions and classes to graph time series
     '''
@@ -14,15 +14,18 @@ class grapher:
     def decompose_ts(self):
         self.ts.decomposition = seasonal_decompose(self.ts.frame, freq=365)
         self.seasonal = self.ts.decomposition.seasonal
+        self.seasonal.dropna()
         self.trend = self.ts.decomposition.trend
+        self.trend.dropna()
         self.resid = self.ts.decomposition.resid
+        self.resid.dropna()
 
     def graph_data(self):
         pass
 
 # from bokeh.charts import Line, show, output_file
-formatter = Formatter("", "christmas.txt", "christmas_data.txt")
-frame = formatter.data_to_dataframe()
+graph = Grapher("", "christmas.txt", "christmas_data.txt")
+frame = 
 decomposition = seasonal_decompose(frame, freq=365)
 seasonal = decomposition.seasonal
 trend = decomposition.trend
@@ -34,3 +37,4 @@ plt.plot(trend)
 plt.plot(seasonal)
 plt.plot(resid)
 plt.show()
+print(seasonal)

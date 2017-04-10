@@ -25,14 +25,6 @@ class Interpreter:
 		the formatted x and y values. Initializes the number of
 		days to predict into the future and generates
 		a list of wanted days.
-
-		url: url of data to obtain from Tracktor
-		file_name: name of file where id of data is saved
-		data_file_name: name of file where data is saved
-		NOTE: Only need data_file_name and data_file if those files
-		already exist, the url input can be an empty string.
-		n_days: number of days user wants the model to extrapolate
-		into the future
 		'''
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
@@ -69,15 +61,6 @@ class Interpreter:
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.title('Autocorrelation Function')
-
-		plt.subplot(122)
-		plt.plot(self.lag_pacf)
-		plt.axhline(y=0,linestyle='--',color='gray')
-		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.title('Partial Autocorrelation Function')
-		plt.tight_layout()
-		plt.show()
 
 	def do_ARIMA(self):
 		'''

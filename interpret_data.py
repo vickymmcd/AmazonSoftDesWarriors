@@ -11,6 +11,8 @@ from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
 from sklearn.linear_model import LinearRegression
+from statsmodels.tsa.arima_model import ARIMA
+
 
 
 class Interpreter:
@@ -35,77 +37,73 @@ class Interpreter:
         self.ts_log_diff = 0
 
     def differencing(self):
-        ts_log = np.log(self.time_series)
-        #print(self.time_series)
-        print(ts_log.shift())
-        print(ts_log)
-        self.ts_log_diff = ts_log - ts_log.shift()
-        #print(self.ts_log_diff)
+        '''
+        Does the differencing for the time series and its shift
+        '''
+        self.ts_log = np.log(self.time_series)
+        self.ts_log_diff = self.ts_log - self.ts_log.shift()
 
     def create_acf(self):
-        #min_val = np.amin(self.ts_log_diff)
-        #print(self.ts_log_diff)
-        #print(self.ts_log_diff.columns[])
-        #print(self.ts_log_diff[[0]])
-        #print(self.ts_log_diff[:0])
+        '''
+        Creates acf and pacf plots for the time series data
+        '''
         np_to_list= []
         for i in self.ts_log_diff.iloc[:, 0].tolist():
         	np_to_list.append(i)
 
-        x_values =[]
+        self.x_values =[]
         min_val = min(np_to_list[1:])
-        print(min_val)
         for x in np_to_list:
-        	#print(x)
         	x = x - min_val
-        	x_values.append(x)
-        	print(x)
-        # print(np_to_list)
-        # print(x_values)
-        lag_acf = acf(x_values[1:],nlags=20)
-        #print(lag_acf)
-        lag_pacf = pacf(x_values[1:],nlags=20, method = 'ols')
-        #print(lag_pacf)
-        """plt.figure()
-        plt.subplot(lag_acf, 'ro')
-        plt.show()"""
+        	self.x_values.append(x)
+        self.lag_acf = acf(self.x_values[1:],nlags=20)
+        self.lag_pacf = pacf(self.x_values[1:],nlags=20, method = 'ols')
+        #for a 95% confidence interval
+        #Plot ACF:
+        plt.subplot(121)
+        plt.plot(self.lag_acf)
+        plt.axhline(y=0,linestyle='--',color='gray')
+        plt.axhline(y=-1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
+        plt.axhline(y=1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
+        plt.title('Autocorrelation Function')
+
+        plt.subplot(122)
+        plt.plot(self.lag_pacf)
+        plt.axhline(y=0,linestyle='--',color='gray')
+        plt.axhline(y=-1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
+        plt.axhline(y=1.65/np.sqrt(len(self.x_values)),linestyle='--',color='gray')
+        plt.title('Partial Autocorrelation Function')
+        plt.tight_layout()
+        plt.show()
+
+    def do_ARIMA(self):
+        '''
+        Sets up and graphs the ARIMA forecasting for the time series
+        '''
+        # Find intersection with the top line for each graph
         threshold = .03
-        top_y = 1.65/np.sqrt(len(x_values))
-        for i, val in enumerate(lag_acf):
-            if val < top_y + threshold:
-                p = i
-                break
-        for i, val in enumerate(lag_pacf):
+        top_y = 1.65/np.sqrt(len(self.x_values))
+        for i, val in enumerate(self.lag_acf):
             if val < top_y + threshold:
                 q = i
+                break
+        for i, val in enumerate(self.lag_pacf):
+            if val < top_y + threshold:
+                p = i
                 break
         print('the p')
         print(p)
         print('the q')
         print(q)
-        #for a 95% confidence interval
-        #Plot ACF:
-        plt.subplot(121)
-        plt.plot(lag_acf)
-        plt.axhline(y=0,linestyle='--',color='gray')
-        plt.axhline(y=-1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
-        plt.axhline(y=1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
-        plt.title('Autocorrelation Function')
-
-        plt.subplot(122)
-        plt.plot(lag_pacf)
-        plt.axhline(y=0,linestyle='--',color='gray')
-        plt.axhline(y=-1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
-        plt.axhline(y=1.65/np.sqrt(len(x_values)),linestyle='--',color='gray')
-        plt.title('Partial Autocorrelation Function')
-        plt.tight_layout()
+        model = ARIMA(self.ts_log, order=(p, 1, q))
+        results_ARIMA = model.fit(disp=-1)
+        plt.plot(self.ts_log_diff)
+        plt.plot(results_ARIMA.fittedvalues, color='red')
+        plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
         plt.show()
 
-        # Find intersection with the top line for each graph
 
 
-
-#test_interpreter = Interpreter('', 'camera.txt', 'camera_data.txt',30)
 myinterpreter = Interpreter('', 'christmas.txt', 'christmas_data.txt', 30)
 myinterpreter.differencing()
 myinterpreter.create_acf()

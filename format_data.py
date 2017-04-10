@@ -67,18 +67,14 @@ class Formatter:
         #print(frame)
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
-        frame = frame.drop(frame.columns[1],axis =1)
-        #frame.index.astype('datetime64[ns]')
+        frame.index.astype('datetime64[ns]')
         return frame
 
-<<<<<<< HEAD
 
 myformat = Formatter('', 'bottle.txt', 'bottle_data.txt')
 data = myformat.data_to_dataframe()
-=======
 #myformat = Formatter('', 'bottle.txt', 'snowboots_data.txt')
 #data = myformat.data_to_dataframe()
->>>>>>> d18db0a838c93b6b9c3e948c0fe84c07037b94df
 # data.index = data.index.astype('datetime64[ns]')
 #data.index
 #print(data)

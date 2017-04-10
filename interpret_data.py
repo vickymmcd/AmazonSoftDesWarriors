@@ -11,6 +11,7 @@ from sklearn.linear_model import LinearRegression
 #import seaborn as sns; sns.set()
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.tsa.arima_model import ARIMA
 from sklearn.linear_model import LinearRegression
 
 
@@ -34,11 +35,12 @@ class Interpreter:
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.ts_log_diff = 0
+		self.ts_log = 0
 
 	def differencing(self):
-		ts_log = np.log(self.time_series)
-		#print(ts_log)
-		self.ts_log_diff = ts_log - ts_log.shift()
+		self.ts_log = np.log(self.time_series)
+		#print(self.ts_log)
+		self.ts_log_diff = self.ts_log - self.ts_log.shift()
 		#print(self.ts_log_diff)
 
 	def create_acf(self):
@@ -53,15 +55,16 @@ class Interpreter:
 
 		x_values =[]
 		min_val = min(np_to_list[1:])
-		print(min_val)
+		#print(min_val)
 		for x in np_to_list:
 			#print(x)
 			x = x - min_val
 			x_values.append(x)
-			print(x)
-		print(np_to_list)
-		print(x_values)
-		lag_acf = acf(x_values[1:],nlags=15)
+			#print(x)
+		#print(np_to_list)
+		#print(x_values)
+		lag_acf = acf(x_values[1:],nlags=20)
+		#print(lag_acf)
 		#print(lag_acf)
 		lag_pacf = pacf(x_values[1:],nlags=20, method = 'ols')
 		#print(lag_pacf)
@@ -84,8 +87,18 @@ class Interpreter:
 		plt.axhline(y=1.96/np.sqrt(len(x_values)),linestyle='--',color='gray')
 		plt.title('Partial Autocorrelation Function')
 		plt.tight_layout()
-		plt.show()
 
+		print(self.ts_log)
+		ts_log_list=[]
+		for i in self.ts_log.iloc[:, 0].tolist():
+			ts_log_list.append(i)
+		print(ts_log_list)
+		model = ARIMA(self.ts_log , order=(1,1,1))
+		results_AR= model.fit()
+		plt.subplot(123)
+		plt.plot(self.ts_log_diff)
+		plt.plot(results_AR.fittedvalues, color='red')
+		plt.show()
 
 
 

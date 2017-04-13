@@ -4,7 +4,6 @@ from format_data import Formatter
 import matplotlib.pyplot as plt
 import time
 import numpy as np
-import pandas as pd
 from graphing_data import Grapher
 from sklearn import svm, linear_model
 from sklearn.pipeline import make_pipeline
@@ -14,6 +13,8 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
 from sklearn.linear_model import LinearRegression
+from statsmodels.tsa.arima_model import ARIMA
+import pandas as pd
 
 
 
@@ -57,12 +58,12 @@ class Interpreter:
 		self.lag_pacf = pacf(self.prices[1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
-		'''plt.subplot(121)
+		plt.subplot(121)
 		plt.plot(self.lag_acf)
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.title('Autocorrelation Function')'''
+		plt.title('Autocorrelation Function')
 
 	def do_ARIMA(self):
 		'''
@@ -94,7 +95,7 @@ class Interpreter:
 		print(resid_list)
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
-
+		#plt.plot(self.ts_log_diff)
 		"""plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
 		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))

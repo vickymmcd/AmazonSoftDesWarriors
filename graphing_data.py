@@ -19,7 +19,7 @@ class Grapher:
 		return self.resid
 
 	def graph_data(self):
-		pass
+		return self.ts_frame
 
 # from bokeh.charts import Line, show, output_file
 mygrapher = Grapher("", "christmas.txt", "christmas_data.txt")

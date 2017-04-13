@@ -57,12 +57,12 @@ class Interpreter:
 		self.lag_pacf = pacf(self.prices[1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
-		'''plt.subplot(121)
+		plt.subplot(121)
 		plt.plot(self.lag_acf)
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.title('Autocorrelation Function')'''
+		plt.title('Autocorrelation Function')
 
 	def do_ARIMA(self):
 		'''

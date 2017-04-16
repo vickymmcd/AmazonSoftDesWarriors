@@ -2,10 +2,11 @@
 This class represents the visualization object with multiple graphs
 '''
 from bokeh.plotting import figure, output_file, show
-from bokeh.models import DatetimeTickFormatter, HoverTool
+from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper
 from bokeh.layouts import column, row
 from graphing_data import Grapher
 from interpret_data import Interpreter
+import bokeh.palettes
 import datetime
 
 class Visualization:
@@ -25,6 +26,8 @@ class Visualization:
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
+        self.mapper = CategoricalColorMapper(factors=[True, False],
+                                             palette=['red', 'green'])
         self.graph1 = figure(title='Price History', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)

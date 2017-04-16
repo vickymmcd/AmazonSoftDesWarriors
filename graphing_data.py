@@ -18,7 +18,7 @@ class Grapher:
 		self.resid = self.ts_decomposition.resid.dropna()
 		return self.resid
 
-	def graph_data(self):
+	def get_data(self):
 		return self.ts_frame
 
 # from bokeh.charts import Line, show, output_file

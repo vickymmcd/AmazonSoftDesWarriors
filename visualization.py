@@ -1,0 +1,106 @@
+'''
+This class represents the visualization object with multiple graphs
+'''
+from bokeh.plotting import figure, output_file, show
+from bokeh.models import DatetimeTickFormatter, HoverTool
+from bokeh.layouts import column, row
+from graphing_data import Grapher
+from interpret_data import Interpreter
+import datetime
+
+class Visualization:
+    def __init__(self, data1, data2):
+        '''
+        This initializes the Visualization class and assigns the two
+        graphs and datasets. It sets up the figures for these graphs and
+        sets up the layout for them.
+
+        data1: pandas dataframe containing price history data
+        data2: pandas dataframe containing price forecast data
+        '''
+        self.data1 = data1
+        self.data2 = data2
+        self.data1.columns=['Price']
+        self.data2.columns = ['Price']
+        self.find_lowest_prices()
+        self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
+                                         ('Cheapest', '@Cheapest')])
+        self.graph1 = figure(title='Price History', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
+                                                      'wheel_zoom'])
+        self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)
+
+        self.graph1.xaxis.formatter=DatetimeTickFormatter(
+                hours=["%d %B %Y"],
+                days=["%d %B %Y"],
+                months=["%d %B %Y"],
+                years=["%d %B %Y"],
+            )
+        self.graph2.xaxis.formatter=DatetimeTickFormatter(
+                hours=["%d %B %Y"],
+                days=["%d %B %Y"],
+                months=["%d %B %Y"],
+                years=["%d %B %Y"],
+            )
+
+        # add a line renderer
+        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2)
+        self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+        self.layout = column(self.graph1, self.graph2)
+
+
+    def get_graph1(self):
+        '''
+        Returns the figure for graph1 which can be used and shown
+        in a layout
+        '''
+        return self.graph1
+
+    def get_graph2(self):
+        '''
+        Returns the figure for graph2 which can be used and shown
+        in a layout
+        '''
+        return self.get_graph2
+
+    def get_layout(self):
+        '''
+        Returns the layout associated with the two graphs which
+        can be accessed and used in another application
+        '''
+        return self.layout
+
+    def show_layout(self):
+        '''
+        Sets up html file for output and shows that file
+        '''
+        output_file('line.html')
+        show(self.layout)
+
+    def find_lowest_prices(self):
+        '''
+
+        '''
+        initial_values = [False] * len(self.data1['Price'])
+        self.data1['Cheapest'] = initial_values
+        self.lowest_price = min(self.data1['Price'])
+        self.data1 = self.data1.copy()
+        for i in range(len(self.data1['Price'])):
+            if self.data1['Price'][i] <= self.lowest_price+(.05*self.lowest_price):
+                self.data1['Cheapest'][i] = True
+
+
+if __name__ == '__main__':
+    '''
+    Set up the data and pass it into the visualization object to be
+    visualized
+    '''
+    myg = Grapher("", "christmas.txt", "christmas_data.txt")
+    resid = myg.decompose_ts()
+    original_data = myg.get_data()
+    '''myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)
+    myint.differencing()
+    myint.create_acf()
+    parimalog = myint.do_ARIMA()'''
+    visualization = Visualization(original_data, resid)
+    #visualization.show_layout()
+    visualization.show_layout()

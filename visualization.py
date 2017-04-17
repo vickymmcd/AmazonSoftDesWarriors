@@ -87,7 +87,7 @@ class Visualization:
 
         '''
         limit = 1.05 * min(self.data1['Price'])
-        self.data1['Cheapest'] = [bool(x <= limit) for x in self.data1['Price']]
+        self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
 
 
 if __name__ == '__main__':

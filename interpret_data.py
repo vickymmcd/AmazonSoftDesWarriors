@@ -32,7 +32,7 @@ class Interpreter:
 		self.ts_log_diff = 0
 		self.ts_log = 0
 		self.graphing = Grapher(url,file_name,data_file_name)
-		self.resid = self.graphing.decompose_ts()
+		self.seasonal, self.trend, self.resid = self.graphing.decompose_ts()
 
 	def differencing(self):
 		'''
@@ -95,19 +95,28 @@ class Interpreter:
 		#print(resid_list)
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
+
 		#plt.plot(self.ts_log_diff)
 		"""plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
 		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
 		plt.show()"""
 
-		predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
+		'''predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
 		predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
 		predictions_Arima_original= pd.Series(self.time_series[0], index = self.time_series.index)
-		predictions_ARIMA_log = predictions_Arima_original.add(predictions_ARIMA_diff_cumsum, fill_value =0)
+		predictions_ARIMA_log = predictions_Arima_original.add(predictions_ARIMA_diff_cumsum, fill_value =0)'''
 		#print(predictions_ARIMA_log.head())
 		plt.subplot(122)
-		return predictions_ARIMA_log
+		self.base_stuff = self.trend.dropna().copy()
+		self.base_stuff[0] = (self.seasonal[0] + self.trend[0]).dropna()
+		self.predicted_resid = pd.Series(results_ARIMA.fittedvalues, copy=True)
+		print(self.trend.dropna())
+		self.base_stuff.index= np.array(self.base_stuff.index, dtype='datetime64[us]')
+		print(self.base_stuff.index)
+		print(self.predicted_resid)
+		return self.base_stuff
+		#return predictions_ARIMA_log
 		#plt.plot(predictions_ARIMA_log)
 		#plt.show()
 

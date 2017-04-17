@@ -13,10 +13,10 @@ class Grapher:
 
 	def decompose_ts(self):
 		self.ts_decomposition = seasonal_decompose(self.ts_frame, freq=365)
-		self.seasonal = self.ts_decomposition.seasonal.dropna()
-		self.trend = self.ts_decomposition.trend.dropna()
+		self.seasonal = self.ts_decomposition.seasonal#.dropna()
+		self.trend = self.ts_decomposition.trend#.dropna()
 		self.resid = self.ts_decomposition.resid.dropna()
-		return self.resid
+		return self.seasonal, self.trend, self.resid
 
 	def get_data(self):
 		return self.ts_frame

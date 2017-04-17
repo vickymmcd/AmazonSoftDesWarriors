@@ -48,7 +48,6 @@ class Visualization:
             )
 
         # add a line renderer
-        #TODO: Figure out how to get categoricalcolormapper working with line plot
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
         self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)

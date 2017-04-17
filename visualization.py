@@ -1,6 +1,7 @@
 '''
 This class represents the visualization object with multiple graphs
 '''
+#TODO integrate this with flask website
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper
 from bokeh.layouts import column, row
@@ -24,6 +25,7 @@ class Visualization:
         self.data1.columns=['Price']
         self.data2.columns = ['Price']
         self.find_lowest_prices()
+        #TODO: Figure out how to make date show correctly on hover tool
         self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
@@ -46,7 +48,8 @@ class Visualization:
             )
 
         # add a line renderer
-        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2)
+        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
+        self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
         self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 

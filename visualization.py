@@ -24,7 +24,7 @@ class Visualization:
         self.data1.columns=['Price']
         self.data2.columns = ['Price']
         self.find_lowest_prices()
-        self.hover = HoverTool(tooltips=[('Date', '@len(index)'),('Price', '@Price'),
+        self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
@@ -83,14 +83,8 @@ class Visualization:
         '''
 
         '''
-        initial_values = [False] * len(self.data1['Price'])
-        self.data1['Cheapest'] = initial_values
-        self.lowest_price = min(self.data1['Price'])
-        limit = 1.05 * self.lowest_price
-        index = list(range(len(self.data1['Price'])))
-        cheap = filter(lambda x: x <= limit, index)
-        for i in cheap:
-            self.data1['Cheapest'][i] = True
+        limit = 1.05 * min(self.data1['Price'])
+        self.data1['Cheapest'] = [bool(x <= limit) for x in self.data1['Price']]
 
 
 if __name__ == '__main__':

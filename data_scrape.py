@@ -1,5 +1,6 @@
 from os.path import exists
 import requests
+import csv
 
 class Collector:
     def __init__(self, url, file_name, data_file_name):
@@ -61,9 +62,10 @@ class Collector:
             data = f.read()
         else:
             data_url = self.get_dataURL()
-            f = open(self.data_file_name, 'wb+')
             data = requests.get(data_url)
-            f.write(data)
+            with open(self.data_file_name, "w", encoding='UTF-8') as w:
+                writer = csv.writer(w)
+                writer.writerow([str(d, 'UTF-8') for d in data])
         return data
 
     def get_data_dict(self):
@@ -106,5 +108,5 @@ class Collector:
 
 
 collect = Collector('',
-                    'snowboots.txt', 'snowboots_data.txt')
+                    'camera.txt', 'more_camera_data.txt')
 collect.get_data_dict()

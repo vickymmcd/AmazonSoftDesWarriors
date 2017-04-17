@@ -21,13 +21,15 @@ class Grapher:
 	def get_data(self):
 		return self.ts_frame
 
+
 # from bokeh.charts import Line, show, output_file
 mygrapher = Grapher("", "christmas.txt", "christmas_data.txt")
 mygrapher.decompose_ts()
-
+"""
 plt.figure()
 plt.plot(mygrapher.ts_frame)
 plt.plot(mygrapher.trend)
 plt.plot(mygrapher.seasonal)
 plt.plot(mygrapher.resid)
 plt.show()
+"""

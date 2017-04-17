@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 from data_scrape import Collector
+from bokeh.embed import components
+from visualization import Visualization
 app = Flask(__name__)
 
 
@@ -10,7 +12,8 @@ def hello_world():
 
 @app.route('/test')
 def testing():
-    return render_template('dropdown.html')
+    script, div = components(plot)
+    return render_template('graph.html', script=script, div=div)
 
 
 @app.route('/result/', methods=['POST', 'GET'])

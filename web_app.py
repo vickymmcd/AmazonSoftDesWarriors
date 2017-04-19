@@ -34,12 +34,18 @@ def result():
                 prod = val
                 filename = '' + prod + '.txt'
                 print(filename)
-                filedataname = '' + prod + '_data.txt'
+                filedataname = 'more_' + prod + '_data.txt'
                 print(filedataname)
 
                 collect = Collector('', filename, filedataname)
-                prod = collect.get_id()
+                # prod = collect.get_id()
                 print(prod)
+                myg = Grapher('', filename, filedataname)
+                resid = myg.decompose_ts()
+                original_data = myg.get_data()
+                myvis = Visualization(original_data, resid)
+                plot = myvis.get_graph1()
+                script, div = components(plot)
             elif key == 'timeWindow':
                 time = val
             elif key == 'where':
@@ -47,7 +53,7 @@ def result():
         if time == '' or prod == '' or where == '':
             error = 'Please fill in all fields.'
     return render_template("result.html", prod=prod, time=time,
-                           where=where, error=error)
+                           where=where, error=error, script=script, div=div)
 
 
 if __name__ == '__main__':

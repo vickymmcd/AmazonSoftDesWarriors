@@ -2,12 +2,20 @@ from flask import Flask, render_template, request
 from data_scrape import Collector
 from bokeh.embed import components
 from visualization import Visualization
+from graphing_data import Grapher
+from socket import gethostname
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    myg = Grapher("", "christmas.txt", "christmas_data.txt")
+    resid = myg.decompose_ts()
+    original_data = myg.get_data()
+    myvis = Visualization(original_data, resid)
+    plot = myvis.get_graph1()
+    script, div = components(plot)
+    return render_template('index.html', script=script, div=div)
 
 
 @app.route('/test')
@@ -43,4 +51,5 @@ def result():
 
 
 if __name__ == '__main__':
-    app.run()
+    if 'liveconsole' not in gethostname():
+        app.run()

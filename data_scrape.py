@@ -1,4 +1,5 @@
 from os.path import exists
+from pickle import dump, load
 import requests
 import csv
 
@@ -22,15 +23,14 @@ class Collector:
         '''Gets the product id for the specified html file.
         Stores the html in a pickle file or acesses the file if
         it already exits.
-
         '''
         if exists(self.file_name):
             f = open(self.file_name, 'rb+')
-            page = f.read()
+            page = load(f)
         else:
             f = open(self.file_name, 'wb+')
             page = requests.get(self.url)
-            f.write(page)
+            dump(page, f)
 
         key = 'Tracktor.loadPrices'
         for line in page:
@@ -48,7 +48,7 @@ class Collector:
         data based on its id.
         '''
         id = self.get_id()
-        url = ("https://thetracktor.com/ajax/prices/?id=" + str(id) +
+        url = ("https://thetracktor.com/ajax/prices/?id=" + str(id).strip() +
                "&days=1825")
         return url
 

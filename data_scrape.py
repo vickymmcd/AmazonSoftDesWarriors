@@ -63,9 +63,12 @@ class Collector:
         else:
             data_url = self.get_dataURL()
             data = requests.get(data_url)
+            f = open(self.data_file_name, 'wb+')
+            dump(data, f)
+            '''
             with open(self.data_file_name, "w", encoding='UTF-8') as w:
                 writer = csv.writer(w)
-                writer.writerow([str(d, 'UTF-8') for d in data])
+                writer.writerow([str(d, 'UTF-8') for d in data])'''
         return data
 
     def get_data_dict(self):

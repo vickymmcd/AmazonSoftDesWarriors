@@ -24,9 +24,10 @@ class Visualization:
         self.data2 = data2
         self.data1.columns=['Price']
         self.data2.columns = ['Price']
+        self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
         #TODO: Figure out how to make date show correctly on hover tool
-        self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
+        self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
@@ -34,6 +35,7 @@ class Visualization:
                                                       'wheel_zoom'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)
 
+        print(self.data1.columns)
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
                 hours=["%d %B %Y"],
                 days=["%d %B %Y"],

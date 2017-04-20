@@ -32,7 +32,7 @@ class Interpreter:
 		self.ts_log_diff = 0
 		self.ts_log = 0
 		self.graphing = Grapher(url,file_name,data_file_name)
-		self.seasonal, self.trend, self.resid = self.graphing.decompose_ts()
+		self.resid, self.start_i,self.end_i = self.graphing.decompose_ts()
 
 	def differencing(self):
 		'''
@@ -90,11 +90,14 @@ class Interpreter:
 		#print(self.resid)
 		#determining whether or not we use the stationary time series data: why is it not working?
 		resid_list = []
+		print(self.resid)
 		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
 		#print(resid_list)
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
+
+		prediction = model.predict([])
 
 		#plt.plot(self.ts_log_diff)
 		"""plt.subplot(122)
@@ -120,8 +123,8 @@ class Interpreter:
 		#plt.plot(predictions_ARIMA_log)
 		#plt.show()
 
-'''
-myinterpreter = Interpreter('', 'camera.txt', 'more_camera_data.txt', 30)
-myinterpreter.differencing()
-myinterpreter.create_acf()
-myinterpreter.do_ARIMA()'''
+if __name__ == '__main__':
+	myinterpreter = Interpreter('', 'camera.txt', 'more_camera_data.txt', 30)
+	myinterpreter.differencing()
+	myinterpreter.create_acf()
+	myinterpreter.do_ARIMA()

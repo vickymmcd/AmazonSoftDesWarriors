@@ -110,8 +110,7 @@ class Collector:
         return self.data_dict
 
 
-"""
-if __name__= main:
-    collect = Collector('', 'camera.txt', 'more_camera_data1.txt')
-    collect.get_data_dict()
-"""
+
+#collect = Collector('',
+#                    'bugspray.txt', 'more_bugspray_data.txt')
+#collect.get_data_dict()

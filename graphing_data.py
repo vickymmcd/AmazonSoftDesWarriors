@@ -17,6 +17,7 @@ class Grapher:
 		self.trend = self.ts_decomposition.trend.dropna()
 		self.resid = self.ts_decomposition.resid
 		resid_list = []
+		start_i=0
 		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
 		print(resid_list)
@@ -31,6 +32,7 @@ class Grapher:
 				end_i = i
 				break
 		print(end_i)
+		end_i=end_i+start_i
 		#print(resid_list[start_i:end_i])
 		self.resid= self.resid.dropna()
 		#print(self.resid)
@@ -41,11 +43,12 @@ class Grapher:
 
 
 # from bokeh.charts import Line, show, output_file
-mygrapher = Grapher("", "christmas.txt", "christmas_data.txt")
-mygrapher.decompose_ts()
-plt.figure()
-plt.plot(mygrapher.ts_frame)
-plt.plot(mygrapher.trend)
-plt.plot(mygrapher.seasonal)
-plt.plot(mygrapher.resid)
-#plt.show()
+if __name__ == "__main__":
+	mygrapher = Grapher("", "christmas.txt", "christmas_data.txt")
+	mygrapher.decompose_ts()
+	plt.figure()
+	plt.plot(mygrapher.ts_frame)
+	plt.plot(mygrapher.trend)
+	plt.plot(mygrapher.seasonal)
+	plt.plot(mygrapher.resid)
+	#plt.show()

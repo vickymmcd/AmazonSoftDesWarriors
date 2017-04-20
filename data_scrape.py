@@ -110,6 +110,6 @@ class Collector:
         return self.data_dict
 
 
-collect = Collector('',
-                    'camera.txt', 'more_camera_data.txt')
-collect.get_data_dict()
+#collect = Collector('',
+#                    'bugspray.txt', 'more_bugspray_data.txt')
+#collect.get_data_dict()

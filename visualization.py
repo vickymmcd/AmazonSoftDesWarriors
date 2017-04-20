@@ -7,11 +7,12 @@ from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMappe
 from bokeh.layouts import column, row
 from graphing_data import Grapher
 from interpret_data import Interpreter
+from bokeh.embed import components
 import bokeh.palettes
 import datetime
 
 class Visualization:
-    def __init__(self, data1, data2):
+    def __init__(self, data1, data2=None):
         '''
         This initializes the Visualization class and assigns the two
         graphs and datasets. It sets up the figures for these graphs and
@@ -23,10 +24,10 @@ class Visualization:
         self.data1 = data1
         self.data2 = data2
         self.data1.columns=['Price']
-        #self.data2.columns = ['Price']
+        self.data2.columns = ['Price']
+        self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
-        #TODO: Figure out how to make date show correctly on hover tool
-        self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
+        self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
@@ -34,6 +35,7 @@ class Visualization:
                                                       'wheel_zoom'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)
 
+        print(self.data1.columns)
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
                 hours=["%d %B %Y"],
                 days=["%d %B %Y"],
@@ -50,7 +52,7 @@ class Visualization:
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+        self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 
 
@@ -95,7 +97,7 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    myg = Grapher("", "camera.txt", "camera_data.txt")
+    myg = Grapher("", "umbrella.txt", "umbrella_data.txt")
     resid = myg.decompose_ts()
     original_data = myg.get_data()
     '''myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)

@@ -13,10 +13,11 @@ class Grapher:
 
 	def decompose_ts(self):
 		self.ts_decomposition = seasonal_decompose(self.ts_frame, freq=365)
-		self.seasonal = self.ts_decomposition.seasonal.dropna()
-		self.trend = self.ts_decomposition.trend.dropna()
+		self.seasonal = self.ts_decomposition.seasonal
+		self.trend = self.ts_decomposition.trend
 		self.resid = self.ts_decomposition.resid
 		resid_list = []
+		start_i=0
 		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
 		print(resid_list)
@@ -31,10 +32,11 @@ class Grapher:
 				end_i = i
 				break
 		print(end_i)
+		end_i=end_i+start_i
 		#print(resid_list[start_i:end_i])
 		self.resid= self.resid.dropna()
 		#print(self.resid)
-		return self.resid, start_i, end_i
+		return self.resid, self.seasonal, self.trend, start_i, end_i
 
 	def get_data(self):
 		return self.ts_frame

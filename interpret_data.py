@@ -32,7 +32,7 @@ class Interpreter:
 		self.ts_log_diff = 0
 		self.ts_log = 0
 		self.graphing = Grapher(url,file_name,data_file_name)
-		self.resid, self.start_i,self.end_i = self.graphing.decompose_ts()
+		self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
 
 	def differencing(self):
 		'''
@@ -58,12 +58,12 @@ class Interpreter:
 		self.lag_pacf = pacf(self.prices[1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
-		plt.subplot(121)
+		"""plt.subplot(121)
 		plt.plot(self.lag_acf)
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.title('Autocorrelation Function')
+		plt.title('Autocorrelation Function')"""
 
 	def do_ARIMA(self):
 		'''
@@ -90,38 +90,25 @@ class Interpreter:
 		#print(self.resid)
 		#determining whether or not we use the stationary time series data: why is it not working?
 		resid_list = []
-		print(self.resid)
+		#print(self.resid)
 		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
-		#print(resid_list)
+
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
-
-		prediction = model.predict(params=[p,1,q], start='2017-01-11', end='2017-01-12')
-
-		#plt.plot(self.ts_log_diff)
-		"""plt.subplot(122)
-		plt.plot(results_ARIMA.fittedvalues, color='red')
-		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
-		plt.show()"""
-
-		'''predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
-		predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
-		predictions_Arima_original= pd.Series(self.time_series[0], index = self.time_series.index)
-		predictions_ARIMA_log = predictions_Arima_original.add(predictions_ARIMA_diff_cumsum, fill_value =0)'''
-		#print(predictions_ARIMA_log.head())
+		print(len(resid_list))
+		print(resid_list)
+		#arima.predict(start='2017-01-11', end='2017-01-12')
+		prediction = results_ARIMA.predict(start= 1464, end=1466)
 		plt.subplot(122)
-		self.base_stuff = self.trend.dropna().copy()
-		self.base_stuff[0] = (self.seasonal[0] + self.trend[0]).dropna()
-		self.predicted_resid = pd.Series(results_ARIMA.fittedvalues, copy=True)
-		print(self.trend.dropna())
-		self.base_stuff.index= np.array(self.base_stuff.index, dtype='datetime64[us]')
-		print(self.base_stuff.index)
-		print(self.predicted_resid)
-		return self.base_stuff
-		#return predictions_ARIMA_log
-		#plt.plot(predictions_ARIMA_log)
-		#plt.show()
+		plt.plot(resid_list)
+		plt.show()
+		print(prediction)
+		print(self.seasonal[self.start_i:self.end_i])
+		print(self.trend[self.start_i:self.end_i])
+
+		return prediction
+
 
 if __name__ == '__main__':
 	myinterpreter = Interpreter('', 'camera.txt', 'more_camera_data.txt', 30)

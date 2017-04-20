@@ -1,5 +1,7 @@
 from os.path import exists
+from pickle import dump, load
 import requests
+import csv
 
 class Collector:
     def __init__(self, url, file_name, data_file_name):
@@ -21,15 +23,14 @@ class Collector:
         '''Gets the product id for the specified html file.
         Stores the html in a pickle file or acesses the file if
         it already exits.
-
         '''
         if exists(self.file_name):
             f = open(self.file_name, 'rb+')
-            page = f.read()
+            page = load(f)
         else:
             f = open(self.file_name, 'wb+')
             page = requests.get(self.url)
-            f.write(page)
+            dump(page, f)
 
         key = 'Tracktor.loadPrices'
         for line in page:
@@ -47,7 +48,7 @@ class Collector:
         data based on its id.
         '''
         id = self.get_id()
-        url = ("https://thetracktor.com/ajax/prices/?id=" + str(id) +
+        url = ("https://thetracktor.com/ajax/prices/?id=" + str(id).strip() +
                "&days=1825")
         return url
 
@@ -61,9 +62,13 @@ class Collector:
             data = f.read()
         else:
             data_url = self.get_dataURL()
-            f = open(self.data_file_name, 'wb+')
             data = requests.get(data_url)
-            f.write(data)
+            f = open(self.data_file_name, 'wb+')
+            dump(data, f)
+            '''
+            with open(self.data_file_name, "w", encoding='UTF-8') as w:
+                writer = csv.writer(w)
+                writer.writerow([str(d, 'UTF-8') for d in data])'''
         return data
 
     def get_data_dict(self):
@@ -106,5 +111,5 @@ class Collector:
 
 
 collect = Collector('',
-                    'snowboots.txt', 'snowboots_data.txt')
+                    'camera.txt', 'more_camera_data.txt')
 collect.get_data_dict()

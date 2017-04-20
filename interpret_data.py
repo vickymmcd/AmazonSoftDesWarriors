@@ -120,7 +120,8 @@ class Interpreter:
 		#plt.plot(predictions_ARIMA_log)
 		#plt.show()
 
+'''
 myinterpreter = Interpreter('', 'camera.txt', 'more_camera_data.txt', 30)
 myinterpreter.differencing()
 myinterpreter.create_acf()
-myinterpreter.do_ARIMA()
+myinterpreter.do_ARIMA()'''

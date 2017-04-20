@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    myg = Grapher("", "christmas.txt", "christmas_data.txt")
+    myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
     #resid = myg.decompose_ts()
     original_data = myg.get_data()
     myvis = Visualization(original_data)

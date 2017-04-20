@@ -97,7 +97,7 @@ class Interpreter:
 		model = ARIMA(resid_list, order=(p, 1, q))
 		results_ARIMA = model.fit(disp=-1)
 
-		prediction = model.predict([])
+		prediction = model.predict(params=[p,1,q], start='2017-01-11', end='2017-01-12')
 
 		#plt.plot(self.ts_log_diff)
 		"""plt.subplot(122)

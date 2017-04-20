@@ -106,5 +106,5 @@ class Collector:
 
 
 collect = Collector('',
-                    'snowboots.txt', 'snowboots_data.txt')
+                    'camera.txt', 'more_camera_data1.txt')
 collect.get_data_dict()

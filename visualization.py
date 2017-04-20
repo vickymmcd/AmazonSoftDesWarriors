@@ -1,7 +1,6 @@
 '''
 This class represents the visualization object with multiple graphs
 '''
-#TODO integrate this with flask website
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper
 from bokeh.layouts import column, row
@@ -9,6 +8,11 @@ from graphing_data import Grapher
 from interpret_data import Interpreter
 import bokeh.palettes
 import datetime
+from bokeh.plotting import figure
+from bokeh.resources import CDN
+from bokeh.embed import file_html
+from bokeh.embed import components
+
 
 class Visualization:
     def __init__(self, data1, data2):
@@ -25,8 +29,7 @@ class Visualization:
         self.data1.columns=['Price']
         self.data2.columns = ['Price']
         self.find_lowest_prices()
-        #TODO: Figure out how to make date show correctly on hover tool
-        self.hover = HoverTool(tooltips=[('Date', '@index'),('Price', '@Price'),
+        self.hover = HoverTool(tooltips=[('Date', '@len(index)'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
@@ -48,11 +51,9 @@ class Visualization:
             )
 
         # add a line renderer
-        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
-        self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
+        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2)
         self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         self.layout = column(self.graph1, self.graph2)
-
 
     def get_graph1(self):
         '''
@@ -60,6 +61,15 @@ class Visualization:
         in a layout
         '''
         return self.graph1
+
+    def get_components(self):
+        script, div = components(self.graph1)
+        print(script)
+        print(div)
+
+    def get_HTML_graph(self):
+        html = file_html(self.graph1, CDN, "tesingGraph1")
+        return html
 
     def get_graph2(self):
         '''
@@ -79,7 +89,7 @@ class Visualization:
         '''
         Sets up html file for output and shows that file
         '''
-        output_file('line.html')
+        output_file('graph.html')
         show(self.layout)
 
     def find_lowest_prices(self):
@@ -110,4 +120,5 @@ if __name__ == '__main__':
     parimalog = myint.do_ARIMA()'''
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
+    visualization.get_components()
     visualization.show_layout()

@@ -26,7 +26,6 @@ class Visualization:
         self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
-        #TODO: Figure out how to make date show correctly on hover tool
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
@@ -97,7 +96,7 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    myg = Grapher("", "christmas.txt", "christmas_data.txt")
+    myg = Grapher("", "camera.txt", "camera_data.txt")
     resid = myg.decompose_ts()
     original_data = myg.get_data()
     '''myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)

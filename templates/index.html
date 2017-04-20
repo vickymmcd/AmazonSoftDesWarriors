@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <link rel="stylesheet" type="text/css" href="styleguide.css">
+      <link rel="stylesheet" type="text/css" href="styleguide.css"/>
+      <link
+          href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css"
+          rel="stylesheet" type="text/css">
+      <link
+          href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.css"
+          rel="stylesheet" type="text/css">
+
+      <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script>
+      <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script>
     </head>
 <body>
     <h1>We are super shoppers</h1>
@@ -30,6 +39,8 @@
           <input type="text" name="where"><br>
           <input type="submit" value="Submit">
       </form>
+      {{ div | safe }}
+      {{ script | safe }}
 
 </label>
 </body>

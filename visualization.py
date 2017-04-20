@@ -27,7 +27,7 @@ class Visualization:
         self.data1 = data1
         self.data2 = data2
         self.data1.columns=['Price']
-        self.data2.columns = ['Price']
+        #self.data2.columns = ['Price']
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips=[('Date', '@len(index)'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
@@ -51,8 +51,10 @@ class Visualization:
             )
 
         # add a line renderer
-        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2)
-        self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
+        self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
+        #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+
         self.layout = column(self.graph1, self.graph2)
 
     def get_graph1(self):
@@ -96,14 +98,8 @@ class Visualization:
         '''
 
         '''
-        initial_values = [False] * len(self.data1['Price'])
-        self.data1['Cheapest'] = initial_values
-        self.lowest_price = min(self.data1['Price'])
-        limit = 1.05 * self.lowest_price
-        index = list(range(len(self.data1['Price'])))
-        cheap = filter(lambda x: x <= limit, index)
-        for i in cheap:
-            self.data1['Cheapest'][i] = True
+        limit = 1.05 * min(self.data1['Price'])
+        self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
 
 
 if __name__ == '__main__':
@@ -111,7 +107,7 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    myg = Grapher("", "christmas.txt", "christmas_data.txt")
+    myg = Grapher("", "camera.txt", "camera_data.txt")
     resid = myg.decompose_ts()
     original_data = myg.get_data()
     '''myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)

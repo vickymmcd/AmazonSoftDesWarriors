@@ -7,11 +7,12 @@ from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMappe
 from bokeh.layouts import column, row
 from graphing_data import Grapher
 from interpret_data import Interpreter
+from bokeh.embed import components
 import bokeh.palettes
 import datetime
 
 class Visualization:
-    def __init__(self, data1, data2):
+    def __init__(self, data1, data2=None):
         '''
         This initializes the Visualization class and assigns the two
         graphs and datasets. It sets up the figures for these graphs and
@@ -96,7 +97,7 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    myg = Grapher("", "camera.txt", "camera_data.txt")
+    myg = Grapher("", "umbrella.txt", "umbrella_data.txt")
     resid = myg.decompose_ts()
     original_data = myg.get_data()
     '''myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)

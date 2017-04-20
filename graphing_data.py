@@ -24,12 +24,14 @@ class Grapher:
 			if math.isnan(resid_list[i]) != True:
 				start_i = i
 				break
-		resid_list= resid_list[start_i:]
-		for i in range(len(resid_list)):
-			if math.isnan(resid_list[i]) == True:
+		print(start_i)
+		resid_list1= resid_list[start_i:]
+		for i in range(len(resid_list1)):
+			if math.isnan(resid_list1[i]) == True:
 				end_i = i
 				break
-		print(resid_list[start_i:end_i])
+		print(end_i)
+		#print(resid_list[start_i:end_i])
 		self.resid= self.resid.dropna()
 		#print(self.resid)
 		return self.resid, start_i, end_i

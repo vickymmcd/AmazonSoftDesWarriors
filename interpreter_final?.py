@@ -137,14 +137,15 @@ class Interpreter:
 
 	def build_model(self):
 		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series[0].dropna(), trend='n', order=(0,1,0), seasonal_order=(self.P,1,self.Q,90))
+		model = sm.tsa.statespace.SARIMAX(self.time_series[0].dropna(), trend='n', order=(0,1,0), seasonal_order=(self.P,1,self.Q,12))
 		print(model)
 		self.results= model.fit()
 		print('cat')
 		print(self.results.summary())
 		print('cat')
-		self.time_series["Predictions"] = self.results.predict(start = '2016-01-10', end= '2017-04-21', dynamic = True)
-		self.time_series[[0,"Predictions"]].plot()
+		self.time_series["Predictions"] = self.results.predict(start = '2016-01-10', end= '2018-04-21', dynamic = True)
+		self.time_series[["Predictions"]].plot()
+		self.time_series[[0]].plot()
 		plt.show()
 
 

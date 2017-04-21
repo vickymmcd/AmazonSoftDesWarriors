@@ -1,6 +1,7 @@
 from scipy.interpolate import UnivariateSpline
 from scipy.interpolate import KroghInterpolator
 from format_data import Formatter
+import matplotlib
 import matplotlib.pyplot as plt
 import time
 import numpy as np
@@ -30,9 +31,11 @@ class Interpreter:
 		days to predict into the future and generates
 		a list of wanted days.
 		'''
+		matplotlib.use('TKAgg')
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
-		print(self.time_series[0])
+		self.time_series.columns=['Price']
+		print(self.time_series['Price'])
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
 
@@ -41,8 +44,8 @@ class Interpreter:
 		'''
 		Does the differencing for the time series and its shift
 		'''
-		self.time_series["first_difference"] = self.time_series[0] - self.time_series[0].shift(1)
-		self.time_series["seasonal_difference"] = self.time_series[0] - self.time_series[0].shift(12)
+		self.time_series["first_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(1)
+		self.time_series["seasonal_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(12)
 		self.time_series["seasonal_first_difference"]= self.time_series["first_difference"]- self.time_series["first_difference"].shift(12)
 		self.test_stationarity(self.time_series["first_difference"].dropna(inplace=False))
 		self.test_stationarity(self.time_series["seasonal_difference"].dropna(inplace=False))
@@ -137,7 +140,7 @@ class Interpreter:
 
 	def build_model(self):
 		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series[0].dropna(), trend='n', order=(0,1,0), seasonal_order=(self.P,1,self.Q,12))
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'].dropna(), trend='n', order=(0,1,0), seasonal_order=(self.P,1,self.Q,12))
 		print(model)
 		self.results= model.fit()
 		print('cat')
@@ -145,8 +148,11 @@ class Interpreter:
 		print('cat')
 		self.time_series["Predictions"] = self.results.predict(start = '2016-01-10', end= '2018-04-21', dynamic = True)
 		self.time_series[["Predictions"]].plot()
-		self.time_series[[0]].plot()
+		self.time_series[['Price']].plot()
 		plt.show()
+
+	def get_data_source(self):
+		return self.time_series
 
 
 if __name__ == '__main__':

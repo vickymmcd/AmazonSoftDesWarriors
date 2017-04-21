@@ -6,7 +6,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper
 from bokeh.layouts import column, row
 from graphing_data import Grapher
-from interpret_data import Interpreter
+from interpreter_final import Interpreter
 from bokeh.embed import components
 import bokeh.palettes
 import datetime
@@ -23,7 +23,7 @@ class Visualization:
         '''
         self.data1 = data1
         self.data2 = data2
-        self.data1.columns=['Price']
+        #self.data1.columns=['Price']
         #self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
@@ -52,7 +52,7 @@ class Visualization:
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+        self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 
 
@@ -97,13 +97,23 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
+    '''
     myg = Grapher("", "umbrella.txt", "umbrella_data.txt")
     resid = myg.decompose_ts()
     original_data = myg.get_data()
-    '''myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)
+    myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)
     myint.differencing()
     myint.create_acf()
-    parimalog = myint.do_ARIMA()'''
+    parimalog = myint.do_ARIMA()
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
+    visualization.show_layout()'''
+    myinterpreter = Interpreter('', 'christmas.txt', 'more_christmas_data.txt', 30)
+    myinterpreter.differencing()
+    #myinterpreter.test_stationarity()
+    myinterpreter.create_acf()
+    myinterpreter.get_p_and_q()
+    myinterpreter.build_model()
+    data = myinterpreter.get_data_source()
+    visualization = Visualization(data)
     visualization.show_layout()

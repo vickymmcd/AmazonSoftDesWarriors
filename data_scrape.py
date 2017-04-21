@@ -47,7 +47,7 @@ class Collector:
         Gets the url that is associated with the product's
         data based on its id.
         '''
-        id = self.get_id()
+        id = 12630779
         url = ("https://thetracktor.com/ajax/prices/?id=" + str(id).strip() +
                "&days=1825")
         return url
@@ -109,7 +109,6 @@ class Collector:
                 self.data_dict[bar[0]] = [bar[1][0]]
         return self.data_dict
 
-
-#collect = Collector('',
-#                    'bugspray.txt', 'more_bugspray_data.txt')
-#collect.get_data_dict()
+if __name__ == '__main__':
+    collect = Collector('', 'gloves.txt', 'more_gloves_data.txt')
+    collect.get_data_dict()

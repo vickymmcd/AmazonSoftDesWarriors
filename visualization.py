@@ -24,7 +24,7 @@ class Visualization:
         self.data1 = data1
         self.data2 = data2
         self.data1.columns=['Price']
-        self.data2.columns = ['Price']
+        #self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
@@ -52,7 +52,7 @@ class Visualization:
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+        #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 
 

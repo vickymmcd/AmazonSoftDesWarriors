@@ -10,19 +10,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    myg = Grapher("", "christmas.txt", "christmas_data.txt")
     #resid = myg.decompose_ts()
-    original_data = myg.get_data()
-    myvis = Visualization(original_data)
-    plot = myvis.get_graph1()
-    script, div = components(plot)
-    return render_template('index.html', script=script, div=div)
+
+    return render_template('testingPromo.html')
 
 
 @app.route('/test')
 def testing():
     # html1 = Visualization.show_layout
-    return render_template('graph.html')
+    return render_template('testingPromo.html')
     # return render_template('graph.html', script=script, div=div)
 
 

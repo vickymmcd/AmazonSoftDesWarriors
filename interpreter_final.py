@@ -37,7 +37,7 @@ class Interpreter:
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns=['Price']
-		self.season = 40
+		self.season = 12
 		print(self.time_series['Price'])
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
@@ -143,7 +143,7 @@ class Interpreter:
 
 	def build_model(self):
 		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(0,1,0), seasonal_order=(1,1,0,self.season))
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(0,1,0), seasonal_order=(1,1,1,self.season))
 		print(model)
 		self.results= model.fit()
 		print('cat')

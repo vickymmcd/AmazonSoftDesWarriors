@@ -52,7 +52,7 @@ class Visualization:
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
+        #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 
 

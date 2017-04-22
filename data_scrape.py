@@ -109,8 +109,14 @@ class Collector:
                 self.data_dict[bar[0]] = [bar[1][0]]
         return self.data_dict
 
+<<<<<<< HEAD
 
 
 #collect = Collector('',
 #                    'bugspray.txt', 'more_bugspray_data.txt')
 #collect.get_data_dict()
+=======
+if __name__ == '__main__':
+    collect = Collector('', 'gloves.txt', 'more_gloves_data.txt')
+    collect.get_data_dict()
+>>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12

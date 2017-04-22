@@ -10,6 +10,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
+<<<<<<< HEAD
+=======
+    myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
+>>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
     #resid = myg.decompose_ts()
 
     return render_template('testingPromo.html')

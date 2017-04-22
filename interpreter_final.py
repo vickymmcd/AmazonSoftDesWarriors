@@ -18,6 +18,8 @@ from statsmodels.tsa.arima_model import ARIMA
 import pandas as pd
 from statsmodels.tsa.stattools import adfuller
 import statsmodels.api as sm
+import datetime
+from dateutil.relativedelta import relativedelta
 
 
 
@@ -35,6 +37,7 @@ class Interpreter:
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns=['Price']
+		self.season = 40
 		print(self.time_series['Price'])
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
@@ -45,8 +48,8 @@ class Interpreter:
 		Does the differencing for the time series and its shift
 		'''
 		self.time_series["first_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(1)
-		self.time_series["seasonal_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(12)
-		self.time_series["seasonal_first_difference"]= self.time_series["first_difference"]- self.time_series["first_difference"].shift(12)
+		self.time_series["seasonal_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(self.season)
+		self.time_series["seasonal_first_difference"]= self.time_series["first_difference"]- self.time_series["first_difference"].shift(self.season)
 		self.test_stationarity(self.time_series["first_difference"].dropna(inplace=False))
 		self.test_stationarity(self.time_series["seasonal_difference"].dropna(inplace=False))
 		self.test_stationarity(self.time_series["seasonal_first_difference"].dropna(inplace=False))
@@ -87,10 +90,10 @@ class Interpreter:
 		for x in np_to_list:
 			x = x - min_val
 			self.prices.append(x)"""
-		self.lag_acf = acf(self.time_series["seasonal_first_difference"].iloc[366:],nlags=20)
-		self.lag_pacf = pacf(self.time_series["seasonal_first_difference"].iloc[366:],nlags=20, method = 'ols')
-		self.lag_acf_1 = acf(self.time_series["first_difference"].iloc[366:],nlags=20)
-		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[366:],nlags=20, method = 'ols')
+		self.lag_acf = acf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags=20)
+		self.lag_pacf = pacf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
+		self.lag_acf_1 = acf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20)
+		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
 		plt.subplot(121)
@@ -140,13 +143,17 @@ class Interpreter:
 
 	def build_model(self):
 		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'].dropna(), trend='n', order=(0,1,0), seasonal_order=(self.P,1,self.Q,12))
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(0,1,0), seasonal_order=(1,1,0,self.season))
 		print(model)
 		self.results= model.fit()
 		print('cat')
 		print(self.results.summary())
-		print('cat')
-		self.time_series["Predictions"] = self.results.predict(start = '2016-01-10', end= '2018-04-21', dynamic = True)
+		print(self.results)
+		start = datetime.datetime.strptime("2017-02-04", "%Y-%m-%d")
+		date_list = [start + relativedelta(days=x) for x in range(0,365)]
+		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
+		self.time_series = pd.concat([self.time_series, future])
+		self.time_series["Predictions"] = self.results.predict(start = 300, end= 5000, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
 		plt.show()

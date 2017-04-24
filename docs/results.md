@@ -1,3 +1,9 @@
+---
+title: Amazon
+layout: template
+filename: results.md
+--- 
+
 # Results
 For our project we created a website deployed on heroku which predicts future prices for various items using a seasonal ARIMA predictive model. We used seasonal trends in items to determine when the best time for a person to buy a certain product is both in terms of seasonal and overall trend variations. 
 

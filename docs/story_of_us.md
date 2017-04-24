@@ -1,4 +1,4 @@
-#The Story of us
+# The Story of us
 We initially planned on using a machine learning algorithm-
 finding price histories is hard, Traktor costs money unless you trick it-
 Switch to different machine learning algorithm-

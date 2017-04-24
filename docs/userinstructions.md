@@ -1,7 +1,7 @@
 ---
 title: User Instructions
 layout: template
-filename: userinstructions.md
+filename: userinstructions
 --- 
 
 # User Instructions

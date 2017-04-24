@@ -5,12 +5,16 @@ Bokeh
 pandas
 statsmodels.api
 
-Before going to the websit, please ensure that you have these python packages installed. 
+## Install instructions
+Before going to the website, please ensure that you have these python packages installed. 
 pip install instructions are as follows:
 
-NumPy can be installed in the scipy stack: `pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose`
+NumPy can be installed in the scipy stack: `pip install --user numpy`
 
 To install Bokeh: `pip install bokeh`
 
+To install Pandas: `pip install pandas`
+
+To install statsmodel.api: `pip install -U statsmodels`
 
 

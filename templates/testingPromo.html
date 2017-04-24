@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style media="screen" type="text/css">
+      @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
+html {
+  background: rgb(246, 248, 248);
+}
+body {padding: 40px;font-family: 'Open Sans', sans-serif;font-size: 14px;font-weight: 400;
+}
+.promo {width: 800px;margin: 0 auto;margin-top: 50px;
+}
+.promo {width: 250px;background: #0F1012;color: #f9f9f9;float: left;
+}
+.deal {padding: 10px 0 0 0;
+}
+.deal span {display: block;text-align: center;
+}
+.deal span:first-of-type {font-size: 23px;
+}
+.deal span:last-of-type {font-size: 13px;
+}
+.promo .price {display: block;width: 250px;background: #292b2e;margin: 15px 0 10px 0;text-align: center;font-size: 18px;padding: 17px 0 17px 0;
+}
+ul {display: block;margin: 20px 0 10px 0;padding: 0;list-style-type: none;text-align: center;
+  color: #999999;
+}
+li {display: block;margin: 10px 0 0 0;
+}
+button {border: none;border-radius: 40px;background: #292b2e;color: #f9f9f9;
+  padding: 10px 37px;margin: 10px 0 20px 60px;
+}
+.scale {transform: scale(1.2);box-shadow: 0 0 4px 1px rgba(20, 20, 20, 0.8);
+}
+.scale button {background: #64AAA4;
+}
+.scale .price {color: #64AAA4;
+}
+    </style>
+    </head>
+<body>
+
+<div class="promos">
+<div class="promo scale">
+  <div class="deal">
+    <span>Shopping. Made Easy.</span>
+    <span>What do you want to buy?</span>
+  </div>
+
+  <span class="price">
+    <div class="selections">
+      <form action="/result/", method="POST">
+        <label>
+        Products:
+        <span class="custom-dropdown custom-dropdown--white">
+            <select class="custom-dropdown__select custom-dropdown__select--white" name = "prod">
+                <option value="bugspray"> Bug Spray</option>
+                <option value="bottle"> Bottle</option>
+                <option value="camera"> Camera</option>
+                <option value="flashlight"> Flashlight</option>
+                <option value="gloves"> Gloves</option>
+                <option value="phone"> Phone</option>
+                <option value="suitcase"> Suitcase</option>
+                <option value="tents"> Tents</option>
+            </select>
+          </span>
+          <br>
+          How soon will you be buying?<br>
+          <input type="text" name="timeWindow"><br>
+          Where wil you be buying?:<br>
+          <input type="text" name="where"><br>
+          <input type="submit" value="Submit">
+      </form>
+    </label>
+    </div>
+  </span>
+  <ul class="features">
+    <li>Price Predictions.</li>
+    <li>Price Histories.</li>
+    <li>All in One Place.</li>
+  </ul>
+</div>
+</div>
+</body>
+</html>

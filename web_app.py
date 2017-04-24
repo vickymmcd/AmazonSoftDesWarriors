@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from data_scrape import Collector
+from bokeh.plotting import figure
 from bokeh.embed import components
 from visualization import Visualization
 from graphing_data import Grapher
@@ -9,19 +10,20 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
+<<<<<<< HEAD
+=======
     myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
+>>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
     #resid = myg.decompose_ts()
-    original_data = myg.get_data()
-    myvis = Visualization(original_data)
-    plot = myvis.get_graph1()
-    script, div = components(plot)
-    return render_template('index.html', script=script, div=div)
+
+    return render_template('testingPromo.html')
 
 
 @app.route('/test')
 def testing():
-    script, div = components(plot)
-    return render_template('graph.html', script=script, div=div)
+    # html1 = Visualization.show_layout
+    return render_template('testingPromo.html')
+    # return render_template('graph.html', script=script, div=div)
 
 
 @app.route('/result/', methods=['POST', 'GET'])

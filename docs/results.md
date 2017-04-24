@@ -1,7 +1,7 @@
 ---
 title: Results
 layout: template
-filename: results.md
+filename: results
 --- 
 
 # Results

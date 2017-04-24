@@ -1,6 +1,6 @@
 ---
-title: Amazon
-layout: template
+title: Shopping Predictions
+layout: jekyll-theme-architect
 filename: results.md
 --- 
 

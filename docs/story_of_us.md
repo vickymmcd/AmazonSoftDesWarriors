@@ -1,3 +1,9 @@
+---
+title: The Story of Us
+layout: template
+filename: story_of_us.md
+--- 
+
 # The Story of us
 
 We initially planned on using a machine learning algorithm-

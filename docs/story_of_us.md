@@ -1,7 +1,7 @@
 ---
 title: The Story of Us
 layout: template
-filename: story_of_us.md
+filename: story_of_us
 --- 
 
 # The Story of us

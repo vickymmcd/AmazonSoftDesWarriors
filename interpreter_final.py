@@ -1,22 +1,11 @@
-from scipy.interpolate import UnivariateSpline
-from scipy.interpolate import KroghInterpolator
+
 from format_data import Formatter
 import matplotlib
 import matplotlib.pyplot as plt
-import time
 import numpy as np
 from graphing_data import Grapher
-from sklearn import svm, linear_model
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import acf, pacf
-from statsmodels.tsa.arima_model import ARIMA
-from sklearn.linear_model import LinearRegression
-from statsmodels.tsa.arima_model import ARIMA
 import pandas as pd
-from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm
 import datetime
 from dateutil.relativedelta import relativedelta

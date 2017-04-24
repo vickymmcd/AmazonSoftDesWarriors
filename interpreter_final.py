@@ -143,14 +143,14 @@ class Interpreter:
 
 	def build_model(self):
 		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(0,1,0), seasonal_order=(1,1,0,self.season))
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(1,1,1), seasonal_order=(1,1,1,self.season))
 		print(model)
 		self.results= model.fit()
 		print('cat')
 		print(self.results.summary())
 		print(self.results)
 		start = datetime.datetime.strptime("2017-02-04", "%Y-%m-%d")
-		date_list = [start + relativedelta(days=x) for x in range(0,365)]
+		date_list = [start + relativedelta(days=x) for x in range(0,40)]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		self.time_series["Predictions"] = self.results.predict(start = 300, end= 5000, dynamic = True)

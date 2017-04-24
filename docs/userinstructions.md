@@ -1,3 +1,9 @@
+---
+title: User Instructions
+layout: template
+filename: userinstructions.md
+--- 
+
 # User Instructions
 The Super Shopper Predictive Model requires:
 NumPy

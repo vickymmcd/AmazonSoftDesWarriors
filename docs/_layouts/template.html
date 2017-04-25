@@ -39,7 +39,7 @@
 
         <aside id="sidebar">
           {% for page in site.pages %}
-        <a class="button" href= {{ page.filename }}>{{ page.title }}</a>
+            <a class="button" href= {{ page.filename }}>{{ page.title }}</a>
           {% endfor %}
           {% if site.show_downloads %}
             <a href="{{ site.github.zip_url }}" class="button">

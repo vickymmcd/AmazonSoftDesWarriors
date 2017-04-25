@@ -62,6 +62,7 @@ class Formatter:
             new_key = datetime.datetime.fromtimestamp(float(key) / 1000).strftime('%Y-%m-%d')
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
+        print(formatted_dict)
         frame = pd.DataFrame(formatted_dict).T
         #print(frame)
         frame.index = np.array(frame.index)
@@ -70,5 +71,6 @@ class Formatter:
         return frame
 
 
-# myformat = Formatter('', 'bottle.txt', 'bottle_data.txt')
-# data = myformat.data_to_dataframe()
+if __name__ == '__main__':
+    myformat = Formatter('', 'christmas.txt', 'more_christmas_data.txt')
+    data = myformat.data_to_dataframe()

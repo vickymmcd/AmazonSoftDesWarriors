@@ -59,7 +59,7 @@ class Visualization:
         #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
-        self.layout = column(self.graph1, self.graph2)
+        # self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 
     def get_graph1(self):

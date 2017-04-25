@@ -1,22 +1,11 @@
-from scipy.interpolate import UnivariateSpline
-from scipy.interpolate import KroghInterpolator
+
 from format_data import Formatter
 import matplotlib
 import matplotlib.pyplot as plt
-import time
 import numpy as np
 from graphing_data import Grapher
-from sklearn import svm, linear_model
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import acf, pacf
-from statsmodels.tsa.arima_model import ARIMA
-from sklearn.linear_model import LinearRegression
-from statsmodels.tsa.arima_model import ARIMA
 import pandas as pd
-from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -150,7 +139,7 @@ class Interpreter:
 		print(self.results.summary())
 		print(self.results)
 		start = datetime.datetime.strptime("2017-02-04", "%Y-%m-%d")
-		date_list = [start + relativedelta(days=x) for x in range(0,365)]
+		date_list = [start + relativedelta(days=x) for x in range(0,40)]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		self.time_series["Predictions"] = self.results.predict(start = 300, end= 5000, dynamic = True)

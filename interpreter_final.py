@@ -26,7 +26,7 @@ class Interpreter:
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns=['Price']
-		self.season = 40
+		self.season = 12
 		print(self.time_series['Price'])
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
@@ -57,7 +57,7 @@ class Interpreter:
 		std = plt.plot(rolstd, color='black', label = 'Rolling Std')
 		plt.legend(loc='best')
 		plt.title('Rolling Mean & Standard Deviation')
-		#plt.show()
+		plt.show()
 		#Perform Dickey-Fuller test:
 		print('Results of Dickey-Fuller Test:')
 		print(timeseries.dropna())
@@ -87,7 +87,7 @@ class Interpreter:
 		#Plot ACF:
 		plt.subplot(121)
 		plt.plot(self.lag_acf)
-		#plt.show()
+		plt.show()
 		"""
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
@@ -132,7 +132,7 @@ class Interpreter:
 
 	def build_model(self):
 		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(1,1,1), seasonal_order=(1,1,1,self.season))
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(1,1,1), seasonal_order=(1,1,1,self.season), enforce_stationarity= False)
 		print(model)
 		self.results= model.fit()
 		print('cat')
@@ -152,7 +152,7 @@ class Interpreter:
 
 
 if __name__ == '__main__':
-	myinterpreter = Interpreter('', 'christmas.txt', 'more_christmas_data.txt', 30)
+	myinterpreter = Interpreter('', '', 'oil_prices', 30)
 	myinterpreter.differencing()
 	#myinterpreter.test_stationarity()
 	myinterpreter.create_acf()

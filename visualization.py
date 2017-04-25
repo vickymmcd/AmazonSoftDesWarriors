@@ -126,7 +126,7 @@ if __name__ == '__main__':
     visualization.get_components()
 =======
     visualization.show_layout()'''
-    myinterpreter = Interpreter('', 'christmas.txt', 'more_christmas_data.txt', 30)
+    myinterpreter = Interpreter('', '', 'oil_prices', 30)
     myinterpreter.differencing()
     #myinterpreter.test_stationarity()
     myinterpreter.create_acf()

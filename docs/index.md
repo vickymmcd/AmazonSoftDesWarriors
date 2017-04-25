@@ -3,6 +3,10 @@ title: Project Overview
 layout: template
 filename: index
 --- 
+{% for page in site.pages %}
+        <a class="btn" href= {{ page.filename }}>{{ page.title }}</a>
+{% endfor %}
+     
 # Project Overview
 Have you ever boughten a handy Swiss army knife, only to realize that if you had waited a couple of weeks you would have saved over $30? Does this keep happening dispite looking at the best deals online? Well Super Shoppers, a final project created for Software Design at Olin College in Spring of 2017 will allow you to determine just when the price is cheapest.
 

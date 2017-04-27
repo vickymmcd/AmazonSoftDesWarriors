@@ -5,7 +5,7 @@ filename: results
 --- 
 
 # Results
-For our project we created a website deployed on heroku which predicts future prices for various items using a seasonal ARIMA predictive model. We used seasonality and trends in items to determine when the best time for a person to buy a certain product is both in terms of seasonal and overall trend variations. We struggled to find sufficient data for Amazon products to make our model work, but we were able to convince ourselves that our model was working by fitting and forecasting fake data on a product which has prices that change specifically with the season. 
+For our project we created a website deployed on heroku which predicts future prices for various items using a seasonal ARIMA predictive model. We used seasonality and trends in items to determine when the best time for a person to buy a certain product is both in terms of seasonal and overall trend variations. We struggled to find sufficient data for Amazon products to make our model work, but we were able to demonstrate that our model was working by fitting and forecasting fake data on a product which has prices that change specifically with the season. 
 
 Our model outputs a visualization of the price graph. We included a hover tool which shows what the price is, the date that that price occurred, and whether that price is within 10% of the cheapest price. Also, when it is one of the cheapest prices, it shows up in red instead of green or blue. This way people's eyes are immediately drawn to when the best time for them to buy a certain product is and they are able to see all the information in a understandable and easy to digest way. 
 

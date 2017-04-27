@@ -23,6 +23,8 @@ He might seem quiet at first, but he can spew off more facts than you knew exist
  shorten it like no other.
 ### Spirit Animal: 
 Sea Serpent
+### Learning Goal
+Increase knowledge of machine learning techniques and improve at code optimization.
  
 # Katya Donovan: 
 When there is a will there is a way with her. Utterly unstoppable. Also makes a mean soufflé.

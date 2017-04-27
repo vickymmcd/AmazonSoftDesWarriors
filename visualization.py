@@ -53,7 +53,6 @@ class Visualization:
                 years=["%d %B %Y"],
             )
 
-        self.graph1.x_range = Range1d(datetime.datetime.strptime('2014-04-01', '%Y-%d-%m'), datetime.datetime.strptime('2018-04-01', '%Y-%d-%m'))
 
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')

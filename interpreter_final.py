@@ -146,12 +146,12 @@ class Interpreter:
 		print(self.time_series)
 
 		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
-		date_list = [start + relativedelta(months=x) for x in range(0,12)]
+		date_list = [start + relativedelta(months=x) for x in range(0,48)]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		print('with the future, I hope')
 		print(self.time_series)
-		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1000, dynamic = True)
+		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1048, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
 		print('and the results are...')

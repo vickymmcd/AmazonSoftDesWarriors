@@ -11,16 +11,24 @@ Bokeh
 pandas
 statsmodels.api
 
-## Install instructions
+## Install Instructions
 Before going to the website, please ensure that you have these python packages installed. 
 pip install instructions are as follows:
 
-NumPy can be installed in the scipy stack: `pip install --user numpy`
+NumPy can be installed either in the scipy stack: `pip install --user numpy`
 
-To install Bokeh: `pip install bokeh`
+To install Bokeh: `pip3 install bokeh`
 
-To install Pandas: `pip install pandas`
+To install Pandas: `pip3 install pandas`
 
-To install statsmodel.api: `pip install -U statsmodels`
+To install statsmodel.api: `pip3 install -U statsmodels`
+
+## Using the Super Shopper
+Go to our website supershoppers.com.
+Select a product to buy using the drop down menu.
+Select a time frame in which you would like to buy the product.
+Click submit to get the best time to buy your project!
+
+
 
 

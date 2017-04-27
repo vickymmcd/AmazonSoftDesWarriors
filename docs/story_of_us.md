@@ -12,7 +12,9 @@ At the beginning of the project our intent was to biuld a price tracker that wou
 
 The second difficulty we encountered was in our predictive algorithm. We originally considered using a decision tree or forest for our machine learning algorithm, but found it was unsuitable for finding a numerical, rather than categorical, solution. We then looked at linear regression type models. We implemented an algorithm using this method, but we could not linearize our data without destroying most of the interesting trends, and we had insufficient data for most spline or interpolation methods.
 
-We eventually found that the predictive method that best matched our needs was ARIMA, which involved looking 
+We eventually found that the predictive method that best matched our needs was ARIMA. ARIMA involves breaking our data into seasonal, trend, and stationary components. ARIMA then analyzes the data, and predicts future patterns. After sum experimentation we began using Seasonal ARIMA, or SARIMA.
+
+
 
 finding price histories is hard, Traktor costs money unless you trick it-
 

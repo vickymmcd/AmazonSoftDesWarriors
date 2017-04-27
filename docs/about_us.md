@@ -16,6 +16,7 @@ Her personality isn't the only thing that will brighten your day; have you seen 
 ### Spirit Animal:
 Hippogriff
 ### Learning Goal: 
+Learning how to create user interfaces. Learn HTML and CSS. Understand new APIs and data analysis.
   
 # Noah Rivkin: 
 He might seem quiet at first, but he can spew off more facts than you knew existed. However, when it comes to code, he can 
@@ -24,7 +25,7 @@ He might seem quiet at first, but he can spew off more facts than you knew exist
 Sea Serpent
  
 # Katya Donovan: 
-When there is a will there is a way with Katya. Utterly unstoppable. Also makes a mean soufflé.
+When there is a will there is a way with her. Utterly unstoppable. Also makes a mean soufflé.
 ### Spirit Animal: 
 Mouse
 ### Learning Goal:

@@ -122,7 +122,6 @@ if __name__ == '__main__':
     parimalog = myint.do_ARIMA()
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
-    visualization.get_components()
     visualization.show_layout()'''
     myinterpreter = Interpreter('', '', 'oil_prices', 30)
     myinterpreter.differencing()

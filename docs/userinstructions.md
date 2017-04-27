@@ -6,10 +6,7 @@ filename: userinstructions
 
 # User Instructions
 The Super Shopper Predictive Model requires:
-NumPy
-Bokeh
-pandas
-statsmodels.api
+NumPy, Bokeh, pandas, statsmodels.api
 
 ## Install Instructions
 Before going to the website, please ensure that you have these python packages installed. 

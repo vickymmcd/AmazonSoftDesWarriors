@@ -25,8 +25,11 @@ To install statsmodel.api: `pip3 install -U statsmodels`
 
 ## Using the Super Shopper
 Go to our website supershoppers.com.
+
 Select a product to buy using the drop down menu.
+
 Select a time frame in which you would like to buy the product.
+
 Click submit to get the best time to buy your project!
 
 

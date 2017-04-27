@@ -38,9 +38,12 @@
         </section>
 
         <aside id="sidebar">
-          {% for page in site.pages %}
-            <a class="button" href= {{ page.filename }}>{{ page.title }}</a>
-          {% endfor %}
+            <a class="button" href= "index">Project Overview</a>
+            <a class="button" href= "results">Results</a>
+            <a class="button" href= "story_of_us">Story of Us</a>
+            <a class="button" href= "implementation">Implementation</a>
+            <a class="button" href= "userinstructions">User Instructions</a>
+          <a class="button" href= "about_us">About Us</a>
           {% if site.show_downloads %}
             <a href="{{ site.github.zip_url }}" class="button">
               <small>Download</small>

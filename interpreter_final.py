@@ -28,6 +28,10 @@ class Interpreter:
 		self.time_series.columns=['Price']
 		self.season = 12
 		print(self.time_series['Price'])
+		self.Q =0
+		self.P =0
+		self.p=0
+		self.q=0
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
 
@@ -71,8 +75,8 @@ class Interpreter:
 		'''
 		Creates acf and pacf plots for the time series data
 		'''
-		print(self.time_series)
-		print(self.time_series.iloc[2: ])
+		#print(self.time_series)
+		#print(self.time_series.iloc[2: ])
 		"""
 		self.prices =[]
 		min_val = min(np_to_list[1:])
@@ -131,20 +135,27 @@ class Interpreter:
 		print(self.q)
 
 	def build_model(self):
-		print(self.time_series['seasonal_first_difference'].dropna())
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='ct', order=(1,1,1), seasonal_order=(1,1,1,self.season), enforce_stationarity= False)
+		#print(self.time_series['seasonal_first_difference'].dropna())
+		#print(self.time_series['Price'])
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(2,1,3), seasonal_order=(2,1,2,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
 		self.results= model.fit()
-		#print('cat')
+		print('cat')
 		#print(self.results.summary())
 		#print(self.results)
-		start = datetime.datetime.strptime("2017-02-04", "%Y-%m-%d")
-		date_list = [start + relativedelta(days=x) for x in range(0,40)]
+		print(self.time_series)
+
+		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
+		date_list = [start + relativedelta(months=x) for x in range(0,48)]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
-		self.time_series["Predictions"] = self.results.predict(start = 300, end= 5000, dynamic = True)
+		print('with the future, I hope')
+		print(self.time_series)
+		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1050, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
+		print('and the results are...')
+		print(self.time_series["Predictions"])
 		plt.show()
 
 	def get_data_source(self):

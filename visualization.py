@@ -2,7 +2,7 @@
 This class represents the visualization object with multiple graphs
 '''
 from bokeh.plotting import figure, output_file, show
-from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper
+from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper, Range1d
 from bokeh.layouts import column, row
 from graphing_data import Grapher
 from interpreter_final import Interpreter
@@ -31,13 +31,12 @@ class Visualization:
         #self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
-
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
         self.graph1 = figure(title='Price History', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
-                                                      'wheel_zoom'])
+                                                      'wheel_zoom', 'zoom_in'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)
 
         print(self.data1.columns)
@@ -58,8 +57,9 @@ class Visualization:
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
         self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
-        self.layout = column(self.graph1, self.graph2)
-
+        #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
+        #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
+        # self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         self.layout = column(self.graph1, self.graph2)
 
     def get_graph1(self):
@@ -122,9 +122,7 @@ if __name__ == '__main__':
     parimalog = myint.do_ARIMA()
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
-<<<<<<< HEAD
     visualization.get_components()
-=======
     visualization.show_layout()'''
     myinterpreter = Interpreter('', '', 'oil_prices', 30)
     myinterpreter.differencing()

@@ -58,21 +58,19 @@ class Formatter:
 
     def data_to_dataframe(self):
         formatted_dict = {}
-        #print(self.data_dict)
-        #print(len(self.data_dict))
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
-            #print(new_key)
+            new_key_date = datetime.datetime.fromtimestamp(float(key))
+            print(new_key_date.month)
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
-        #print(formatted_dict)
-        #print(len(formatted_dict))
         frame = pd.DataFrame(formatted_dict).T
         #print(frame)
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
         frame.index.astype('datetime64[ns]')
         return frame
+
 
 if __name__ == '__main__':
 	myformat = Formatter('', '', 'oil_prices')

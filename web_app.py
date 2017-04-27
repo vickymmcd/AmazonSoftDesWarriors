@@ -4,16 +4,14 @@ from bokeh.plotting import figure
 from bokeh.embed import components
 from visualization import Visualization
 from graphing_data import Grapher
+from interpreter_final import Interpreter
 from socket import gethostname
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-<<<<<<< HEAD
-=======
     myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
->>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
     #resid = myg.decompose_ts()
 
     return render_template('testingPromo.html')
@@ -42,9 +40,9 @@ def result():
                 collect = Collector('', filename, filedataname)
                 # prod = collect.get_id()
                 print(prod)
-                myg = Grapher('', filename, filedataname)
+                myg = Interpreter('', filename, filedataname, 30)
                 #resid = myg.decompose_ts()
-                original_data = myg.get_data()
+                original_data = myg.get_data_source()
                 myvis = Visualization(original_data)
                 plot = myvis.get_graph1()
                 script, div = components(plot)

@@ -31,11 +31,7 @@ class Visualization:
         #self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
-<<<<<<< HEAD
-        self.hover = HoverTool(tooltips=[('Date', '@len(index)'),('Price', '@Price'),
-=======
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
->>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
@@ -60,12 +56,7 @@ class Visualization:
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-<<<<<<< HEAD
         #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
-=======
-        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
-        self.layout = column(self.graph1, self.graph2)
->>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
 
         self.layout = column(self.graph1, self.graph2)
 
@@ -129,9 +120,6 @@ if __name__ == '__main__':
     parimalog = myint.do_ARIMA()
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
-<<<<<<< HEAD
-    visualization.get_components()
-=======
     visualization.show_layout()'''
     myinterpreter = Interpreter('', 'christmas.txt', 'more_christmas_data.txt', 30)
     myinterpreter.differencing()
@@ -141,5 +129,4 @@ if __name__ == '__main__':
     myinterpreter.build_model()
     data = myinterpreter.get_data_source()
     visualization = Visualization(data)
->>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
     visualization.show_layout()

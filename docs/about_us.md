@@ -9,6 +9,7 @@ You'll never need to search the internet when you're around this one, she knows 
 ### Spirit Animal:
 Unicorn
 ### Learning Goal:
+Get better at using unfamiliar APIs and understanding/analyzing trends.
   
 # Samantha Young: 
 Her personality isn't the only thing that will brighten your day; have you seen her code?

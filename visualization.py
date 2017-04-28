@@ -33,11 +33,14 @@ class Visualization:
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
+        self.hover2 = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Predictions'),
+                                         ('Cheapest', '@Cheapest2')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=['red', 'green'])
         self.graph1 = figure(title='Price History', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
-        self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)
+        self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools=[self.hover2, 'pan',
+                                                      'wheel_zoom', 'zoom_in'])
 
         print(self.data1.columns)
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
@@ -57,7 +60,8 @@ class Visualization:
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
+        self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2)
+        self.graph2.circle(source=self.data1, size=5, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
         #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         # self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
@@ -106,6 +110,9 @@ class Visualization:
         '''
         limit = 1.05 * min(self.data1['Price'])
         self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
+        limit = 1.05 * min(self.data1['Predictions'].dropna())
+        self.data1['Cheapest2'] = [x <= limit for x in self.data1['Predictions']]
+        print(self.data1['Cheapest2'])
 
 
 if __name__ == '__main__':

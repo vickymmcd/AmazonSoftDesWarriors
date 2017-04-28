@@ -56,7 +56,8 @@ class Visualization:
                 years=["%d %B %Y"],
             )
 
-
+        dates = (list(self.data1.index))
+        self.graph2.x_range = Range1d(datetime.datetime.now(), dates[-1])
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
@@ -132,7 +133,7 @@ if __name__ == '__main__':
     #visualization.show_layout()
     visualization.get_components()
     visualization.show_layout()'''
-    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+    myinterpreter = Interpreter('', '', 'oil_prices', 600)
     myinterpreter.differencing()
     #myinterpreter.test_stationarity()
     myinterpreter.create_acf()

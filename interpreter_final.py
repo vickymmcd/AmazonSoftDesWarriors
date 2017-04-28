@@ -9,6 +9,7 @@ from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm
 import datetime
 from dateutil.relativedelta import relativedelta
+import time
 
 
 
@@ -32,6 +33,8 @@ class Interpreter:
 		self.P =0
 		self.p=0
 		self.q=0
+		self.days = n_days + self.days_between()
+		self.months = self.days/30
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
 
@@ -146,12 +149,12 @@ class Interpreter:
 		print(self.time_series)
 
 		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
-		date_list = [start + relativedelta(months=x) for x in range(0,48)]
+		date_list = [start + relativedelta(months=x) for x in range(0,int(self.months))]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		print('with the future, I hope')
 		print(self.time_series)
-		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1048, dynamic = True)
+		self.time_series["Predictions"] = self.results.predict(start = 850, end= 2000, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
 		print('and the results are...')
@@ -160,6 +163,11 @@ class Interpreter:
 
 	def get_data_source(self):
 		return self.time_series
+
+	def days_between(self):
+		dt = datetime.datetime.now()
+		d2 = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
+		return abs((d2 - dt).days)
 
 
 if __name__ == '__main__':

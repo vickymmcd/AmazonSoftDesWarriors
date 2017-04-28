@@ -116,10 +116,10 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        self.P = i
 		        break
-		print('the P')
+		'''print('the P')
 		print(self.P)
 		print('the Q')
-		print(self.Q)
+		print(self.Q)'''
 		top_y = 1.65/np.sqrt(len(self.time_series["first_difference"]))
 		for i, val in enumerate(self.lag_acf_1):
 		    if val < top_y + threshold:
@@ -129,10 +129,10 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        self.p = i
 		        break
-		print('the p')
+		'''print('the p')
 		print(self.p)
 		print('the q')
-		print(self.q)
+		print(self.q)'''
 
 	def build_model(self):
 		#print(self.time_series['seasonal_first_difference'].dropna())
@@ -143,19 +143,19 @@ class Interpreter:
 		print('cat')
 		#print(self.results.summary())
 		#print(self.results)
-		print(self.time_series)
+		#print(self.time_series)
 
 		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
 		date_list = [start + relativedelta(months=x) for x in range(0,48)]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		print('with the future, I hope')
-		print(self.time_series)
+		#print(self.time_series)
 		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1050, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
 		print('and the results are...')
-		print(self.time_series["Predictions"])
+		#print(self.time_series["Predictions"])
 		plt.show()
 
 	def get_data_source(self):

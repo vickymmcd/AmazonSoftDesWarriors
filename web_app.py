@@ -37,14 +37,15 @@ def result():
                 filedataname = 'more_' + prod + '_data.txt'
                 print(filedataname)
 
-                collect = Collector('', filename, filedataname)
-                # prod = collect.get_id()
-                print(prod)
-                myg = Interpreter('', filename, filedataname, 30)
-                #resid = myg.decompose_ts()
-                original_data = myg.get_data_source()
-                myvis = Visualization(original_data)
-                plot = myvis.get_graph1()
+                myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                myinterpreter.differencing()
+                #myinterpreter.test_stationarity()
+                myinterpreter.create_acf()
+                myinterpreter.get_p_and_q()
+                myinterpreter.build_model()
+                data = myinterpreter.get_data_source()
+                visualization = Visualization(data)
+                plot = visualization.get_graph1()
                 script, div = components(plot)
             elif key == 'timeWindow':
                 time = val

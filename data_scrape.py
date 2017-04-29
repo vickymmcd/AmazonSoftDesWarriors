@@ -111,9 +111,11 @@ class Collector:
 
 
 
+
 #collect = Collector('',
 #                    'bugspray.txt', 'more_bugspray_data.txt')
 #collect.get_data_dict()
+
 if __name__ == '__main__':
     collect = Collector('', 'gloves.txt', 'more_gloves_data.txt')
     collect.get_data_dict()

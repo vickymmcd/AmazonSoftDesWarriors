@@ -110,8 +110,10 @@ class Interpreter:
 		return prediction
 
 
+
 if __name__ == '__main__':
 	myinterpreter = Interpreter('', 'camera.txt', 'more_camera_data.txt', 30)
 	myinterpreter.differencing()
 	myinterpreter.create_acf()
 	myinterpreter.do_ARIMA()
+>>>>>>> 5a5ce03e8fcdb42ad48b9dc7e95786df7c237c5a

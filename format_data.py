@@ -5,7 +5,7 @@ formats dates and times, and prepares data for machine learning process
 import time
 import datetime
 import pandas as pd
-from data_scrape import Collector
+from data_scrape_oil import Collector
 import numpy as np
 
 
@@ -21,12 +21,12 @@ class Formatter:
         NOTE: Only need data_file_name and data_file if they
         already exist, the other input can be an empty string.
         '''
-        self.collector = Collector(url, file_name, data_file_name)
+        self.collector = Collector(data_file_name)
         self.data_dict = self.collector.get_data_dict()
         self.x_values = []
         self.y_values = []
         self.dict = {}
-        self.add_in_between_dates()
+        #self.add_in_between_dates()
 
     def add_in_between_dates(self):
         keys = [float(key) for key in self.data_dict]
@@ -59,7 +59,9 @@ class Formatter:
     def data_to_dataframe(self):
         formatted_dict = {}
         for key in self.data_dict:
-            new_key = datetime.datetime.fromtimestamp(float(key) / 1000).strftime('%Y-%m-%d')
+            new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
+            new_key_date = datetime.datetime.fromtimestamp(float(key))
+            print(new_key_date.month)
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
         frame = pd.DataFrame(formatted_dict).T
@@ -70,5 +72,7 @@ class Formatter:
         return frame
 
 
-# myformat = Formatter('', 'bottle.txt', 'bottle_data.txt')
-# data = myformat.data_to_dataframe()
+if __name__ == '__main__':
+	myformat = Formatter('', '', 'oil_prices')
+	data = myformat.data_to_dataframe()
+	print(data)

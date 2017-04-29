@@ -60,19 +60,20 @@ class Formatter:
         formatted_dict = {}
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
-            new_key_date = datetime.datetime.fromtimestamp(float(key))
-            print(new_key_date.month)
+            """new_key_date = datetime.datetime.fromtimestamp(float(key))
+            #print(new_key_date.month)"""
             if new_key not in formatted_dict:
-                formatted_dict[new_key] = self.data_dict[key]
+                formatted_dict[new_key] = [self.data_dict[key]]
         frame = pd.DataFrame(formatted_dict).T
         #print(frame)
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
         frame.index.astype('datetime64[ns]')
+        print(frame)
         return frame
 
 
 if __name__ == '__main__':
-	myformat = Formatter('', '', 'oil_prices')
+	myformat = Formatter('', '', 'avg_elec_price')
 	data = myformat.data_to_dataframe()
-	print(data)
+	#print(data)

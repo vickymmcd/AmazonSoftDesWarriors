@@ -137,7 +137,8 @@ class Interpreter:
 	def build_model(self):
 		#print(self.time_series['seasonal_first_difference'].dropna())
 		#print(self.time_series['Price'])
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(2,1,3), seasonal_order=(2,1,2,self.season), enforce_stationarity= False, enforce_invertibility=False)
+		print(self.time_series['Price'])
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(self.p,1,self.q), seasonal_order=(self.P,1,self.Q,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
 		self.results= model.fit()
 		print('cat')
@@ -163,7 +164,7 @@ class Interpreter:
 
 
 if __name__ == '__main__':
-	myinterpreter = Interpreter('', '', 'oil_prices', 30)
+	myinterpreter = Interpreter('', '', 'avg_elec_price', 30)
 	myinterpreter.differencing()
 	#myinterpreter.test_stationarity()
 	myinterpreter.create_acf()

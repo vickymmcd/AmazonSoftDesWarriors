@@ -8,7 +8,7 @@ html {
 }
 body {padding: 40px;font-family: 'Open Sans', sans-serif;font-size: 14px;font-weight: 400;
 }
-.promo {width: 800px;margin: 0 auto;margin-top: 50px;
+.promo {width:1000px;margin: 0 auto;margin-top: 50px;
 }
 .promo {width: 250px;background: #0F1012;color: #f9f9f9;float: left;
 }
@@ -20,7 +20,7 @@ body {padding: 40px;font-family: 'Open Sans', sans-serif;font-size: 14px;font-we
 }
 .deal span:last-of-type {font-size: 13px;
 }
-.promo .price {display: block;width: 250px;background: #292b2e;margin: 15px 0 10px 0;text-align: center;font-size: 18px;padding: 17px 0 17px 0;
+.promo .price {display: block;width: 250px;background: #292b2e;margin: 0;text-align: center;font-size: 18px;padding: 0; overflow: hidden;
 }
 ul {display: block;margin: 20px 0 10px 0;padding: 0;list-style-type: none;text-align: center;
   color: #999999;
@@ -36,10 +36,40 @@ button {border: none;border-radius: 40px;background: #292b2e;color: #f9f9f9;
 }
 .scale .price {color: #64AAA4;
 }
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
     </style>
     </head>
 <body>
-
+<div>
+  <ul>
+  <li><a class="active" href="#home">The Shopping Assistant</a></li>
+  <li><a href="#news">How We Predict</a></li>
+  <li><a href="#contact">About Us</a></li>
+  <li><a href="#about">Acknowledgements</a></li>
+</ul>
+<div>
 <div class="promos">
 <div class="promo scale">
   <div class="deal">

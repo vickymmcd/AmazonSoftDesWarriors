@@ -10,12 +10,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-<<<<<<< HEAD
-=======
-    myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
->>>>>>> 7479fe0d687582faa7a6091b42d68f2495ae9e12
-    #resid = myg.decompose_ts()
-
     return render_template('testingPromo.html')
 
 
@@ -39,11 +33,9 @@ def result():
                 filedataname = 'more_' + prod + '_data.txt'
                 print(filedataname)
 
-                collect = Collector('', filename, filedataname)
-                # prod = collect.get_id()
-                print(prod)
+                # collect = Collector('', filename, filedataname)
+                # print(prod)
                 myg = Grapher('', filename, filedataname)
-                #resid = myg.decompose_ts()
                 original_data = myg.get_data()
                 myvis = Visualization(original_data)
                 plot = myvis.get_graph1()

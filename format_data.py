@@ -58,12 +58,22 @@ class Formatter:
 
     def data_to_dataframe(self):
         formatted_dict = {}
+<<<<<<< HEAD
+=======
+        print(self.data_dict)
+        print(len(self.data_dict))
+>>>>>>> 1ce2888c9a9cba2dc8cb4b71175c872b1c888064
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             """new_key_date = datetime.datetime.fromtimestamp(float(key))
             #print(new_key_date.month)"""
             if new_key not in formatted_dict:
+<<<<<<< HEAD
                 formatted_dict[new_key] = [self.data_dict[key]]
+=======
+                formatted_dict[new_key] = self.data_dict[key]
+        print(formatted_dict)
+>>>>>>> 1ce2888c9a9cba2dc8cb4b71175c872b1c888064
         frame = pd.DataFrame(formatted_dict).T
         #print(frame)
         frame.index = np.array(frame.index)

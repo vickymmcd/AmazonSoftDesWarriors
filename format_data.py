@@ -58,7 +58,7 @@ class Formatter:
 
     def data_to_dataframe(self):
         formatted_dict = {}
-        print(self.data_dict)
+        print(len(self.data_dict))
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))

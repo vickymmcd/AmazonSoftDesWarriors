@@ -138,7 +138,7 @@ class Interpreter:
 	def build_model(self):
 		#print(self.time_series['seasonal_first_difference'].dropna())
 		#print(self.time_series['Price'])
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(2,1,3), seasonal_order=(2,1,2,self.season), enforce_stationarity= False, enforce_invertibility=False)
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(self.p,1,self.q), seasonal_order=(self.P,1,self.Q,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
 		self.results= model.fit()
 		print('cat')
@@ -146,13 +146,13 @@ class Interpreter:
 		#print(self.results)
 		print(self.time_series)
 
-		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
+		start = datetime.datetime.strptime("2017-03-01", "%Y-%m-%d")
 		date_list = [start + relativedelta(months=x) for x in range(0,48)]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		print('with the future, I hope')
 		print(self.time_series)
-		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1050, dynamic = True)
+		self.time_series["Predictions"] = self.results.predict(start = 50, end= 220, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
 		print('and the results are...')

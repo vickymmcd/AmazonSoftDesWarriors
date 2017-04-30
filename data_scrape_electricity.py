@@ -57,7 +57,7 @@ class Collector:
 			#print(foo)
 			pattern = '%m %Y'
 			epoch = str(time.mktime(time.strptime(foo[0],pattern)))
-			self.data_dict[epoch] = float(foo[1])
+			self.data_dict[epoch] = [float(foo[1])]
 			"""foo[1]=foo[1].strip('",')
 			foo[2] = foo[2].strip('",')
 			foolul = foo[2].split('"')

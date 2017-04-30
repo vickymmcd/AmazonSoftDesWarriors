@@ -1,4 +1,4 @@
-# import os.environ
+import os.environ
 from flask import Flask, render_template, request
 from data_scrape import Collector
 from bokeh.plotting import figure
@@ -60,7 +60,7 @@ def result():
 
 if __name__ == '__main__':
     if 'liveconsole' not in gethostname():
-         # HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-         #PORT = int(os.environ.get('PORT', 5000))
-         #app.run(host=HOST, port=PORT)
+         HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+         PORT = int(os.environ.get('PORT', 5000))
+         app.run(host=HOST, port=PORT)
          app.run()

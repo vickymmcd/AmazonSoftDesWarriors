@@ -34,8 +34,8 @@ class Visualization:
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
-                                             palette=['red', 'green'])
-        self.graph1 = figure(title='Price History', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
+                                             palette=['purple', 'blue'])
+        self.graph1 = figure(title='Price History and Price Prediction', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400)
 
@@ -54,9 +54,9 @@ class Visualization:
             )
 
         # add a line renderer
-        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
+        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='blue')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
+        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
         #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         # self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
     visualization.show_layout()'''
-    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+    myinterpreter = Interpreter('', '', 'avg_elec_price', 30)
     myinterpreter.differencing()
     #myinterpreter.test_stationarity()
     myinterpreter.create_acf()

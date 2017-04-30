@@ -92,7 +92,7 @@ class Interpreter:
 		#Plot ACF:
 		plt.subplot(121)
 		plt.plot(self.lag_acf)
-		plt.show()
+		#plt.show()
 		"""
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
@@ -152,12 +152,13 @@ class Interpreter:
 		self.time_series = pd.concat([self.time_series, future])
 		print('with the future, I hope')
 		print(self.time_series)
-		self.time_series["Predictions"] = self.results.predict(start = 50, end= 220, dynamic = True)
-		self.time_series[["Predictions"]].plot()
-		self.time_series[['Price']].plot()
+		self.time_series["Predictions"] = self.results.predict(start = 194, end= 220, dynamic = True)
+		plt.plot(self.time_series[["Predictions"]], 'r--' , self.time_series[['Price']], 'b--')
+		#self.time_series[["Predictions"]].plot()
+		#self.time_series[['Price']].plot()
 		print('and the results are...')
 		print(self.time_series["Predictions"])
-		plt.show()
+		#plt.show()
 
 	def get_data_source(self):
 		return self.time_series

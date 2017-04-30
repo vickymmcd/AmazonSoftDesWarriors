@@ -15,9 +15,13 @@ Once we had our stationary data and seasonality data, we were able to find the p
 The following graphs show the autocorrelation function and partial autocorrelation function for the differenced time series and the seasonality time series.
 
 <img src="https://github.com/vickymmcd/AmazonSoftDesWarriors/blob/master/images/acf1stdiff.png" alt ="" />
+*Autocorrelation function of differenced prices.*
 <img src="https://github.com/vickymmcd/AmazonSoftDesWarriors/blob/master/images/pacf1stdiff.png" alt ="" />
+*Partial autocorrelation function of differenced prices.*
 <img src="https://github.com/vickymmcd/AmazonSoftDesWarriors/blob/master/images/acfgraph.png" alt ="" />
+*Autocorrelation function of seasonality in prices.*
 <img src="https://github.com/vickymmcd/AmazonSoftDesWarriors/blob/master/images/pacfgraph.png" alt ="" />
+*Partial autocorrelation function of seasonality in prices.*
 
 The Interpreter class then passes the data and its parameters into a SARIMA model which determines the prediction values for the requested amount of days. This data is then passed into the Visualizer which graphs the data, while also returning what day will have the lowest price. The script for our website then calls this function, in order to output the lowest price and the graph to the user.
 

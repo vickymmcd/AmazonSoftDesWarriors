@@ -150,20 +150,12 @@ class Interpreter:
 		print(self.time_series)
 
 		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
-<<<<<<< HEAD
-		date_list = [start + relativedelta(months=x) for x in range(0,48)]
-=======
 		date_list = [start + relativedelta(months=x) for x in range(0,int(self.months))]
->>>>>>> 1ce2888c9a9cba2dc8cb4b71175c872b1c888064
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		print('with the future, I hope')
 		print(self.time_series)
-<<<<<<< HEAD
-		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1050, dynamic = True)
-=======
 		self.time_series["Predictions"] = self.results.predict(start = 850, end= 2000, dynamic = True)
->>>>>>> 1ce2888c9a9cba2dc8cb4b71175c872b1c888064
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
 		print('and the results are...')
@@ -180,7 +172,7 @@ class Interpreter:
 
 
 if __name__ == '__main__':
-	myinterpreter = Interpreter('', '', 'avg_elec_price', 30)
+	myinterpreter = Interpreter('', '', 'oil_prices', 30)
 	myinterpreter.differencing()
 	#myinterpreter.test_stationarity()
 	myinterpreter.create_acf()

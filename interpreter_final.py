@@ -28,7 +28,7 @@ class Interpreter:
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns=['Price']
 		self.season = 12
-		print(self.time_series['Price'])
+		# print(self.time_series['Price'])
 		self.Q =0
 		self.P =0
 		self.p=0
@@ -54,8 +54,8 @@ class Interpreter:
 	def test_stationarity(self,timeseries):
 
 		#Determing rolling statistics
-		rolmean = pd.rolling_mean(timeseries, window=12)
-		rolstd = pd.rolling_std(timeseries, window=12)
+		rolmean = timeseries.rolling(window = 12, center = False).mean()
+		rolstd = timeseries.rolling(window = 12, center = False).std()
 
 		#Plot rolling statistics:
 		fig = plt.figure(figsize=(12, 8))
@@ -67,7 +67,7 @@ class Interpreter:
 		plt.show()
 		#Perform Dickey-Fuller test:
 		print('Results of Dickey-Fuller Test:')
-		print(timeseries.dropna())
+		# print(timeseries.dropna())
 		dftest = adfuller(timeseries.dropna(), autolag='AIC')
 		dfoutput = pd.Series(dftest[0:4], index=['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
 		for key,value in dftest[4].items():
@@ -143,22 +143,22 @@ class Interpreter:
 		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(2,1,3), seasonal_order=(2,1,2,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
 		self.results= model.fit()
-		print('cat')
+		# print('cat')
 		#print(self.results.summary())
 		#print(self.results)
-		print(self.time_series)
+		# print(self.time_series)
 
 		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
 		date_list = [start + relativedelta(months=x) for x in range(0,int(self.months))]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
-		print('with the future, I hope')
-		print(self.time_series)
+		# print('with the future, I hope')
+		# print(self.time_series)
 		self.time_series["Predictions"] = self.results.predict(start = 850, end= 2000, dynamic = True)
 		self.time_series[["Predictions"]].plot()
 		self.time_series[['Price']].plot()
-		print('and the results are...')
-		print(self.time_series["Predictions"])
+		# print('and the results are...')
+		# print(self.time_series["Predictions"])
 		plt.show()
 
 	def get_data_source(self):

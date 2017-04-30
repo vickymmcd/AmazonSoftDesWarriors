@@ -163,7 +163,7 @@ class Interpreter:
 
 
 if __name__ == '__main__':
-	myinterpreter = Interpreter('', '', 'oil_prices', 30)
+	myinterpreter = Interpreter('', '', 'avg_elec_price', 30)
 	myinterpreter.differencing()
 	#myinterpreter.test_stationarity()
 	myinterpreter.create_acf()

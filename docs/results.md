@@ -19,8 +19,8 @@ Our model outputs a visualization of the price graph. We included a hover tool w
 
 <img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/predictionfake.png" alt ="" />
 *This is the output of our model when we used fake data that was made to be perfectly seasonal. Green is the data we inputted and blue is the prediction our model outputted.*
-
-In order to test the accuracy of our model, we tested it against past electricity data. We observed the fit of the electricity prediction with the true prices after only 100 days, which is what the graph below displays. The red represents the predicted price, and the blue displays the true price of electricity.
+<p>
+In order to test the accuracy of our model, we tested it against past electricity data. We observed the fit of the electricity prediction with the true prices after only 100 days, which is what the graph below displays. The red represents the predicted price, and the blue displays the true price of electricity.</p>
 
 <img src= "https://github.com/vickymmcd/AmazonSoftDesWarriors/blob/master/images/model_fit.png" alt ="" />
 

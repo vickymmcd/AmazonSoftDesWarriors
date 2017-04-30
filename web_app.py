@@ -14,7 +14,7 @@ def hello_world():
     myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
     #resid = myg.decompose_ts()
 
-    return render_template('testingPromo.html')
+    return render_template('index.html')
 
 
 @app.route('/test')

@@ -5,7 +5,7 @@ formats dates and times, and prepares data for machine learning process
 import time
 import datetime
 import pandas as pd
-from data_scrape_oil import Collector
+from data_scrape_electricity import Collector
 import numpy as np
 
 
@@ -58,21 +58,24 @@ class Formatter:
 
     def data_to_dataframe(self):
         formatted_dict = {}
+        print(self.data_dict)
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))
-            print(new_key_date.month)
+            #print(new_key_date.month)
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
+        print(formatted_dict)
         frame = pd.DataFrame(formatted_dict).T
-        #print(frame)
+        print(frame)
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
         frame.index.astype('datetime64[ns]')
+        #print(frame)
         return frame
 
 
 if __name__ == '__main__':
-	myformat = Formatter('', '', 'oil_prices')
+	myformat = Formatter('', '', 'avg_elec_price')
 	data = myformat.data_to_dataframe()
 	print(data)

@@ -25,6 +25,7 @@ class Interpreter:
 		matplotlib.use('TKAgg')
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
+		print(self.time_series)
 		self.time_series.columns=['Price']
 		self.season = 12
 		print(self.time_series['Price'])

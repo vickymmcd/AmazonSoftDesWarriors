@@ -56,11 +56,9 @@ class Visualization:
                 years=["%d %B %Y"],
             )
 
-<<<<<<< HEAD
-=======
+
         dates = (list(self.data1.index))
         self.graph2.x_range = Range1d(datetime.datetime.now(), dates[-1])
->>>>>>> 1ce2888c9a9cba2dc8cb4b71175c872b1c888064
         # add a line renderer
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})

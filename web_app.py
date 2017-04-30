@@ -11,12 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-<<<<<<< HEAD
-=======
-    myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
-    #resid = myg.decompose_ts()
 
->>>>>>> f09a42dfac1790ef129612073461076f71a4c81d
     return render_template('testingPromo.html')
 
 
@@ -46,7 +41,6 @@ def result():
                 myg = Interpreter('', filename, filedataname, 30)
                 #resid = myg.decompose_ts()
                 original_data = myg.get_data_source()
-
                 myvis = Visualization(original_data)
                 plot = myvis.get_graph1()
                 script, div = components(plot)

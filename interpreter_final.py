@@ -1,7 +1,7 @@
 
 from format_data import Formatter
-import matplotlib
-import matplotlib.pyplot as plt
+#import matplotlib
+#import matplotlib.pyplot as plt
 import numpy as np
 from graphing_data import Grapher
 import pandas as pd
@@ -55,13 +55,13 @@ class Interpreter:
 		rolstd = pd.rolling_std(timeseries, window=12)
 
 		#Plot rolling statistics:
-		fig = plt.figure(figsize=(12, 8))
+		'''fig = plt.figure(figsize=(12, 8))
 		orig = plt.plot(timeseries, color='blue',label='Original')
 		mean = plt.plot(rolmean, color='red', label='Rolling Mean')
 		std = plt.plot(rolstd, color='black', label = 'Rolling Std')
 		plt.legend(loc='best')
 		plt.title('Rolling Mean & Standard Deviation')
-		plt.show()
+		plt.show()'''
 		#Perform Dickey-Fuller test:
 		print('Results of Dickey-Fuller Test:')
 		print(timeseries.dropna())
@@ -89,6 +89,7 @@ class Interpreter:
 		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
+		'''
 		plt.subplot(121)
 		plt.plot(self.lag_acf)
 		plt.show()
@@ -96,7 +97,7 @@ class Interpreter:
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')"""
-		plt.title('Autocorrelation Function')
+		plt.title('Autocorrelation Function')'''
 
 	def get_p_and_q(self):
 		'''
@@ -152,11 +153,11 @@ class Interpreter:
 		print('with the future, I hope')
 		#print(self.time_series)
 		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1050, dynamic = True)
-		self.time_series[["Predictions"]].plot()
-		self.time_series[['Price']].plot()
+		#self.time_series[["Predictions"]].plot()
+		#self.time_series[['Price']].plot()
 		print('and the results are...')
 		#print(self.time_series["Predictions"])
-		plt.show()
+		#plt.show()
 
 	def get_data_source(self):
 		return self.time_series

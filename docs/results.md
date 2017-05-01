@@ -22,7 +22,7 @@ In order to test the accuracy of our model, we tested it with real electricity d
 
 <img src= "https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/model_fit.png" alt ="" />
 <p>
-Once we were confident that our model could predict accurately, we forecasted what the price would be for the future 26 days. The predicted and actual values are displayed in the graph below. Again, the predicted prices are in red, and the true price are in blue.  </p>
+Once we were confident that our model could predict accurately, we forecasted what the price would be for the future 26 months. The predicted and actual values are displayed in the graph below. Again, the predicted prices are in red, and the true price are in blue.  </p>
 
 <img src= "https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/prediction_hist.png" alt ="" />
 <p>

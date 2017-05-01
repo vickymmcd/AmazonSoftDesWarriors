@@ -26,7 +26,6 @@ class Formatter:
         self.x_values = []
         self.y_values = []
         self.dict = {}
-        #self.add_in_between_dates()
 
     def add_in_between_dates(self):
         keys = [float(key) for key in self.data_dict]
@@ -48,7 +47,6 @@ class Formatter:
 
     def data_to_matrix(self):
         self.x_values = [float(key)/1000 for key in self.data_dict.keys()]
-        #self.x_values = [float(key) for key in self.data_dict.keys()]
         self.y_values = [float(val[0]) for val in self.data_dict.values()]
         return self.x_values, self.y_values
 
@@ -58,17 +56,12 @@ class Formatter:
 
     def data_to_dataframe(self):
         formatted_dict = {}
-        # print(self.data_dict)
-        # print(len(self.data_dict))
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))
-            # print(new_key_date.month)
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
-        # print(formatted_dict)
         frame = pd.DataFrame(formatted_dict).T
-        #print(frame)
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
         frame.index.astype('datetime64[ns]')

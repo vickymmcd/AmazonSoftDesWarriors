@@ -13,7 +13,7 @@ Once we had our stationary data and seasonality data, we were able to find the p
 
 The following graphs show the autocorrelation function and partial autocorrelation function for the differenced time series and the seasonality time series.
 
-<img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/acf1stdiff.png" alt ="" /> 
+<center> <img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/acf1stdiff.png" alt ="" /> </center>
 
 <p> _Autocorrelation function of differenced prices._</p> 
 

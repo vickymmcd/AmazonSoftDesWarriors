@@ -1,4 +1,4 @@
-import os.environ
+import os
 from flask import Flask, render_template, request
 from data_scrape import Collector
 from bokeh.plotting import figure

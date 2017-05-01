@@ -3,4 +3,3 @@ pandas
 bokeh
 statsmodels
 requests
-os

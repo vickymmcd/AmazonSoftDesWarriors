@@ -20,6 +20,7 @@ The following graphs show the autocorrelation function and partial autocorrelati
 <img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/acfgraph.png" alt ="" />
 *Autocorrelation function of seasonality in prices.*
 <img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/pacfgraph.png" alt ="" />
+\begin{center}
 *Partial autocorrelation function of seasonality in prices.*
 \end{center}
 

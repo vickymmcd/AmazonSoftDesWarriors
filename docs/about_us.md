@@ -31,3 +31,4 @@ When there is a will there is a way with her. Utterly unstoppable. Also makes a 
 ### Spirit Animal: 
 Mouse
 ### Learning Goal:
+Learning more about machine learning algorithms and working with unfamiliar APIs.

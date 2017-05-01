@@ -1,7 +1,6 @@
 Flask
 pandas
 bokeh
-stats
-models
+statsmodels
 requests
 os

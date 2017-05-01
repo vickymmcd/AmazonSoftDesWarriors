@@ -22,7 +22,7 @@ class Interpreter:
 		days to predict into the future and generates
 		a list of wanted days.
 		'''
-		matplotlib.use('TKAgg')
+		# matplotlib.use('TKAgg')
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns=['Price']

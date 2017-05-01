@@ -5,7 +5,8 @@ formats dates and times, and prepares data for machine learning process
 import time
 import datetime
 import pandas as pd
-from data_scrape_electricity import Collector
+from data_scrape_electricity import Collector as Collector_elec
+from data_scrape_oil import Collector as Collector_oil
 import numpy as np
 
 
@@ -21,7 +22,10 @@ class Formatter:
         NOTE: Only need data_file_name and data_file if they
         already exist, the other input can be an empty string.
         '''
-        self.collector = Collector(data_file_name)
+        if data_file_name == 'avg_elec_price':
+            self.collector = Collector_elec(data_file_name)
+        if data_file_name == 'oil_prices':
+            self.collector = Collector_oil(data_file_name)
         self.data_dict = self.collector.get_data_dict()
         self.x_values = []
         self.y_values = []

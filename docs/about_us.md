@@ -8,7 +8,7 @@ filename: about_us
 You'll never need to search the internet when you're around this one, she knows all. 
 ### Spirit Animal:
 Unicorn
-http://static.giantbomb.com/uploads/original/1/17172/1419618-unicorn2.jpg
+img src="http://static.giantbomb.com/uploads/original/1/17172/1419618-unicorn2.jpg" alt ="" />
 ### Learning Goal:
 Get better at using unfamiliar APIs and understanding/analyzing trends.
   

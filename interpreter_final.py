@@ -23,20 +23,16 @@ class Interpreter:
 		days to predict into the future and generates
 		a list of wanted days.
 		'''
-		matplotlib.use('TKAgg')
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns=['Price']
 		self.season = 12
-		print(self.time_series['Price'])
 		self.Q =0
 		self.P =0
 		self.p=0
 		self.q=0
 		self.days = n_days + self.days_between()
 		self.months = self.days/30
-		#self.graphing = Grapher(url,file_name,data_file_name)
-		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
 
 
 	def differencing(self):
@@ -46,40 +42,38 @@ class Interpreter:
 		self.time_series["first_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(1)
 		self.time_series["seasonal_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(self.season)
 		self.time_series["seasonal_first_difference"]= self.time_series["first_difference"]- self.time_series["first_difference"].shift(self.season)
-		self.test_stationarity(self.time_series["first_difference"].dropna(inplace=False))
-		self.test_stationarity(self.time_series["seasonal_difference"].dropna(inplace=False))
-		self.test_stationarity(self.time_series["seasonal_first_difference"].dropna(inplace=False))
+		# self.test_stationarity(self.time_series["first_difference"].dropna(inplace=False))
+		# self.test_stationarity(self.time_series["seasonal_difference"].dropna(inplace=False))
+		# self.test_stationarity(self.time_series["seasonal_first_difference"].dropna(inplace=False))
 
 
 	def test_stationarity(self,timeseries):
 
 		#Determing rolling statistics
-		rolmean = pd.rolling_mean(timeseries, window=12)
-		rolstd = pd.rolling_std(timeseries, window=12)
+		rolmean = timeseries.rolling(window = 12, center = False).mean()
+		rolstd = timeseries.rolling(window = 12, center = False).std()
 
 		#Plot rolling statistics:
-		fig = plt.figure(figsize=(12, 8))
-		orig = plt.plot(timeseries, color='blue',label='Original')
-		mean = plt.plot(rolmean, color='red', label='Rolling Mean')
-		std = plt.plot(rolstd, color='black', label = 'Rolling Std')
-		plt.legend(loc='best')
-		plt.title('Rolling Mean & Standard Deviation')
-		plt.show()
-		#Perform Dickey-Fuller test:
-		print('Results of Dickey-Fuller Test:')
-		print(timeseries.dropna())
-		dftest = adfuller(timeseries.dropna(), autolag='AIC')
-		dfoutput = pd.Series(dftest[0:4], index=['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
-		for key,value in dftest[4].items():
-		    dfoutput['Critical Value (%s)'%key] = value
-		print(dfoutput)
+		# fig = plt.figure(figsize=(12, 8))
+		# orig = plt.plot(timeseries, color='blue',label='Original')
+		# mean = plt.plot(rolmean, color='red', label='Rolling Mean')
+		# std = plt.plot(rolstd, color='black', label = 'Rolling Std')
+		# plt.legend(loc='best')
+		# plt.title('Rolling Mean & Standard Deviation')
+		# plt.show()
+		# #Perform Dickey-Fuller test:
+		# print('Results of Dickey-Fuller Test:')
+		# # print(timeseries.dropna())
+		# dftest = adfuller(timeseries.dropna(), autolag='AIC')
+		# dfoutput = pd.Series(dftest[0:4], index=['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
+		# for key,value in dftest[4].items():
+		#     dfoutput['Critical Value (%s)'%key] = value
+		# print(dfoutput)
 
 	def create_acf(self):
 		'''
 		Creates acf and pacf plots for the time series data
 		'''
-		#print(self.time_series)
-		#print(self.time_series.iloc[2: ])
 		"""
 		self.prices =[]
 		min_val = min(np_to_list[1:])
@@ -92,14 +86,14 @@ class Interpreter:
 		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
-		plt.subplot(121)
-		plt.plot(self.lag_acf)
-		plt.show()
+		# plt.subplot(121)
+		# plt.plot(self.lag_acf)
+		# plt.show()
 		"""
 		plt.axhline(y=0,linestyle='--',color='gray')
 		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')"""
-		plt.title('Autocorrelation Function')
+		# plt.title('Autocorrelation Function')
 
 	def get_p_and_q(self):
 		'''
@@ -138,29 +132,25 @@ class Interpreter:
 		print(self.q)
 
 	def build_model(self):
+<<<<<<< HEAD
 		#print(self.time_series['seasonal_first_difference'].dropna())
 		#print(self.time_series['Price'])
 		print(self.time_series['Price'])
 		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(self.p,1,self.q), seasonal_order=(self.P,1,self.Q,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
+=======
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(2,1,3), seasonal_order=(2,1,2,self.season), enforce_stationarity= False, enforce_invertibility=False)
+>>>>>>> 20ef0cf42c00c6941f5f56e8ab32d0571c6fbf33
 		self.results= model.fit()
-		print('cat')
-		#print(self.results.summary())
-		#print(self.results)
-		print(self.time_series)
 
 		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
 		date_list = [start + relativedelta(months=x) for x in range(0,int(self.months))]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
-		print('with the future, I hope')
-		print(self.time_series)
 		self.time_series["Predictions"] = self.results.predict(start = 850, end= 2000, dynamic = True)
-		self.time_series[["Predictions"]].plot()
-		self.time_series[['Price']].plot()
-		print('and the results are...')
-		print(self.time_series["Predictions"])
-		plt.show()
+		# self.time_series[["Predictions"]].plot()
+		# self.time_series[['Price']].plot()
+		# plt.show()
 
 	def get_data_source(self):
 		return self.time_series

@@ -15,7 +15,7 @@ The following graphs show the autocorrelation function and partial autocorrelati
 
 <center> <img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/acf1stdiff.png" alt ="" /> </center>
 
-<p> _Autocorrelation function of differenced prices._</p> 
+<center> *Autocorrelation function of differenced prices.* </center>
 
 <img src="https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/pacf1stdiff.png" alt ="" />
 

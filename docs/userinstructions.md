@@ -8,26 +8,26 @@ filename: userinstructions
 The Super Shopper Predictive Model requires:
 NumPy, Bokeh, pandas, statsmodels.api
 
-## Install Instructions
-Before going to the website, please ensure that you have these python packages installed. 
+## Install Instructions for Running on Local Machine
+Before going to the website, please ensure that you have the previous python packages installed. 
 pip install instructions are as follows:
 
-NumPy can be installed either in the scipy stack: `pip install --user numpy`
+To install NumPy (can be installed in the scipy stack): `pip3 install --user numpy`
 
 To install Bokeh: `pip3 install bokeh`
 
 To install Pandas: `pip3 install pandas`
 
-To install statsmodel.api: `pip3 install -U statsmodels`
+To install Statsmodel.api: `pip3 install -U statsmodels`
 
-## Using the Super Shopper
-Go to our website supershoppers.com.
+## Using the Super Shopper on the Web
+Go to our website: https://super-shoppers.herokuapp.com/.
 
 Select a product to buy using the drop down menu.
 
 Select a time frame in which you would like to buy the product.
 
-Click submit to get the best time to buy your project!
+Click submit to get the best time to buy your product!
 
 
 

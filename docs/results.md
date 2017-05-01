@@ -18,7 +18,7 @@ Our model outputs a visualization of the price graph. We included a hover tool w
 *This is the output of our model with limited data we were able to collect and format from Amazon. Blue represents our model's price forecast. Green and red represents the original price history of the item.*
 
 <p>
-In order to test the accuracy of our model, we tested it with electricity data. We observed the fit of the electricity prediction with the true prices after only 100 days, which is what the graph below displays. The red represents the predicted price, and the blue displays the true price of electricity.</p>
+In order to test the accuracy of our model, we tested it with real electricity data. We observed the fit of the electricity prediction with the true prices after only 100 days, which is what the graph below displays. The red represents the predicted price, and the blue displays the true price of electricity.</p>
 
 <img src= "https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/model_fit.png" alt ="" />
 <p>
@@ -30,5 +30,5 @@ The following graph shows what the user would see on the website, which contains
 
 <img src= "https://raw.githubusercontent.com/vickymmcd/AmazonSoftDesWarriors/master/images/forecast.png" alt ="" />
 <p>
-The website allows any user to determine future prices for certain products. Although for oil and electricity prices might not influence a user to buy electricity and oil (since they will most likely buy it irregardless) it might give insight as to when is the best time to buy stock in these two markets. Furthermore, this model can be used for any product, as long as there is a significant amount of data on the product.</p>
+The website allows any user to determine future prices for certain products. For oil and electricity prices, this model can influence a user by making them more aware of the effects extraneous electricity use can have on their wallets in peak price months. Additionally, it might give them insight as to when is the best time to buy stock in these two markets. Furthermore, this model can be used for any product, assuming there is significant amount of price history data.</p>
 

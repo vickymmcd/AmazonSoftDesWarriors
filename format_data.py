@@ -63,7 +63,6 @@ class Formatter:
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))
-        print(len(self.data_dict))
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))

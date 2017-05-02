@@ -25,9 +25,12 @@ class Interpreter:
 		matplotlib.use('TKAgg')
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
+		#print(self.time_series)
 		self.time_series.columns=['Price']
 		self.season = 12
-		print(self.time_series['Price'])
+		#print(self.time_series['Price'])
+		self.days= n_days + self.days_between()
+		self.months= self.days /30
 		self.Q =0
 		self.P =0
 		self.p=0
@@ -35,6 +38,10 @@ class Interpreter:
 		#self.graphing = Grapher(url,file_name,data_file_name)
 		#self.resid, self.seasonal, self.trend, self.start_i,self.end_i = self.graphing.decompose_ts()
 
+	def days_between(self):
+		dt = datetime.datetime.now()
+		d2= self.time_series.index[-1]
+		return abs((dt-d2).days)
 
 	def differencing(self):
 		'''
@@ -61,15 +68,15 @@ class Interpreter:
 		std = plt.plot(rolstd, color='black', label = 'Rolling Std')
 		plt.legend(loc='best')
 		plt.title('Rolling Mean & Standard Deviation')
-		plt.show()
+		#plt.show()
 		#Perform Dickey-Fuller test:
-		print('Results of Dickey-Fuller Test:')
-		print(timeseries.dropna())
+		#print('Results of Dickey-Fuller Test:')
+		#print(timeseries.dropna())
 		dftest = adfuller(timeseries.dropna(), autolag='AIC')
 		dfoutput = pd.Series(dftest[0:4], index=['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
 		for key,value in dftest[4].items():
 		    dfoutput['Critical Value (%s)'%key] = value
-		print(dfoutput)
+		#print(dfoutput)
 
 	def create_acf(self):
 		'''
@@ -91,11 +98,10 @@ class Interpreter:
 		#Plot ACF:
 		plt.subplot(121)
 		plt.plot(self.lag_acf)
-		plt.show()
-		"""
+		#plt.show()
 		plt.axhline(y=0,linestyle='--',color='gray')
-		plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
-		plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')"""
+		#plt.axhline(y=-1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
+		#plt.axhline(y=1.65/np.sqrt(len(self.prices)),linestyle='--',color='gray')
 		plt.title('Autocorrelation Function')
 
 	def get_p_and_q(self):
@@ -107,6 +113,8 @@ class Interpreter:
 		'''
 		# Find intersection with the top line for each graph
 		threshold = .03
+		self.start = len(self.time_series)
+		print(len(self.time_series))
 		top_y = 1.65/np.sqrt(len(self.time_series["seasonal_first_difference"]))
 		for i, val in enumerate(self.lag_acf):
 		    if val < top_y + threshold:
@@ -116,10 +124,10 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        self.P = i
 		        break
-		print('the P')
-		print(self.P)
-		print('the Q')
-		print(self.Q)
+		#print('the P')
+		#print(self.P)
+		#print('the Q')
+		#print(self.Q)
 		top_y = 1.65/np.sqrt(len(self.time_series["first_difference"]))
 		for i, val in enumerate(self.lag_acf_1):
 		    if val < top_y + threshold:
@@ -129,41 +137,44 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        self.p = i
 		        break
-		print('the p')
-		print(self.p)
-		print('the q')
-		print(self.q)
+		#print('the p')
+		#print(self.p)
+		#print('the q')
+		#print(self.q)
 
 	def build_model(self):
 		#print(self.time_series['seasonal_first_difference'].dropna())
 		#print(self.time_series['Price'])
-		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(2,1,3), seasonal_order=(2,1,2,self.season), enforce_stationarity= False, enforce_invertibility=False)
+		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(self.p,1,self.q), seasonal_order=(self.P,1,self.Q,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
 		self.results= model.fit()
-		print('cat')
+		#print('cat')
 		#print(self.results.summary())
 		#print(self.results)
-		print(self.time_series)
+		#print(self.time_series)
 
-		start = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
-		date_list = [start + relativedelta(months=x) for x in range(0,48)]
+		#start = datetime.datetime.strptime(self.time_series.index[-1], "%Y-%m-%d")
+		start = self.time_series.index[-1]
+		date_list = [start + relativedelta(months=x) for x in range(0,int(self.months))]
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
-		print('with the future, I hope')
-		print(self.time_series)
-		self.time_series["Predictions"] = self.results.predict(start = 845, end= 1050, dynamic = True)
-		self.time_series[["Predictions"]].plot()
-		self.time_series[['Price']].plot()
-		print('and the results are...')
-		print(self.time_series["Predictions"])
-		plt.show()
+		#print('with the future, I hope')
+		#print(self.time_series)
+		print(self.start)
+		self.time_series["Predictions"] = self.results.predict(start = self.start, end= 2000, dynamic = True)
+		plt.plot(self.time_series[["Predictions"]], 'r--' , self.time_series[['Price']], 'b--')
+		#self.time_series[["Predictions"]].plot()
+		#self.time_series[['Price']].plot()
+		#print('and the results are...')
+		#print(self.time_series["Predictions"])
+		#plt.show()
 
 	def get_data_source(self):
 		return self.time_series
 
 
 if __name__ == '__main__':
-	myinterpreter = Interpreter('', '', 'oil_prices', 30)
+	myinterpreter = Interpreter('', '', 'avg_elec_price', 30)
 	myinterpreter.differencing()
 	#myinterpreter.test_stationarity()
 	myinterpreter.create_acf()

@@ -113,11 +113,6 @@ class Visualization:
         self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
         limit = 1.05 * min(self.data1['Predictions'].dropna())
         self.data1['Cheapest2'] = [x <= limit for x in self.data1['Predictions']]
-        cheapest_dates = []
-        for month_index, month in enumerate(self.data1['Cheapest2']):
-            if month == True:
-                cheapest_dates.append(self.data1['Datestring'][month_index])
-        return cheapest_dates
 
 
 if __name__ == '__main__':
@@ -136,7 +131,7 @@ if __name__ == '__main__':
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
     visualization.show_layout()'''
-    myinterpreter = Interpreter('', '', 'avg_elec_price', 365)
+    myinterpreter = Interpreter('', '', 'oil_prices', 365)
     myinterpreter.differencing()
     #myinterpreter.test_stationarity()
     myinterpreter.create_acf()

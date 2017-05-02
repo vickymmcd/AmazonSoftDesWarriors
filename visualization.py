@@ -131,7 +131,7 @@ if __name__ == '__main__':
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
     visualization.show_layout()'''
-    myinterpreter = Interpreter('', '', 'oil_prices', 365)
+    myinterpreter = Interpreter('', '', 'avg_elec_price', 365)
     myinterpreter.differencing()
     #myinterpreter.test_stationarity()
     myinterpreter.create_acf()

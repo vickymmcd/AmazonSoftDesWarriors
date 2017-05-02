@@ -13,6 +13,8 @@ from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.embed import file_html
 from bokeh.embed import components
+from bokeh.models import ColumnDataSource, Range1d, Plot, LinearAxis, Grid
+from bokeh.models.glyphs import ImageURL
 
 
 class Visualization:
@@ -27,8 +29,6 @@ class Visualization:
         '''
         self.data1 = data1
         self.data2 = data2
-        #self.data1.columns=['Price']
-        #self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
@@ -39,9 +39,10 @@ class Visualization:
                                              palette=['purple', 'blue'])
         self.graph1 = figure(title='Price History and Price Prediction', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
-        self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools = [self.hover2, 'pan', 'wheel_zoom', 'zoom_in'])
+        self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools=[self.hover2, 'pan',
+                                                      'wheel_zoom', 'zoom_in'])
 
-        print(self.data1.columns)
+
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
                 hours=["%d %B %Y"],
                 days=["%d %B %Y"],
@@ -54,6 +55,7 @@ class Visualization:
                 months=["%d %B %Y"],
                 years=["%d %B %Y"],
             )
+
         dates = (list(self.data1.index))
         self.graph2.x_range = Range1d(datetime.datetime.now(), dates[-1])
         # add a line renderer
@@ -77,8 +79,6 @@ class Visualization:
 
     def get_components(self):
         script, div = components(self.graph1)
-        print(script)
-        print(div)
 
     def get_HTML_graph(self):
         html = file_html(self.graph1, CDN, "tesingGraph1")

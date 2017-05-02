@@ -9,7 +9,6 @@ from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm
 import datetime
 from dateutil.relativedelta import relativedelta
-import time
 
 
 
@@ -25,7 +24,6 @@ class Interpreter:
 		'''
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
-		#print(self.time_series)
 		self.time_series.columns=['Price']
 		self.season = 12
 		self.days= n_days + self.days_between()
@@ -34,8 +32,6 @@ class Interpreter:
 		self.P =0
 		self.p=0
 		self.q=0
-		self.days = n_days + self.days_between()
-		self.months = self.days/30
 
 	def days_between(self):
 		dt = datetime.datetime.now()
@@ -57,16 +53,16 @@ class Interpreter:
 	def test_stationarity(self,timeseries):
 
 		#Determing rolling statistics
-		rolmean = timeseries.rolling(window = 12, center = False).mean()
-		rolstd = timeseries.rolling(window = 12, center = False).std()
-		"""
+		rolmean = timeseries.rolling(window = 12).mean()
+		rolstd = timeseries.rolling(window = 12).std()
+
+		#Plot rolling statistics:
 		fig = plt.figure(figsize=(12, 8))
 		orig = plt.plot(timeseries, color='blue',label='Original')
 		mean = plt.plot(rolmean, color='red', label='Rolling Mean')
 		std = plt.plot(rolstd, color='black', label = 'Rolling Std')
 		plt.legend(loc='best')
 		plt.title('Rolling Mean & Standard Deviation')
-		#plt.show()"""
 		#Perform Dickey-Fuller test:
 		#print('Results of Dickey-Fuller Test:')
 		#print(timeseries.dropna())
@@ -80,11 +76,20 @@ class Interpreter:
 		'''
 		Creates acf and pacf plots for the time series data
 		'''
+		#print(self.time_series)
+		#print(self.time_series.iloc[2: ])
+		"""
+		self.prices =[]
+		min_val = min(np_to_list[1:])
+		for x in np_to_list:
+			x = x - min_val
+			self.prices.append(x)"""
 		self.lag_acf = acf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags=20)
 		self.lag_pacf = pacf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
 		self.lag_acf_1 = acf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20)
 		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
-
+		#for a 95% confidence interval
+		#Plot ACF:
 
 	def get_p_and_q(self):
 		'''
@@ -105,6 +110,10 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        self.P = i
 		        break
+		#print('the P')
+		#print(self.P)
+		#print('the Q')
+		#print(self.Q)
 		top_y = 1.65/np.sqrt(len(self.time_series["first_difference"]))
 		for i, val in enumerate(self.lag_acf_1):
 		    if val < top_y + threshold:
@@ -114,12 +123,18 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        self.p = i
 		        break
+		#print('the p')
+		#print(self.p)
+		#print('the q')
+		#print(self.q)
 
 	def build_model(self):
-
 		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(self.p,1,self.q), seasonal_order=(self.P,1,self.Q,self.season), enforce_stationarity= False, enforce_invertibility=False)
-		#print(model)
 		self.results= model.fit()
+		#print('cat')
+		#print(self.results.summary())
+		#print(self.results)
+		#print(self.time_series)
 
 		#start = datetime.datetime.strptime(self.time_series.index[-1], "%Y-%m-%d")
 		start = self.time_series.index[-1]
@@ -131,11 +146,6 @@ class Interpreter:
 
 	def get_data_source(self):
 		return self.time_series
-
-	def days_between(self):
-		dt = datetime.datetime.now()
-		d2 = datetime.datetime.strptime("2017-05-01", "%Y-%m-%d")
-		return abs((d2 - dt).days)
 
 
 if __name__ == '__main__':

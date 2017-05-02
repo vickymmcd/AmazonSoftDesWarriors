@@ -116,8 +116,7 @@ class Visualization:
         cheapest_dates = []
         for month_index, month in enumerate(self.data1['Cheapest2']):
             if month == True:
-                print(self.data1.index[month_index])
-                cheapest_dates.append(self.data1.index[month_index])
+                cheapest_dates.append(self.data1['Datestring'][month_index])
         return cheapest_dates
 
 

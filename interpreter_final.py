@@ -127,7 +127,6 @@ class Interpreter:
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		self.time_series["Predictions"] = self.results.predict(start = self.start, end= 2000, dynamic = True)
-		plt.plot(self.time_series[["Predictions"]], 'r--' , self.time_series[['Price']], 'b--')
 
 
 	def get_data_source(self):

@@ -34,25 +34,31 @@ def result():
         for key, val in result.items():
             if key == 'prod':
                 prod = val
-                filename = '' + prod + '.txt'
-                print(filename)
-                filedataname = 'more_' + prod + '_data.txt'
-                print(filedataname)
-
-                myinterpreter = Interpreter('', '', 'oil_prices', 30)
-                myinterpreter.differencing()
-                #myinterpreter.test_stationarity()
-                myinterpreter.create_acf()
-                myinterpreter.get_p_and_q()
-                myinterpreter.build_model()
-                data = myinterpreter.get_data_source()
-                visualization = Visualization(data)
-                plot = visualization.get_graph1()
-                script, div = components(plot)
+                if prod == 'Oil':
+                    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                    myinterpreter.differencing()
+                    #myinterpreter.test_stationarity()
+                    myinterpreter.create_acf()
+                    myinterpreter.get_p_and_q()
+                    myinterpreter.build_model()
+                    data = myinterpreter.get_data_source()
+                    visualization = Visualization(data)
+                    plot = visualization.get_graph1()
+                    script, div = components(plot)
+                elif prod == 'Electricity':
+                    # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
+                    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                    myinterpreter.differencing()
+                    #myinterpreter.test_stationarity()
+                    myinterpreter.create_acf()
+                    myinterpreter.get_p_and_q()
+                    myinterpreter.build_model()
+                    data = myinterpreter.get_data_source()
+                    visualization = Visualization(data)
+                    plot = visualization.get_graph1()
+                    script, div = components(plot)
             elif key == 'timeWindow':
                 time = val
-            elif key == 'where':
-                where = val
         if time == '' or prod == '':
             error = 'Please fill in all fields.'
     return render_template("result.html", prod=prod, time=time,

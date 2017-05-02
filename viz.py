@@ -13,8 +13,6 @@ from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.embed import file_html
 from bokeh.embed import components
-from bokeh.models import ColumnDataSource, Range1d, Plot, LinearAxis, Grid
-from bokeh.models.glyphs import ImageURL
 
 
 class Visualization:
@@ -29,6 +27,8 @@ class Visualization:
         '''
         self.data1 = data1
         self.data2 = data2
+        #self.data1.columns=['Price']
+        #self.data2.columns = ['Price']
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
@@ -36,13 +36,13 @@ class Visualization:
         self.hover2 = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Predictions'),
                                          ('Cheapest', '@Cheapest2')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
-                                             palette=['purple', 'blue'])
-        self.graph1 = figure(title='Price History and Price Prediction', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
+                                             palette=['red', 'green'])
+        self.graph1 = figure(title='Price History', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools=[self.hover2, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
 
-
+        print(self.data1.columns)
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
                 hours=["%d %B %Y"],
                 days=["%d %B %Y"],
@@ -59,12 +59,10 @@ class Visualization:
         dates = (list(self.data1.index))
         self.graph2.x_range = Range1d(datetime.datetime.now(), dates[-1])
         # add a line renderer
-        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='blue')
+        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='green')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
-        self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
+        self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2)
         self.graph2.circle(source=self.data1, size=5, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
-
         #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
         # self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
@@ -79,6 +77,8 @@ class Visualization:
 
     def get_components(self):
         script, div = components(self.graph1)
+        print(script)
+        print(div)
 
     def get_HTML_graph(self):
         html = file_html(self.graph1, CDN, "tesingGraph1")
@@ -113,11 +113,7 @@ class Visualization:
         self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
         limit = 1.05 * min(self.data1['Predictions'].dropna())
         self.data1['Cheapest2'] = [x <= limit for x in self.data1['Predictions']]
-        cheapest_dates = []
-        for month_index, month in enumerate(self.data1['Cheapest2']):
-            if month == True:
-                cheapest_dates.append(self.data1['Datestring'][month_index])
-        return cheapest_dates
+        print(self.data1['Cheapest2'])
 
 
 if __name__ == '__main__':
@@ -135,8 +131,9 @@ if __name__ == '__main__':
     parimalog = myint.do_ARIMA()
     visualization = Visualization(original_data, resid)
     #visualization.show_layout()
+    visualization.get_components()
     visualization.show_layout()'''
-    myinterpreter = Interpreter('', '', 'avg_elec_price', 365)
+    myinterpreter = Interpreter('', '', 'oil_prices', 600)
     myinterpreter.differencing()
     #myinterpreter.test_stationarity()
     myinterpreter.create_acf()

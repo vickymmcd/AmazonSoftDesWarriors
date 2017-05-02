@@ -5,7 +5,8 @@ formats dates and times, and prepares data for machine learning process
 import time
 import datetime
 import pandas as pd
-from data_scrape_oil import Collector
+from data_scrape_electricity import Collector as Collector_elec
+from data_scrape_oil import Collector as Collector_oil
 import numpy as np
 
 
@@ -21,7 +22,10 @@ class Formatter:
         NOTE: Only need data_file_name and data_file if they
         already exist, the other input can be an empty string.
         '''
-        self.collector = Collector(data_file_name)
+        if data_file_name == 'avg_elec_price':
+            self.collector = Collector_elec(data_file_name)
+        if data_file_name == 'oil_prices':
+            self.collector = Collector_oil(data_file_name)
         self.data_dict = self.collector.get_data_dict()
         self.x_values = []
         self.y_values = []
@@ -56,33 +60,24 @@ class Formatter:
 
     def data_to_dataframe(self):
         formatted_dict = {}
-<<<<<<< HEAD
-        #print(self.data_dict)
-        #print(len(self.data_dict))
-        for key in self.data_dict:
-            new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
-            """new_key_date = datetime.datetime.fromtimestamp(float(key))
-            #print(new_key_date.month)"""
-=======
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))
->>>>>>> 20ef0cf42c00c6941f5f56e8ab32d0571c6fbf33
+        print(len(self.data_dict))
+        for key in self.data_dict:
+            new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
+            new_key_date = datetime.datetime.fromtimestamp(float(key))
+            #print(new_key_date.month)
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
         frame = pd.DataFrame(formatted_dict).T
-<<<<<<< HEAD
-        print(frame)
-=======
->>>>>>> 20ef0cf42c00c6941f5f56e8ab32d0571c6fbf33
+
         frame.index = np.array(frame.index)
         frame.index= np.array(frame.index, dtype='datetime64[us]')
         frame.index.astype('datetime64[ns]')
-        print(frame)
         return frame
 
 
 if __name__ == '__main__':
-	myformat = Formatter('', '', 'oil_prices')
+	myformat = Formatter('', '', 'avg_elec_price')
 	data = myformat.data_to_dataframe()
-	#print(data)

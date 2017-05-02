@@ -21,8 +21,6 @@ def testing():
     # html1 = Visualization.show_layout
     return render_template('testingPromo.html')
     # return render_template('graph.html', script=script, div=div)
-
-
 @app.route('/result/', methods=['POST', 'GET'])
 def result():
     error = None
@@ -31,22 +29,31 @@ def result():
         for key, val in result.items():
             if key == 'prod':
                 prod = val
-                filename = '' + prod + '.txt'
-
-                myinterpreter = Interpreter('', '', 'avg_elec_price', 360)
-                myinterpreter.differencing()
-                #myinterpreter.test_stationarity()
-                myinterpreter.create_acf()
-                myinterpreter.get_p_and_q()
-                myinterpreter.build_model()
-                data = myinterpreter.get_data_source()
-                visualization = Visualization(data)
-                plot = visualization.get_graph1()
-                script, div = components(plot)
+                if prod == 'Oil':
+                    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                    myinterpreter.differencing()
+                    #myinterpreter.test_stationarity()
+                    myinterpreter.create_acf()
+                    myinterpreter.get_p_and_q()
+                    myinterpreter.build_model()
+                    data = myinterpreter.get_data_source()
+                    visualization = Visualization(data)
+                    plot = visualization.get_graph1()
+                    script, div = components(plot)
+                elif prod == 'Electricity':
+                    # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
+                    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                    myinterpreter.differencing()
+                    #myinterpreter.test_stationarity()
+                    myinterpreter.create_acf()
+                    myinterpreter.get_p_and_q()
+                    myinterpreter.build_model()
+                    data = myinterpreter.get_data_source()
+                    visualization = Visualization(data)
+                    plot = visualization.get_graph1()
+                    script, div = components(plot)
             elif key == 'timeWindow':
                 time = val
-            elif key == 'where':
-                where = val
         if time == '' or prod == '':
             error = 'Please fill in all fields.'
     return render_template("result.html", prod=prod, time=time,

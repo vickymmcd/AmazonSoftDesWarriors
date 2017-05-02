@@ -89,7 +89,7 @@ class Visualization:
         Returns the figure for graph2 which can be used and shown
         in a layout
         '''
-        return self.get_graph2
+        return self.graph2
 
     def get_layout(self):
         '''

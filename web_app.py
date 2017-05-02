@@ -30,7 +30,7 @@ def result():
             if key == 'prod':
                 prod = val
                 if prod == 'Oil':
-                    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                    myinterpreter = Interpreter('', '', 'oil_prices', 360)
                     myinterpreter.differencing()
                     #myinterpreter.test_stationarity()
                     myinterpreter.create_acf()
@@ -38,11 +38,11 @@ def result():
                     myinterpreter.build_model()
                     data = myinterpreter.get_data_source()
                     visualization = Visualization(data)
-                    plot = visualization.get_graph1()
+                    plot = visualization.get_graph2()
                     script, div = components(plot)
                 elif prod == 'Electricity':
                     # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
-                    myinterpreter = Interpreter('', '', 'oil_prices', 30)
+                    myinterpreter = Interpreter('', '', 'avg_elec_price', 360)
                     myinterpreter.differencing()
                     #myinterpreter.test_stationarity()
                     myinterpreter.create_acf()
@@ -50,7 +50,7 @@ def result():
                     myinterpreter.build_model()
                     data = myinterpreter.get_data_source()
                     visualization = Visualization(data)
-                    plot = visualization.get_graph1()
+                    plot = visualization.get_graph2()
                     script, div = components(plot)
             elif key == 'timeWindow':
                 time = val

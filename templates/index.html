@@ -1,32 +1,164 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <link rel="stylesheet" type="text/css" href="styleguide.css"/>
-      <style media="screen" type="text/css">
-      @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
-      html {background: #34373D;}
-      body {padding: 40px;font-family: 'Open Sans', sans-serif;font-size: 14px;font-weight: 400;}
-      h1 {color: #2F828F;}
-      </style>
-      <link
-          href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css"
-          rel="stylesheet" type="text/css">
-      <link
-          href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.css"
-          rel="stylesheet" type="text/css">
+        <style media="screen" type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+html {
+  background: rgb(246, 248, 248);
+}
+body {padding: 40px;font-family: 'Open Sans', sans-serif;font-size: 16px;font-weight: 400;text-align: center;
+}
 
-      <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.js"></script>
-      <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script>
+.promo {
+  width:0px;
+  margin-left: 150px ;
+  margin-top: 75px;
+}
+.promo {
+  width: 1450px;
+  background: #0F1012;
+  color: #f9f9f9;
+  float: left;
+}
+.deal {
+  padding: 10px 0 0 0;
+}
+.deal span {
+  display: block;
+  text-align: center;
+}
+.deal span:first-of-type {
+  font-size: 40px;
+}
+.deal span:last-of-type {
+  font-size: 24px;
+}
+.promo .price {
+  display: block;
+  width: 1450px;
+  background: #292b2e;
+  margin: 0;
+  text-align: center;
+  font-size: 24px;
+  padding: 0;
+  overflow: hidden;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+.dropdown-content {
+    display: inline-block;
+    position: relative;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 10px 10px;
+    z-index: 1;
+}
+.promo .features{
+  text-align: center;
+  color: #f0f0f0
+}
+li b {
+    text-align: center;
+
+}
+ul {display: block;
+  margin: 100px 0 10px 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: center;
+  color: #999999;
+}
+li {
+  display: block;
+  margin: 10px 0 0 0;
+}
+button {
+  border: none;
+  border-radius: 40px;
+  background: #292b2e;
+  color: #f9f9f9;
+  padding: 100px 37px;
+  margin: 10px 0 20px 60px;
+}
+.scale {
+  transform: scale(1.2);
+  box-shadow: 0 0 4px 1px rgba(20, 20, 20, 0.8);
+}
+input[type=submit] {
+    padding:5px 15px;
+    background:#f9f9f9;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+input[type=text] {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+.scale button {background: #64AAA4;
+}
+.scale .price {color: #64AAA4;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+
+}
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a:hover {
+    background-color: #111;
+}
+
+    </style>
     </head>
 <body>
-    <h1>Shopping. Made Easy.</h1>
-    <h1>What Would You Like to Buy?</h1>
+<div>
+  <ul>
+  <li><a class="active" href="#home">The Shopping Assistant</a></li>
+  <li><a href="#how-we-predict">How We Predict</a></li>
+  <li><a href="#about-us">About Us</a></li>
+  <li><a href="#Acknowledgements">Acknowledgements</a></li>
+</ul>
+</div>
+<div>
+<div class="promos">
+<div class="promo scale">
+  <div class="deal">
+    <span>Predicting Prices. Understanding the Market.</span>
+    <span>What do you want to buy?</span><br>
+  </div>
+
+  <span class="price">
     <div class="selections">
+<br>
+
       <form action="/result/", method="POST">
         <label>
         Products:
-        <span class="custom-dropdown custom-dropdown--white">
-            <select class="custom-dropdown__select custom-dropdown__select--white" name = "prod">
+        <span class="dropdown">
+            <select class="dropdown-content" name = "prod">
                 <option value="bugspray"> Bug Spray</option>
                 <option value="bottle"> Bottle</option>
                 <option value="camera"> Camera</option>
@@ -37,14 +169,23 @@
                 <option value="tents"> Tents</option>
             </select>
           </span>
-          <br>
-          How soon will you be buying it:<br>
-          <input type="text" name="timeWindow"><br>
-          Where You buying?:<br>
-          <input type="text" name="where"><br>
-          <input type="submit" value="Submit">
+          <br><br>
+          How soon will you be buying?<br>
+          <input type="text" name="timeWindow"><br><br>
+
+        <input type="submit" value="Submit">
+        <br>
+        <br>
       </form>
     </label>
     </div>
+  </span>
+  <div class = "deal">
+    <br>
+    <span> Predicting the future costs of resources by investigating trends in price histories</span><br>
+  </div>
+</div>
+</div>
+</div>
 </body>
 </html>

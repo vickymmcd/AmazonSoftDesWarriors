@@ -29,6 +29,7 @@ Select a time frame in which you would like to buy the product.
 
 Click submit to get the best time to buy your project!
 
-
+## Project Website
+In order to access our project website, go to https://vickymmcd.github.io/AmazonSoftDesWarriors/.
 
 

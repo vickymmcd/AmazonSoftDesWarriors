@@ -36,7 +36,7 @@ class Visualization:
         self.hover2 = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Predictions'),
                                          ('Cheapest', '@Cheapest2')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
-                                             palette=['purple', 'blue'])
+                                             palette=[ "#99CCFF", "#CC99FF"])
         self.graph1 = figure(title='Price History and Price Prediction', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools=[self.hover2, 'pan',
@@ -63,7 +63,7 @@ class Visualization:
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
         self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
         self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
-        self.graph2.circle(source=self.data1, size=5, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
+        self.graph2.circle(source=self.data1, size=15, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
 
         #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
         #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)

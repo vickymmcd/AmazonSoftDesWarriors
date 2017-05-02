@@ -1,3 +1,5 @@
+import os
+#import os.environ
 from flask import Flask, render_template, request
 from data_scrape import Collector
 from bokeh.plotting import figure
@@ -11,8 +13,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    myg = Grapher("", "christmas.txt", "more_christmas_data.txt")
-    return render_template('testingPromo.html')
+    return render_template('index.html')
 
 
 @app.route('/test')
@@ -31,30 +32,30 @@ def result():
             if key == 'prod':
                 prod = val
                 filename = '' + prod + '.txt'
-                print(filename)
-                filedataname = 'more_' + prod + '_data.txt'
-                print(filedataname)
-
-                collect = Collector('', filename, filedataname)
-                # prod = collect.get_id()
-                print(prod)
-                myg = Interpreter('', filename, filedataname, 30)
-                #resid = myg.decompose_ts()
-                original_data = myg.get_data_source()
-
-                myvis = Visualization(original_data)
-                plot = myvis.get_graph1()
+                myinterpreter = Interpreter('', '', 'avg_elec_price', 360)
+                myinterpreter.differencing()
+                #myinterpreter.test_stationarity()
+                myinterpreter.create_acf()
+                myinterpreter.get_p_and_q()
+                myinterpreter.build_model()
+                data = myinterpreter.get_data_source()
+                visualization = Visualization(data)
+                plot = visualization.get_graph1()
                 script, div = components(plot)
             elif key == 'timeWindow':
                 time = val
             elif key == 'where':
                 where = val
-        if time == '' or prod == '' or where == '':
+        if time == '' or prod == '':
             error = 'Please fill in all fields.'
     return render_template("result.html", prod=prod, time=time,
-                           where=where, error=error, script=script, div=div)
+                         error=error, script=script, div=div)
 
 
 if __name__ == '__main__':
     if 'liveconsole' not in gethostname():
-        app.run()
+         HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+         PORT = int(os.environ.get('PORT', 5000))
+         app.run(host=HOST, port=PORT)
+        # app.debug = True
+        # app.run()

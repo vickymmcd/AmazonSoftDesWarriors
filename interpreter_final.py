@@ -1,7 +1,7 @@
 
 from format_data import Formatter
-import matplotlib
-import matplotlib.pyplot as plt
+#import matplotlib
+#import matplotlib.pyplot as plt
 import numpy as np
 from graphing_data import Grapher
 import pandas as pd
@@ -59,14 +59,6 @@ class Interpreter:
 		#Determing rolling statistics
 		rolmean = timeseries.rolling(window = 12, center = False).mean()
 		rolstd = timeseries.rolling(window = 12, center = False).std()
-		"""
-		fig = plt.figure(figsize=(12, 8))
-		orig = plt.plot(timeseries, color='blue',label='Original')
-		mean = plt.plot(rolmean, color='red', label='Rolling Mean')
-		std = plt.plot(rolstd, color='black', label = 'Rolling Std')
-		plt.legend(loc='best')
-		plt.title('Rolling Mean & Standard Deviation')
-		#plt.show()"""
 		#Perform Dickey-Fuller test:
 		#print('Results of Dickey-Fuller Test:')
 		#print(timeseries.dropna())
@@ -84,7 +76,6 @@ class Interpreter:
 		self.lag_pacf = pacf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
 		self.lag_acf_1 = acf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20)
 		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[self.season+1:],nlags=20, method = 'ols')
-
 
 	def get_p_and_q(self):
 		'''
@@ -120,6 +111,9 @@ class Interpreter:
 		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend='n', order=(self.p,1,self.q), seasonal_order=(self.P,1,self.Q,self.season), enforce_stationarity= False, enforce_invertibility=False)
 		#print(model)
 		self.results= model.fit()
+		#print(self.results.summary())
+		#print(self.results)
+		#print(self.time_series)
 
 		#start = datetime.datetime.strptime(self.time_series.index[-1], "%Y-%m-%d")
 		start = self.time_series.index[-1]
@@ -127,8 +121,12 @@ class Interpreter:
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		self.time_series["Predictions"] = self.results.predict(start = self.start, end= 2000, dynamic = True)
-		plt.plot(self.time_series[["Predictions"]], 'r--' , self.time_series[['Price']], 'b--')
-
+		print(self.time_series["Predictions"])
+		#print(self.time_series)
+		#self.time_series[["Predictions"]].plot()
+		#self.time_series[['Price']].plot()
+		#print(self.time_series["Predictions"])
+		#plt.show()
 
 	def get_data_source(self):
 		return self.time_series

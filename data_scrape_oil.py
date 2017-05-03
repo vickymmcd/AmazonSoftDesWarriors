@@ -37,7 +37,6 @@ class Collector:
 		info = info.replace('"id":"DCOILWTICO"' , '')
 		info = info.split('"date"')
 		self.data_dict = {}
-		new_dixt = {}
 		for foo in info[400:]:
 			foo = foo.strip('""')
 			foo = foo.replace("close","")
@@ -47,14 +46,11 @@ class Collector:
 			foolul = foo[2].split('"')
 			pattern = '%Y-%m-%d'
 			epoch = str(time.mktime(time.strptime(foo[1],pattern)))
-			foolul[0]= [float(foolul[0])]
-			self.data_dict[epoch] = foolul[0]
+			final_foo[0]= [float(final_foo[0])]
+			self.data_dict[epoch] = final_foo[0]
 		return self.data_dict
 
 
-#collect = Collector('',
-#                    'bugspray.txt', 'more_bugspray_data.txt')
-#collect.get_data_dict()
 if __name__ == '__main__':
 	collect = Collector("oil_prices")
 	collect.get_data_dict()

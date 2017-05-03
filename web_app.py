@@ -24,46 +24,57 @@ def testing():
 @app.route('/result/', methods=['POST', 'GET'])
 def result():
     error = None
+    script = ''
+    div = {}
     if request.method == 'POST':
         result = request.form
         for key, val in result.items():
             if key == 'prod':
                 prod = val
-                if prod == 'Oil':
-                    myinterpreter = Interpreter('', '', 'oil_prices', 360)
-                    myinterpreter.differencing()
-                    #myinterpreter.test_stationarity()
-                    myinterpreter.create_acf()
-                    myinterpreter.get_p_and_q()
-                    myinterpreter.build_model()
-                    data = myinterpreter.get_data_source()
-                    visualization = Visualization(data)
-                    plot = visualization.get_graph2()
-                    script, div = components(plot)
-                elif prod == 'Electricity':
-                    # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
-                    myinterpreter = Interpreter('', '', 'avg_elec_price', 360)
-                    myinterpreter.differencing()
-                    #myinterpreter.test_stationarity()
-                    myinterpreter.create_acf()
-                    myinterpreter.get_p_and_q()
-                    myinterpreter.build_model()
-                    data = myinterpreter.get_data_source()
-                    visualization = Visualization(data)
-                    plot = visualization.get_graph2()
-                    script, div = components(plot)
             elif key == 'timeWindow':
                 time = val
+                print(type(time))
+
         if time == '' or prod == '':
-            error = 'Please fill in all fields.'
+                error = 'Please fill in all fields.'
+                script = ' '
+                div = {}
+        elif time.isdigit() and int(time)>=80 and int(time)<=3650:
+            if prod == 'Oil' and time != '':
+                myinterpreter = Interpreter('', '', 'oil_prices', int(time))
+                myinterpreter.differencing()
+                #myinterpreter.test_stationarity()
+                myinterpreter.create_acf()
+                myinterpreter.get_p_and_q()
+                myinterpreter.build_model()
+                data = myinterpreter.get_data_source()
+                visualization = Visualization(data)
+                plot = visualization.get_graph2()
+                script, div = components(plot)
+            elif prod == 'Electricity' and time != '':
+                # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
+                myinterpreter = Interpreter('', '', 'avg_elec_price', int(time))
+                myinterpreter.differencing()
+                #myinterpreter.test_stationarity()
+                myinterpreter.create_acf()
+                myinterpreter.get_p_and_q()
+                myinterpreter.build_model()
+                data = myinterpreter.get_data_source()
+                visualization = Visualization(data)
+                plot = visualization.get_graph2()
+                script, div = components(plot)
+        else:
+                error = "Please type your specified time period as a number between 80 and 3650."
+                script = ' '
+                div = {}
     return render_template("result.html", prod=prod, time=time,
                          error=error, script=script, div=div)
 
 
 if __name__ == '__main__':
     if 'liveconsole' not in gethostname():
-         HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-         PORT = int(os.environ.get('PORT', 5000))
-         app.run(host=HOST, port=PORT)
-        # app.debug = True
-        # app.run()
+         #HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+         #PORT = int(os.environ.get('PORT', 5000))
+         #app.run(host=HOST, port=PORT)
+        app.debug = True
+        app.run()

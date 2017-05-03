@@ -11,16 +11,12 @@ import numpy as np
 
 
 class Formatter:
-    def __init__(self, url, file_name, data_file_name):
+    def __init__(self, data_file_name):
         '''
         Initializes the data Formatter object with
         a dictionary of data to be formatted.
 
-        url: url of data to obtain from Tracktor
-        file_name: name of file where id of data is saved
         data_file_name: name of file where data is saved
-        NOTE: Only need data_file_name and data_file if they
-        already exist, the other input can be an empty string.
         '''
         if data_file_name == 'avg_elec_price':
             self.collector = Collector_elec(data_file_name)
@@ -32,6 +28,10 @@ class Formatter:
         self.dict = {}
 
     def add_in_between_dates(self):
+        '''
+        Adds dates in between given data so that we have
+        data points for each individual day.
+        '''
         keys = [float(key) for key in self.data_dict]
         keys.sort()
         for i, key in enumerate(keys):
@@ -42,14 +42,28 @@ class Formatter:
                     temp = self.add_day(temp)
 
     def get_date(self, epoch_time):
+        '''
+        Gets the date associated with the given epoch time
+
+        epoch_time: epoch you want as a datetime
+        '''
         t = time.gmtime(epoch_time)
         return t
 
     def add_day(self, epoch_time):
+        '''
+        Adds a day to the given epoch_time
+
+        epoch_time: epoch you want with an additional day
+        returns: epoch with 1 day added
+        '''
         t = ((epoch_time/1000) + (3600 * 24)) * 1000
         return t
 
     def data_to_matrix(self):
+        '''
+        
+        '''
         self.x_values = [float(key)/1000 for key in self.data_dict.keys()]
         self.y_values = [float(val[0]) for val in self.data_dict.values()]
         return self.x_values, self.y_values
@@ -78,5 +92,5 @@ class Formatter:
 
 
 if __name__ == '__main__':
-	myformat = Formatter('', '', 'avg_elec_price')
+	myformat = Formatter('avg_elec_price')
 	data = myformat.data_to_dataframe()

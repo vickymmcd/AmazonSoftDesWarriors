@@ -46,6 +46,9 @@
       padding: 0;
       overflow: hidden;
       }
+      .graphs{
+        margin-left: 300px ;
+      }
       .dropdown {
       position: relative;
       display: inline-block;
@@ -164,8 +167,15 @@
           </form>
       </div>
     </span>
+    <br>
+    The Price Forcast for Electricty.<br>
+    Dates that have prices within 10% of the cheapest price in the specified time are highlighted in blue.
+      <div class="graphs">
+        <br>
+        <br>
     {{ div | safe }}
     {{ script | safe }}
+  </div>
     <br>
     <br>
     <br>

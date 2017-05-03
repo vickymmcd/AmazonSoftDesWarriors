@@ -131,7 +131,6 @@
       }
 
     </style>
-        <title> {{cheapest_dates}}!
         <link
             href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css"
             rel="stylesheet" type="text/css">
@@ -155,6 +154,7 @@
           <p>{{error}}</p>
         {%else%}
           <p>Product: {{prod}} </p>
+          <p> {{cheapest_dates}}! </p>
           <p>Time Window: {{time}} Days</p>
         {%endif%}
           <form action='/'>

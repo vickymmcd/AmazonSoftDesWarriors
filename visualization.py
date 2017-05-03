@@ -36,12 +36,11 @@ class Visualization:
         self.hover2 = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Predictions'),
                                          ('Cheapest', '@Cheapest2')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
-                                             palette=['purple', 'blue'])
+                                             palette=[ "#99CCFF", "#CC99FF"])
         self.graph1 = figure(title='Price History and Price Prediction', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools=[self.hover2, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
-
 
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
                 hours=["%d %B %Y"],
@@ -58,16 +57,12 @@ class Visualization:
 
         dates = (list(self.data1.index))
         self.graph2.x_range = Range1d(datetime.datetime.now(), dates[-1])
-        # add a line renderer
+
         self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='blue')
         self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
         self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
         self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
-        self.graph2.circle(source=self.data1, size=5, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
-
-        #self.graph2.line(source=self.data2, x='index', y='Price', line_width=2)
-        #self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
-        # self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2)
+        self.graph2.circle(source=self.data1, size=15, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
         self.layout = column(self.graph1, self.graph2)
 
     def get_graph1(self):
@@ -120,20 +115,8 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    '''
-    myg = Grapher("", "umbrella.txt", "umbrella_data.txt")
-    resid = myg.decompose_ts()
-    original_data = myg.get_data()
-    myint = Interpreter("", "christmas.txt", "christmas_data.txt", 30)
-    myint.differencing()
-    myint.create_acf()
-    parimalog = myint.do_ARIMA()
-    visualization = Visualization(original_data, resid)
-    #visualization.show_layout()
-    visualization.show_layout()'''
     myinterpreter = Interpreter('', '', 'avg_elec_price', 365)
     myinterpreter.differencing()
-    #myinterpreter.test_stationarity()
     myinterpreter.create_acf()
     myinterpreter.get_p_and_q()
     myinterpreter.build_model()

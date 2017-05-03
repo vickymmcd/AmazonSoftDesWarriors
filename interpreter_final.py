@@ -24,14 +24,14 @@ class Interpreter:
 		'''
 		self.formatter = Formatter(url, file_name, data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
-		self.time_series.columns=['Price']
+		self.time_series.columns = ['Price']
 		self.season = 12
-		self.days= n_days + self.days_between()
-		self.months= self.days /30
-		self.Q =0
-		self.P =0
-		self.p=0
-		self.q=0
+		self.days = n_days + self.days_between()
+		self.months = self.days /30
+		self.Q = 0
+		self.P = 0
+		self.p = 0
+		self.q = 0
 
 	def days_between(self):
 		dt = datetime.datetime.now()
@@ -44,7 +44,7 @@ class Interpreter:
 		'''
 		self.time_series["first_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(1)
 		self.time_series["seasonal_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(self.season)
-		self.time_series["seasonal_first_difference"]= self.time_series["first_difference"]- self.time_series["first_difference"].shift(self.season)
+		self.time_series["seasonal_first_difference"] = self.time_series["first_difference"]- self.time_series["first_difference"].shift(self.season)
 		# self.test_stationarity(self.time_series["first_difference"].dropna(inplace=False))
 		# self.test_stationarity(self.time_series["seasonal_difference"].dropna(inplace=False))
 		# self.test_stationarity(self.time_series["seasonal_first_difference"].dropna(inplace=False))
@@ -142,7 +142,7 @@ class Interpreter:
 		future = pd.DataFrame(index=date_list, columns= self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
 		self.time_series["Predictions"] = self.results.predict(start = self.start, end= 2000, dynamic = True)
-		# plt.plot(self.time_series[["Predictions"]], 'r--' , self.time_series[['Price']], 'b--')
+
 
 	def get_data_source(self):
 		return self.time_series

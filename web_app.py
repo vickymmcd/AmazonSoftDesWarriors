@@ -90,6 +90,7 @@ def result():
                 error = "Please type your specified time period as a number between 80 and 3650."
                 script = ' '
                 div = {}
+                cheapest_dates = ""
     return render_template("result.html", prod=prod, time=time,
                          error=error, script=script, div=div, cheapest_dates = cheapest_dates)
 

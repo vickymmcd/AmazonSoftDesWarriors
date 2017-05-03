@@ -37,7 +37,7 @@ class Collector:
 		info = info.replace('"id":"DCOILWTICO"' , '')
 		info = info.split('"date"')
 		self.data_dict = {}
-		for foo in info[400:]:
+		for foo in info[700:]:
 			foo = foo.strip('""')
 			foo = foo.replace("close","")
 			foo = foo.split(':')

@@ -22,7 +22,6 @@ class Collector:
 		'''
 		f= open(self.data_file_name, 'rb+')
 		data = f.read()
-		#print(data)
 		return data
 
 	def get_data_dict(self):
@@ -43,16 +42,12 @@ class Collector:
 		new_dixt = {}
 		for foo in info[:-1]:
 			foo = foo.split(',')
-			#print(foo)
 			pattern = '%m %Y'
 			epoch = str(time.mktime(time.strptime(foo[0],pattern)))
 			self.data_dict[epoch] = [float(foo[1])]
 		return self.data_dict
 
 
-#collect = Collector('',
-#                    'bugspray.txt', 'more_bugspray_data.txt')
-#collect.get_data_dict()
 if __name__ == '__main__':
 	collect = Collector("avg_elec_price")
 	print(collect.get_data_dict())

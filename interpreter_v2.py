@@ -82,7 +82,7 @@ class Interpreter:
 		    if val < top_y + threshold:
 		        p = i
 		        break
-		"""print('the p')
+		'''print('the p')
 		print(p)
 		print('the q')
 		print(q)
@@ -101,7 +101,7 @@ class Interpreter:
 		print(training_list)
 		training_fit = training.fit(disp=-1)
 		print(training_fit.summary())
-		#determining whether or not we use the stationary time series data: why is it not working?"""
+		#determining whether or not we use the stationary time series data: why is it not working?'''
 		resid_list = []
 		for i in self.resid.iloc[:, 0].tolist():
 			resid_list.append(i)
@@ -116,11 +116,11 @@ class Interpreter:
 
 		#results_ARIMA = model.predict(['1492308067','1492654304.0'], typ='levels')
 
-		"""plt.subplot(122)
+		'''plt.subplot(122)
 		plt.plot(results_ARIMA.fittedvalues, color='red')
 		#plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-self.ts_log_diff)**2))
 		plt.show()
-		"""
+		'''
 		predictions_ARIMA_diff = pd.Series(results_ARIMA.fittedvalues, copy=True)
 		#predictions_ARIMA_diff = results_ARIMA.fittedvalues
 		#predictions_ARIMA_diff_cumsum = predictions_ARIMA_diff.cumsum()
@@ -133,25 +133,25 @@ class Interpreter:
 		original_done = pd.Series(self.time_series[0], index = self.time_series.index)
 		please = train_done.add(model_done, fill_value =0)
 		final = original_done.add(please, fill_value =0)
-		"""resid_series = []
+		'''resid_series = []
 		for i in self.time_series.iloc[:, 0].tolist():
 			resid_series.append(i)
-		print(resid_series)"""
+		print(resid_series)'''
 		#self.time_series=self.time_series[self.start_i:self.end_i]
 		#print(type(model))
 		#print(len(results_ARIMA.fittedvalues))
 		#print(len(predictions_ARIMA_diff))
 		#print(len(predictions_ARIMA_diff_cumsum))
-		"""	predictions_Arima_original= pd.Series(self.time_series[0], index = self.time_series.index)
+		'''	predictions_Arima_original= pd.Series(self.time_series[0], index = self.time_series.index)
 		#print(len(predictions_Arima_original))
 
 		predictions_ARIMA_log = predictions_Arima_original.add(predictions_ARIMA_diff_cumsum, fill_value =0)
-		predictions = training.add(model, fill_value =0)	print(predictions_ARIMA_log.head())"""
+		predictions = training.add(model, fill_value =0)	print(predictions_ARIMA_log.head())'''
 		plt.subplot(122)
 		plt.plot(final)
 		plt.show()
 
-if __name__== "__main__":
+if __name__== '__main__':
 	myinterpreter = Interpreter('', 'christmas.txt', 'christmas_data.txt', 30)
 	myinterpreter.differencing()
 	myinterpreter.create_acf()

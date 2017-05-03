@@ -65,6 +65,7 @@ class Collector:
 			epoch = str(time.mktime(time.strptime(foo[1],pattern)))
 			foolul[0]= [float(foolul[0])]
 			self.data_dict[epoch] = foolul[0]"""
+			print(len(self.data_dict))
 		return self.data_dict
 
 

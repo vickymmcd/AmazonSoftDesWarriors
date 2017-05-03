@@ -37,17 +37,18 @@ class Collector:
 		info = info.replace('"id":"DCOILWTICO"' , '')
 		info = info.split('"date"')
 		self.data_dict = {}
-		for foo in info[400:]:
+		for foo in info[600:]:
 			foo = foo.strip('""')
 			foo = foo.replace("close","")
 			foo = foo.split(':')
 			foo[1]=foo[1].strip('",')
 			foo[2] = foo[2].strip('",')
-			foolul = foo[2].split('"')
+			final_foo = foo[2].split('"')
 			pattern = '%Y-%m-%d'
 			epoch = str(time.mktime(time.strptime(foo[1],pattern)))
 			final_foo[0]= [float(final_foo[0])]
 			self.data_dict[epoch] = final_foo[0]
+			print(len(self.data_dict))
 		return self.data_dict
 
 

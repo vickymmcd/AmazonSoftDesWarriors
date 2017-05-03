@@ -31,9 +31,9 @@ class Visualization:
         self.data2 = data2
         self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
-        self.hover = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Price'),
+        self.hover = HoverTool(tooltips = [('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
-        self.hover2 = HoverTool(tooltips=[('Date', '@Datestring'),('Price', '@Predictions'),
+        self.hover2 = HoverTool(tooltips = [('Date', '@Datestring'),('Price', '@Predictions'),
                                          ('Cheapest', '@Cheapest2')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
                                              palette=[ "#99CCFF", "#CC99FF"])
@@ -43,26 +43,26 @@ class Visualization:
                                                       'wheel_zoom', 'zoom_in'])
 
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
-                hours=["%d %B %Y"],
-                days=["%d %B %Y"],
-                months=["%d %B %Y"],
-                years=["%d %B %Y"],
+                hours = ["%d %B %Y"],
+                days = ["%d %B %Y"],
+                months = ["%d %B %Y"],
+                years = ["%d %B %Y"],
             )
         self.graph2.xaxis.formatter=DatetimeTickFormatter(
-                hours=["%d %B %Y"],
-                days=["%d %B %Y"],
-                months=["%d %B %Y"],
-                years=["%d %B %Y"],
+                hours = ["%d %B %Y"],
+                days = ["%d %B %Y"],
+                months = ["%d %B %Y"],
+                years = ["%d %B %Y"],
             )
 
         dates = (list(self.data1.index))
         self.graph2.x_range = Range1d(datetime.datetime.now(), dates[-1])
 
-        self.graph1.line(source=self.data1, x='index', y='Price', line_width=2, line_color='blue')
-        self.graph1.circle(source=self.data1, size=1, x='index', y='Price', line_width=2, color={'field': 'Cheapest', 'transform': self.mapper})
-        self.graph1.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
-        self.graph2.line(source=self.data1, x='index', y='Predictions', line_width=2, line_color='red')
-        self.graph2.circle(source=self.data1, size=15, x='index', y='Predictions', line_width=2, color={'field': 'Cheapest2', 'transform': self.mapper})
+        self.graph1.line(source = self.data1, x = 'index', y = 'Price', line_width = 2, line_color = 'blue')
+        self.graph1.circle(source = self.data1, size = 1, x = 'index', y = 'Price', line_width = 2, color = {'field': 'Cheapest', 'transform': self.mapper})
+        self.graph1.line(source = self.data1, x = 'index', y = 'Predictions', line_width = 2, line_color = 'red')
+        self.graph2.line(source = self.data1, x = 'index', y = 'Predictions', line_width = 2, line_color = 'red')
+        self.graph2.circle(source = self.data1, size = 15, x = 'index', y = 'Predictions', line_width = 2, color = {'field': 'Cheapest2', 'transform': self.mapper})
         self.layout = column(self.graph1, self.graph2)
 
     def get_graph1(self):

@@ -16,6 +16,20 @@ def hello_world():
     return render_template('index.html')
 
 
+@app.route('/predict')
+def predict():
+    return render_template('predict.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/acknowledgements')
+def ack():
+    return render_template('acknowledgements.html')
+
+
 @app.route('/test')
 def testing():
     # html1 = Visualization.show_layout

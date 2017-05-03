@@ -72,7 +72,7 @@ class Formatter:
         frame = pd.DataFrame(formatted_dict).T
 
         frame.index = np.array(frame.index)
-        frame.index= np.array(frame.index, dtype='datetime64[us]')
+        frame.index = np.array(frame.index, dtype = 'datetime64[us]')
         frame.index.astype('datetime64[ns]')
         return frame
 

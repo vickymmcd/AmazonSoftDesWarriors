@@ -8,20 +8,17 @@ class Collector:
 	def __init__(self, data_file_name):
 		'''
 		Initializes the data Collector object with
-		a url, file_name, and data_file_name.
+		a data_file_name.
 
-		url: url of data to obtain from Tracktor
-		file_name: name of file where id of data is saved
 		data_file_name: name of file where data is saved
-		NOTE: Only need data_file_name and data_file if those files
-		already exist, the url input can be an empty string.
 		'''
 		self.data_file_name = 'data/' + data_file_name
 
 	def get_data(self):
 		'''
 		Returns the data as read from the stored
-		file.'''
+		file.
+		'''
 		f = open(self.data_file_name, 'rb+')
 		data = f.read()
 		return data

@@ -4,7 +4,6 @@ This class represents the visualization object with multiple graphs
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper, Range1d
 from bokeh.layouts import column, row
-from graphing_data import Grapher
 from interpreter_final import Interpreter
 from bokeh.embed import components
 import bokeh.palettes
@@ -73,9 +72,15 @@ class Visualization:
         return self.graph1
 
     def get_components(self):
+        '''
+        Returns the components of the graph ready to be used for html
+        '''
         script, div = components(self.graph1)
 
     def get_HTML_graph(self):
+        '''
+        Produces and returns the html for the bokeh graph
+        '''
         html = file_html(self.graph1, CDN, 'tesingGraph1')
         return html
 
@@ -102,7 +107,8 @@ class Visualization:
 
     def find_lowest_prices(self):
         '''
-
+        Finds date where the price is within 5% of the lowest price, and return
+        a list of the cheapest dates
         '''
         limit = 1.05 * min(self.data1['Price'])
         self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
@@ -127,7 +133,7 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    myinterpreter = Interpreter('', '', 'avg_elec_price', 365)
+    myinterpreter = Interpreter('oil_prices', 365)
     myinterpreter.differencing()
     myinterpreter.create_acf()
     myinterpreter.get_p_and_q()

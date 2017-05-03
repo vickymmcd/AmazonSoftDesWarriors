@@ -1,0 +1,3 @@
+- all '=', '+', '-', and similar will have 1 space on either side
+- use only single quotation marks('), not double quatation marks("), unless there is a a special circumstance mandating the use of double quotation marks
+- 

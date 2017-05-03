@@ -3,7 +3,6 @@ from flask import Flask, render_template, request
 from bokeh.plotting import figure
 from bokeh.embed import components
 from visualization import Visualization
-from graphing_data import Grapher
 from interpreter_final import Interpreter
 from socket import gethostname
 app = Flask(__name__)

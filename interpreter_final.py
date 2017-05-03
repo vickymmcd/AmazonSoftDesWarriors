@@ -42,12 +42,12 @@ class Interpreter:
 		'''
 		Does the differencing for the time series and its shift
 		'''
-		self.time_series["first_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(1)
-		self.time_series["seasonal_difference"] = self.time_series['Price'] - self.time_series['Price'].shift(self.season)
-		self.time_series["seasonal_first_difference"] = self.time_series["first_difference"]- self.time_series["first_difference"].shift(self.season)
-		# self.test_stationarity(self.time_series["first_difference"].dropna(inplace=False))
-		# self.test_stationarity(self.time_series["seasonal_difference"].dropna(inplace=False))
-		# self.test_stationarity(self.time_series["seasonal_first_difference"].dropna(inplace=False))
+		self.time_series['first_difference'] = self.time_series['Price'] - self.time_series['Price'].shift(1)
+		self.time_series['seasonal_difference'] = self.time_series['Price'] - self.time_series['Price'].shift(self.season)
+		self.time_series['seasonal_first_difference'] = self.time_series['first_difference']- self.time_series['first_difference'].shift(self.season)
+		# self.test_stationarity(self.time_series['first_difference'].dropna(inplace=False))
+		# self.test_stationarity(self.time_series['seasonal_difference'].dropna(inplace=False))
+		# self.test_stationarity(self.time_series['seasonal_first_difference'].dropna(inplace=False))
 
 
 	def test_stationarity(self,timeseries):
@@ -74,10 +74,10 @@ class Interpreter:
 		'''
 		Creates acf and pacf plots for the time series data
 		'''
-		self.lag_acf = acf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags = 20)
-		self.lag_pacf = pacf(self.time_series["seasonal_first_difference"].iloc[self.season+1:],nlags = 20, method = 'ols')
-		self.lag_acf_1 = acf(self.time_series["first_difference"].iloc[self.season+1:],nlags = 20)
-		self.lag_pacf_1 = pacf(self.time_series["first_difference"].iloc[self.season+1:],nlags = 20, method = 'ols')
+		self.lag_acf = acf(self.time_series['seasonal_first_difference'].iloc[self.season+1:],nlags = 20)
+		self.lag_pacf = pacf(self.time_series['seasonal_first_difference'].iloc[self.season+1:],nlags = 20, method = 'ols')
+		self.lag_acf_1 = acf(self.time_series['first_difference'].iloc[self.season+1:],nlags = 20)
+		self.lag_pacf_1 = pacf(self.time_series['first_difference'].iloc[self.season+1:],nlags = 20, method = 'ols')
 		#for a 95% confidence interval
 		#Plot ACF:
 
@@ -91,7 +91,7 @@ class Interpreter:
 		# Find intersection with the top line for each graph
 		threshold = .03
 		self.start = len(self.time_series)
-		top_y = 1.65/np.sqrt(len(self.time_series["seasonal_first_difference"]))
+		top_y = 1.65/np.sqrt(len(self.time_series['seasonal_first_difference']))
 		for i, val in enumerate(self.lag_acf):
 		    if val < top_y + threshold:
 		        self.Q = i
@@ -104,7 +104,7 @@ class Interpreter:
 		#print(self.P)
 		#print('the Q')
 		#print(self.Q)
-		top_y = 1.65/np.sqrt(len(self.time_series["first_difference"]))
+		top_y = 1.65/np.sqrt(len(self.time_series['first_difference']))
 		for i, val in enumerate(self.lag_acf_1):
 		    if val < top_y + threshold:
 		        self.q = i
@@ -126,12 +126,12 @@ class Interpreter:
 		#print(self.results)
 		#print(self.time_series)
 
-		#start = datetime.datetime.strptime(self.time_series.index[-1], "%Y-%m-%d")
+		#start = datetime.datetime.strptime(self.time_series.index[-1], '%Y-%m-%d')
 		start = self.time_series.index[-1]
 		date_list = [start + relativedelta(months = x) for x in range(0,int(self.months))]
 		future = pd.DataFrame(index=date_list, columns = self.time_series.columns)
 		self.time_series = pd.concat([self.time_series, future])
-		self.time_series["Predictions"] = self.results.predict(start = self.start, end = 2000, dynamic = True)
+		self.time_series['Predictions'] = self.results.predict(start = self.start, end = 2000, dynamic = True)
 
 
 	def get_data_source(self):

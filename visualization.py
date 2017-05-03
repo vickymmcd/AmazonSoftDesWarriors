@@ -108,6 +108,18 @@ class Visualization:
         self.data1['Cheapest'] = [x <= limit for x in self.data1['Price']]
         limit = 1.05 * min(self.data1['Predictions'].dropna())
         self.data1['Cheapest2'] = [x <= limit for x in self.data1['Predictions']]
+        cheapest_dates = []
+        for month_index,month in enumerate(self.data1['Cheapest2']):
+            if month == True:
+                cheapest_dates.append(self.data1['Datestring'][month_index])
+        dates = 'The best dates to buy your product are  '
+        for i,o in enumerate(cheapest_dates):
+            print(i)
+            if i == 0:
+                dates= dates + cheapest_dates[i]
+            else:
+                dates = dates + ' , '+ cheapest_dates[i]
+        return dates
 
 
 if __name__ == '__main__':

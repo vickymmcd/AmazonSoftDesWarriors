@@ -2,6 +2,8 @@
 helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
 '''
+from os.path import exists
+from pickle import dump, load
 import time
 import datetime
 import pandas as pd
@@ -18,11 +20,20 @@ class Formatter:
 
         data_file_name: name of file where data is saved
         '''
+        self.formatted_data_file = 'data/'+data_file_name + '_formatted.txt'
+        self.frame = None
         if data_file_name == 'avg_elec_price':
-            self.collector = Collector_elec(data_file_name)
+            if exists(self.formatted_data_file):
+                self.frame = pd.read_pickle(self.formatted_data_file)
+            else:
+                self.collector = Collector_elec(data_file_name)
+                self.data_dict = self.collector.get_data_dict()
         if data_file_name == 'oil_prices':
-            self.collector = Collector_oil(data_file_name)
-        self.data_dict = self.collector.get_data_dict()
+            if exists(self.formatted_data_file):
+                self.frame = pd.read_pickle(self.formatted_data_file)
+            else:
+                self.collector = Collector_oil(data_file_name)
+                self.data_dict = self.collector.get_data_dict()
         self.x_values = []
         self.y_values = []
         self.dict = {}
@@ -73,6 +84,8 @@ class Formatter:
         return self.data_dict
 
     def data_to_dataframe(self):
+        if exists(self.formatted_data_file):
+            return self.frame
         formatted_dict = {}
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
@@ -88,9 +101,10 @@ class Formatter:
         frame.index = np.array(frame.index)
         frame.index = np.array(frame.index, dtype = 'datetime64[us]')
         frame.index.astype('datetime64[ns]')
+        frame.to_pickle(self.formatted_data_file)
         return frame
 
 
 if __name__ == '__main__':
-	myformat = Formatter('avg_elec_price')
+	myformat = Formatter('avg_oil_price')
 	data = myformat.data_to_dataframe()

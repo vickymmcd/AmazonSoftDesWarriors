@@ -133,7 +133,7 @@ if __name__ == '__main__':
     Set up the data and pass it into the visualization object to be
     visualized
     '''
-    myinterpreter = Interpreter('avg_elec_price', 365)
+    myinterpreter = Interpreter('oil_prices', 365)
     myinterpreter.differencing()
     myinterpreter.create_acf()
     myinterpreter.get_p_and_q()

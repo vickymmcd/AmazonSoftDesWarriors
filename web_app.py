@@ -1,7 +1,5 @@
 import os
-#import os.environ
 from flask import Flask, render_template, request
-from data_scrape import Collector
 from bokeh.plotting import figure
 from bokeh.embed import components
 from visualization import Visualization

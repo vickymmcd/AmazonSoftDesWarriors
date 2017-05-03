@@ -3,7 +3,6 @@ from format_data import Formatter
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from graphing_data import Grapher
 import pandas as pd
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm

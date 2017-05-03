@@ -60,7 +60,7 @@ def result():
                 cheapest_dates = ""
         elif time.isdigit() and int(time)>=80 and int(time)<=3650:
             if prod == 'Oil' and time != '':
-                myinterpreter = Interpreter('', '', 'oil_prices', int(time))
+                myinterpreter = Interpreter('oil_prices', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()
@@ -73,7 +73,7 @@ def result():
                 script, div = components(plot)
             elif prod == 'Electricity' and time != '':
                 # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
-                myinterpreter = Interpreter('', '', 'avg_elec_price', int(time))
+                myinterpreter = Interpreter('avg_elec_price', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()

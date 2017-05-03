@@ -39,6 +39,7 @@ def result():
                 error = 'Please fill in all fields.'
                 script = ' '
                 div = {}
+                cheapest_dates = ""
         elif time.isdigit() and int(time)>=80 and int(time)<=3650:
             if prod == 'Oil' and time != '':
                 myinterpreter = Interpreter('', '', 'oil_prices', int(time))
@@ -50,6 +51,7 @@ def result():
                 data = myinterpreter.get_data_source()
                 visualization = Visualization(data)
                 plot = visualization.get_graph2()
+                cheapest_dates = visualization.find_lowest_prices()
                 script, div = components(plot)
             elif prod == 'Electricity' and time != '':
                 # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
@@ -61,6 +63,7 @@ def result():
                 myinterpreter.build_model()
                 data = myinterpreter.get_data_source()
                 visualization = Visualization(data)
+                cheapest_dates = visualization.find_lowest_prices()
                 plot = visualization.get_graph2()
                 script, div = components(plot)
         else:
@@ -68,7 +71,7 @@ def result():
                 script = ' '
                 div = {}
     return render_template("result.html", prod=prod, time=time,
-                         error=error, script=script, div=div)
+                         error=error, script=script, div=div, cheapest_dates = cheapest_dates)
 
 
 if __name__ == '__main__':

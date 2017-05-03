@@ -12,6 +12,11 @@ app = Flask(__name__)
 
 
 @app.route('/')
+def hello():
+    return render_template('index.html')
+
+
+@app.route('/home')
 def hello_world():
     return render_template('index.html')
 
@@ -25,9 +30,10 @@ def predict():
 def about():
     return render_template('about.html')
 
-@app.route('/acknowledgements')
+
+@app.route('/acknow')
 def ack():
-    return render_template('acknowledgements.html')
+    return render_template('acknow.html')
 
 
 @app.route('/test')

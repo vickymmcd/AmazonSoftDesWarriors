@@ -167,7 +167,12 @@ li a:hover {
           How soon will you be buying?<br>
           <input type="text" name="timeWindow"> Days<br><br>
 
-        <input type="submit" value="Submit">
+        <div id="formsubmitbutton">
+        <input type="submit" value="Submit" onClick="ButtonClicked()">
+      </div>
+      <div id="buttonreplacement" style="margin-left:30px; display:none;">
+      <img src="http://www.willmaster.com/images/preload.gif" alt="loading...">
+      </div>
         <br>
         <br>
       </form>
@@ -182,4 +187,14 @@ li a:hover {
 </div>
 </div>
 </body>
+<script>
+
+function ButtonClicked()
+{
+   document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+   document.getElementById("buttonreplacement").style.display = ""; // to display
+   return true;
+}
+
+</script
 </html>

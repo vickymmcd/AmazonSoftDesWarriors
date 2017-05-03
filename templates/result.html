@@ -24,6 +24,7 @@
       }
       .deal {
       padding: 10px 0 0 0;
+        color: #f9f9f9
       }
       .deal span {
       display: block;
@@ -39,6 +40,7 @@
       display: block;
       width: 1450px;
       background: #292b2e;
+      color: #f9f9f9
       margin: 0;
       text-align: center;
       font-size: 24px;
@@ -65,7 +67,10 @@
       }
       .promo .features{
       text-align: center;
-      color: #f0f0f0
+      color: #f9f9f9
+      }
+      .info{
+      color: #f9f9f9
       }
       li b {
       text-align: center;
@@ -167,9 +172,11 @@
       </div>
     </span>
     <br>
+      <div class="info">
     The Price Forcast for Electricty.<br>
     Dates that have prices within 10% of the cheapest price in the specified time are highlighted in blue.
-      <div class="graphs">
+  </div>
+    <div class="graphs">
         <br>
         <br>
     {{ div | safe }}

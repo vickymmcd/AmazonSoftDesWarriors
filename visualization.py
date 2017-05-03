@@ -36,23 +36,23 @@ class Visualization:
         self.hover2 = HoverTool(tooltips = [('Date', '@Datestring'),('Price', '@Predictions'),
                                          ('Cheapest', '@Cheapest2')])
         self.mapper = CategoricalColorMapper(factors=[True, False],
-                                             palette=[ "#99CCFF", "#CC99FF"])
+                                             palette=[ '#99CCFF', '#CC99FF'])
         self.graph1 = figure(title='Price History and Price Prediction', plot_width=900, plot_height=400, tools=[self.hover, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
         self.graph2 = figure(title='Price Forecast', plot_width=900, plot_height=400, tools=[self.hover2, 'pan',
                                                       'wheel_zoom', 'zoom_in'])
 
         self.graph1.xaxis.formatter=DatetimeTickFormatter(
-                hours = ["%d %B %Y"],
-                days = ["%d %B %Y"],
-                months = ["%d %B %Y"],
-                years = ["%d %B %Y"],
+                hours = ['%d %B %Y'],
+                days = ['%d %B %Y'],
+                months = ['%d %B %Y'],
+                years = ['%d %B %Y'],
             )
         self.graph2.xaxis.formatter=DatetimeTickFormatter(
-                hours = ["%d %B %Y"],
-                days = ["%d %B %Y"],
-                months = ["%d %B %Y"],
-                years = ["%d %B %Y"],
+                hours = ['%d %B %Y'],
+                days = ['%d %B %Y'],
+                months = ['%d %B %Y'],
+                years = ['%d %B %Y'],
             )
 
         dates = (list(self.data1.index))
@@ -76,7 +76,7 @@ class Visualization:
         script, div = components(self.graph1)
 
     def get_HTML_graph(self):
-        html = file_html(self.graph1, CDN, "tesingGraph1")
+        html = file_html(self.graph1, CDN, 'tesingGraph1')
         return html
 
     def get_graph2(self):

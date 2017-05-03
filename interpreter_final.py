@@ -1,15 +1,11 @@
 
 from format_data import Formatter
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm
 import datetime
 from dateutil.relativedelta import relativedelta
-
-
 
 
 class Interpreter:
@@ -27,10 +23,8 @@ class Interpreter:
 		self.season = 12
 		self.days = n_days + self.days_between()
 		self.months = self.days /30
-		self.Q = 0
-		self.P = 0
-		self.p = 0
-		self.q = 0
+		self.lag_acf,self.lag_pacf, self.lag_acf_1,self.lag_pacf_1 = self.create_acf()
+		self.p, self.q, self.P, self.Q = self.get_p_and_q()
 
 	def days_between(self):
 		dt = datetime.datetime.now()
@@ -39,93 +33,76 @@ class Interpreter:
 
 	def differencing(self):
 		'''
-		Does the differencing for the time series and its shift
+		Does the differencing for the time series and for the seasonality
 		'''
 		self.time_series['first_difference'] = self.time_series['Price'] - self.time_series['Price'].shift(1)
 		self.time_series['seasonal_difference'] = self.time_series['Price'] - self.time_series['Price'].shift(self.season)
 		self.time_series['seasonal_first_difference'] = self.time_series['first_difference']- self.time_series['first_difference'].shift(self.season)
-		# self.test_stationarity(self.time_series['first_difference'].dropna(inplace=False))
-		# self.test_stationarity(self.time_series['seasonal_difference'].dropna(inplace=False))
-		# self.test_stationarity(self.time_series['seasonal_first_difference'].dropna(inplace=False))
+		return self.time_series['first_difference'], self.time_series['seasonal_difference'], self.time_series['seasonal_first_difference']
 
 
 	def test_stationarity(self,timeseries):
-
+		'''
+		Determines whether the data is stationary through the Dickey-Fuller test. The lower the p-value, the more stationary the data.
+		'''
 		#Determing rolling statistics
 		rolmean = timeseries.rolling(window = 12).mean()
 		rolstd = timeseries.rolling(window = 12).std()
 
-		#Plot rolling statistics:
-		fig = plt.figure(figsize = (12, 8))
-		orig = plt.plot(timeseries, color = 'blue',label = 'Original')
-		mean = plt.plot(rolmean, color = 'red', label = 'Rolling Mean')
-		std = plt.plot(rolstd, color = 'black', label = 'Rolling Std')
-		plt.legend(loc = 'best')
-		plt.title('Rolling Mean & Standard Deviation')
 		#Perform Dickey-Fuller test:
 		dftest = adfuller(timeseries.dropna(), autolag='AIC')
 		dfoutput = pd.Series(dftest[0:4], index = ['Test Statistic','p-value','#Lags Used','Number of Observations Used'])
 		for key,value in dftest[4].items():
-		    dfoutput['Critical Value (%s)'%key] = value
-		print(dfoutput)
+			dfoutput['Critical Value (%s)'%key] = value
 
 	def create_acf(self):
 		'''
-		Creates acf and pacf plots for the time series data
+		Finds the autocorrelation and partial autocorrelation functions of the seasonal first difference and of the differenced data
 		'''
+		self.time_series['first_difference'], self.time_series['seasonal_difference'], self.time_series['seasonal_first_difference'] = self.differencing()
 		self.lag_acf = acf(self.time_series['seasonal_first_difference'].iloc[self.season+1:],nlags = 20)
 		self.lag_pacf = pacf(self.time_series['seasonal_first_difference'].iloc[self.season+1:],nlags = 20, method = 'ols')
 		self.lag_acf_1 = acf(self.time_series['first_difference'].iloc[self.season+1:],nlags = 20)
 		self.lag_pacf_1 = pacf(self.time_series['first_difference'].iloc[self.season+1:],nlags = 20, method = 'ols')
-		#for a 95% confidence interval
-		#Plot ACF:
+		return self.lag_acf,self.lag_pacf, self.lag_acf_1,self.lag_pacf_1
+
 
 	def get_p_and_q(self):
 		'''
-		Sets up and graphs the ARIMA forecasting for the time series
-		Continous error at line 102:  ufunc 'add' did not contain a loop with signature matching types dtype('<U21') dtype('<U21') dtype('<U21')
-		We are trying to use the stationary time series as an input to our model, but neither the stationary
-		nor the original work.
+		Finds the parameters of the model for the stationary and the first difference (p and q values) by finding the intersection of the second standard deviation away and the data series.
 		'''
 		# Find intersection with the top line for each graph
 		threshold = .03
+		# Find the p and q values for the differenced seasonality
 		self.start = len(self.time_series)
 		top_y = 1.65/np.sqrt(len(self.time_series['seasonal_first_difference']))
 		for i, val in enumerate(self.lag_acf):
-		    if val < top_y + threshold:
-		        self.Q = i
-		        break
+			if val < top_y + threshold:
+				self.Q = i
+				break
 		for i, val in enumerate(self.lag_pacf):
-		    if val < top_y + threshold:
-		        self.P = i
-		        break
-		#print('the P')
-		#print(self.P)
-		#print('the Q')
-		#print(self.Q)
+			if val < top_y + threshold:
+				self.P = i
+				break
+
+		# Find the p and q values for the differenced data series
 		top_y = 1.65/np.sqrt(len(self.time_series['first_difference']))
 		for i, val in enumerate(self.lag_acf_1):
-		    if val < top_y + threshold:
-		        self.q = i
-		        break
+			if val < top_y + threshold:
+				self.q = i
+				break
 		for i, val in enumerate(self.lag_pacf_1):
-		    if val < top_y + threshold:
-		        self.p = i
-		        break
-		#print('the p')
-		#print(self.p)
-		#print('the q')
-		#print(self.q)
+			if val < top_y + threshold:
+				self.p = i
+				break
+		return self.p, self.q, self.P, self.Q
 
 	def build_model(self):
+		'''
+		Uses the parameters defined in the method above and passes it in to the SARIMA model. The model is then fit and predicts future values based on input from user.
+		'''
 		model = sm.tsa.statespace.SARIMAX(self.time_series['Price'], trend = 'n', order = (self.p,1,self.q), seasonal_order = (self.P,1,self.Q,self.season), enforce_stationarity = False, enforce_invertibility = False)
 		self.results = model.fit()
-		#print('cat')
-		#print(self.results.summary())
-		#print(self.results)
-		#print(self.time_series)
-
-		#start = datetime.datetime.strptime(self.time_series.index[-1], '%Y-%m-%d')
 		start = self.time_series.index[-1]
 		date_list = [start + relativedelta(months = x) for x in range(0,int(self.months))]
 		future = pd.DataFrame(index=date_list, columns = self.time_series.columns)
@@ -138,10 +115,5 @@ class Interpreter:
 
 
 if __name__ == '__main__':
-	myinterpreter = Interpreter('', '', 'avg_elec_price', 30)
-	myinterpreter.differencing()
-	#myinterpreter.test_stationarity()
-	myinterpreter.create_acf()
-	myinterpreter.get_p_and_q()
+	myinterpreter = Interpreter( 'avg_elec_price', 30)
 	myinterpreter.build_model()
-	#myinterpreter.make_predictions()

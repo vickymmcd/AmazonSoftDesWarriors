@@ -3,7 +3,6 @@ from format_data import Formatter
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from graphing_data import Grapher
 import pandas as pd
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 import statsmodels.api as sm
@@ -14,7 +13,7 @@ from dateutil.relativedelta import relativedelta
 
 
 class Interpreter:
-	def __init__(self, url, file_name, data_file_name, n_days):
+	def __init__(self, data_file_name, n_days):
 		'''
 		Initializes the data Interpreter object with
 		a data Formatter object and uses that object to grab
@@ -22,7 +21,7 @@ class Interpreter:
 		days to predict into the future and generates
 		a list of wanted days.
 		'''
-		self.formatter = Formatter(url, file_name, data_file_name)
+		self.formatter = Formatter(data_file_name)
 		self.time_series = self.formatter.data_to_dataframe()
 		self.time_series.columns = ['Price']
 		self.season = 12

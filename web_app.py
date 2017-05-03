@@ -1,17 +1,20 @@
 import os
 #import os.environ
 from flask import Flask, render_template, request
-from data_scrape import Collector
 from bokeh.plotting import figure
 from bokeh.embed import components
 from visualization import Visualization
-from graphing_data import Grapher
 from interpreter_final import Interpreter
 from socket import gethostname
 app = Flask(__name__)
 
 
 @app.route('/')
+def hello():
+    return render_template('index.html')
+
+
+@app.route('/home')
 def hello_world():
     return render_template('index.html')
 
@@ -25,7 +28,8 @@ def predict():
 def about():
     return render_template('about.html')
 
-@app.route('/acknowledgements')
+
+@app.route('/acknow')
 def ack():
     return render_template('acknowledgements.html')
 
@@ -56,7 +60,7 @@ def result():
                 cheapest_dates = ""
         elif time.isdigit() and int(time)>=80 and int(time)<=3650:
             if prod == 'Oil' and time != '':
-                myinterpreter = Interpreter('', '', 'oil_prices', int(time))
+                myinterpreter = Interpreter('oil_prices', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()
@@ -69,7 +73,7 @@ def result():
                 script, div = components(plot)
             elif prod == 'Electricity' and time != '':
                 # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
-                myinterpreter = Interpreter('', '', 'avg_elec_price', int(time))
+                myinterpreter = Interpreter('avg_elec_price', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()
@@ -84,14 +88,15 @@ def result():
                 error = "Please type your specified time period as a number between 80 and 3650."
                 script = ' '
                 div = {}
+                cheapest_dates = ""
     return render_template("result.html", prod=prod, time=time,
                          error=error, script=script, div=div, cheapest_dates = cheapest_dates)
 
 
 if __name__ == '__main__':
     if 'liveconsole' not in gethostname():
-         #HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-         #PORT = int(os.environ.get('PORT', 5000))
-         #app.run(host=HOST, port=PORT)
-        app.debug = True
-        app.run()
+        HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+        PORT = int(os.environ.get('PORT', 5000))
+        app.run(host=HOST, port=PORT)
+        #app.debug = True
+        #app.run()

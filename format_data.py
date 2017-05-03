@@ -2,6 +2,8 @@
 helper functions for super shoppers final product for softdes spring 2017
 formats dates and times, and prepares data for machine learning process
 '''
+from os.path import exists
+from pickle import dump, load
 import time
 import datetime
 import pandas as pd
@@ -11,27 +13,36 @@ import numpy as np
 
 
 class Formatter:
-    def __init__(self, url, file_name, data_file_name):
+    def __init__(self, data_file_name):
         '''
         Initializes the data Formatter object with
         a dictionary of data to be formatted.
 
-        url: url of data to obtain from Tracktor
-        file_name: name of file where id of data is saved
         data_file_name: name of file where data is saved
-        NOTE: Only need data_file_name and data_file if they
-        already exist, the other input can be an empty string.
         '''
+        self.formatted_data_file = 'data/'+data_file_name + '_formatted.txt'
+        self.frame = None
         if data_file_name == 'avg_elec_price':
-            self.collector = Collector_elec(data_file_name)
+            if exists(self.formatted_data_file):
+                self.frame = pd.read_pickle(self.formatted_data_file)
+            else:
+                self.collector = Collector_elec(data_file_name)
+                self.data_dict = self.collector.get_data_dict()
         if data_file_name == 'oil_prices':
-            self.collector = Collector_oil(data_file_name)
-        self.data_dict = self.collector.get_data_dict()
+            if exists(self.formatted_data_file):
+                self.frame = pd.read_pickle(self.formatted_data_file)
+            else:
+                self.collector = Collector_oil(data_file_name)
+                self.data_dict = self.collector.get_data_dict()
         self.x_values = []
         self.y_values = []
         self.dict = {}
 
     def add_in_between_dates(self):
+        '''
+        Adds dates in between given data so that we have
+        data points for each individual day.
+        '''
         keys = [float(key) for key in self.data_dict]
         keys.sort()
         for i, key in enumerate(keys):
@@ -42,14 +53,28 @@ class Formatter:
                     temp = self.add_day(temp)
 
     def get_date(self, epoch_time):
+        '''
+        Gets the date associated with the given epoch time
+
+        epoch_time: epoch you want as a datetime
+        '''
         t = time.gmtime(epoch_time)
         return t
 
     def add_day(self, epoch_time):
+        '''
+        Adds a day to the given epoch_time
+
+        epoch_time: epoch you want with an additional day
+        returns: epoch with 1 day added
+        '''
         t = ((epoch_time/1000) + (3600 * 24)) * 1000
         return t
 
     def data_to_matrix(self):
+        '''
+        
+        '''
         self.x_values = [float(key)/1000 for key in self.data_dict.keys()]
         self.y_values = [float(val[0]) for val in self.data_dict.values()]
         return self.x_values, self.y_values
@@ -59,6 +84,8 @@ class Formatter:
         return self.data_dict
 
     def data_to_dataframe(self):
+        if exists(self.formatted_data_file):
+            return self.frame
         formatted_dict = {}
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
@@ -74,9 +101,10 @@ class Formatter:
         frame.index = np.array(frame.index)
         frame.index = np.array(frame.index, dtype = 'datetime64[us]')
         frame.index.astype('datetime64[ns]')
+        frame.to_pickle(self.formatted_data_file)
         return frame
 
 
 if __name__ == '__main__':
-	myformat = Formatter('', '', 'avg_elec_price')
+	myformat = Formatter('avg_oil_price')
 	data = myformat.data_to_dataframe()

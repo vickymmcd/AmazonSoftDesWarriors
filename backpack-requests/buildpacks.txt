@@ -1,2 +1,0 @@
-https://elements.heroku.com/buildpacks/blackandredinc/heroku-buildpack-cairo
-

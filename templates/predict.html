@@ -133,30 +133,47 @@ li a:hover {
 
     </style>
     </head>
+  </head>
 <body>
+  <div>
+    <ul>
+      <li><a href=home>The Shopping Assistant</a></li>
+      <li><a class="active" href=predict>How We Predict</a></li>
+      <li><a href=about>About Us</a></li>
+      <li><a href=acknow>Acknowledgements</a></li>
+  </ul>
+  </div>
 <div>
-  <ul>
-  <li><a class="active" href=index.html>The Shopping Assistant</a></li>
-  <li><a href=predict.html>How We Predict</a></li>
-  <li><a href=about.html>About Us</a></li>
-  <li><a href=acknowledgements.html>Acknowledgements</a></li>
-</ul>
+<div class="promos">
+<div class="promo scale">
+  <div class="deal">
+    <span>How We Predict</span> <br>
+  </div>
+
+  <span class="price">
+    <div class="selections">
+      <p>
+      Our model uses the Seasonal Auto Regressive Integrated Moving Average (SARIMA) model functions
+      to finding the future prices based on the previous prices. The model requires
+      parameters for the seasonality and stationarity of our data. For example,
+      electricity prices change in respect to seasons, meaning that in the summer
+      electricity is more expensive than in the winter. In order to take into
+      account this seasonality, we decomposed the data using seasonal decomposition.
+      Once we had the seasonality trend, we were able to find the parameters
+      needed to pass into the model. We also had to pass parameters into the model
+      for when the prices were stationary, meaning that they were independent of time.
+      In order to make the data stationary, we took the difference between the prices
+      and their previous values. We also took the difference between the prices and
+      the values which happened exactly one year prior to get the seasonal model parameters.
+      <p>
+    </div>
+  </span>
+  <br>
+  SARIMA and ARIMA can be found using the statsmodels library
+  <br>
+  <br>
 </div>
-<div>
-  <p>
-     Our model uses the Seasonal Auto Regressive Integrated Moving Average (SARIMA) model functions
-     to finding the future prices based on the previous prices. The model requires
-     parameters for the seasonality and stationarity of our data. For example, 
-     electricity prices change in respect to seasons, meaning that in the summer
-     electricity is more expensive than in the winter. In order to take into
-     account this seasonality, we decomposed the data using seasonal decomposition.
-     Once we had the seasonality trend, we were able to find the parameters
-     needed to pass into the model. We also had to pass parameters into the model
-     for when the prices were stationary, meaning that they were independent of time. 
-     In order to make the data stationary, we took the difference between the prices 
-     and their previous values. We also took the difference between the prices and 
-     the values which happened exactly one year prior to get the seasonal model parameters.
-  </p>
+</div>
 </div>
 </body>
 </html>

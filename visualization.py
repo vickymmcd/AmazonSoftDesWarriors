@@ -4,7 +4,6 @@ This class represents the visualization object with multiple graphs
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import DatetimeTickFormatter, HoverTool, CategoricalColorMapper, Range1d
 from bokeh.layouts import column, row
-from graphing_data import Grapher
 from interpreter_final import Interpreter
 from bokeh.embed import components
 import bokeh.palettes

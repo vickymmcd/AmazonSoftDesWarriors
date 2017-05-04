@@ -71,19 +71,18 @@ class Formatter:
         t = ((epoch_time/1000) + (3600 * 24)) * 1000
         return t
 
-    def data_to_matrix(self):
-        '''
-        
-        '''
-        self.x_values = [float(key)/1000 for key in self.data_dict.keys()]
-        self.y_values = [float(val[0]) for val in self.data_dict.values()]
-        return self.x_values, self.y_values
-
     def get_formatted_dict(self):
+        '''
+        Returns the formatted data dictionary
+        '''
         data = pd.DataFrame(self.data_dict)
         return self.data_dict
 
     def data_to_dataframe(self):
+        '''
+        Converts the data dictionary into a pandas DataFrame
+        and returns that dataframe.
+        '''
         if exists(self.formatted_data_file):
             return self.frame
         formatted_dict = {}
@@ -93,7 +92,6 @@ class Formatter:
         for key in self.data_dict:
             new_key = datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d')
             new_key_date = datetime.datetime.fromtimestamp(float(key))
-            #print(new_key_date.month)
             if new_key not in formatted_dict:
                 formatted_dict[new_key] = self.data_dict[key]
         frame = pd.DataFrame(formatted_dict).T

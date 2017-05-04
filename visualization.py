@@ -28,7 +28,7 @@ class Visualization:
         '''
         self.data1 = data1
         self.data2 = data2
-        self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%Y-%d-%m') for x in self.data1.index.values.tolist()]
+        self.data1['Datestring'] = [datetime.datetime.fromtimestamp(int(x/1000000000)).strftime('%B %d, %Y') for x in self.data1.index.values.tolist()]
         self.find_lowest_prices()
         self.hover = HoverTool(tooltips = [('Date', '@Datestring'),('Price', '@Price'),
                                          ('Cheapest', '@Cheapest')])
@@ -120,9 +120,8 @@ class Visualization:
                 cheapest_dates.append(self.data1['Datestring'][month_index])
         dates = 'The best dates to buy your product are  '
         for i,o in enumerate(cheapest_dates):
-            print(i)
             if i == 0:
-                dates= dates + cheapest_dates[i]
+                dates = dates + cheapest_dates[i]
             else:
                 dates = dates + ' , '+ cheapest_dates[i]
         return dates

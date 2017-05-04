@@ -106,5 +106,5 @@ class Formatter:
 
 
 if __name__ == '__main__':
-	myformat = Formatter('avg_oil_price')
+	myformat = Formatter('oil_prices')
 	data = myformat.data_to_dataframe()

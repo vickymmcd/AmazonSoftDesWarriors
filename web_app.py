@@ -94,8 +94,8 @@ def result():
 
 if __name__ == '__main__':
     if 'liveconsole' not in gethostname():
-        #HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-        #PORT = int(os.environ.get('PORT', 5000))
-        #app.run(host=HOST, port=PORT)
+        HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+        PORT = int(os.environ.get('PORT', 5000))
+        app.run(host=HOST, port=PORT)
         #app.debug = True
-        app.run()
+        #app.run()

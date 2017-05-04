@@ -23,7 +23,7 @@ To install Statsmodel.api: `pip3 install -U statsmodels`
 ## Using the Super Shopper on the Web
 Go to our website: [The Super Shopper](https://super-shoppers.herokuapp.com/).
 
-Select a product to buy using the drop down menu.
+Select a product to investigate using the drop down menu.
 
 Select a time frame in which you would like to buy the product.
 

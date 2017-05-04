@@ -9,35 +9,33 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
+def hello(): #welcome page
     return render_template('index.html')
 
 
 @app.route('/home')
-def hello_world():
+def hello_world(): #also welcome page
     return render_template('index.html')
 
 
 @app.route('/predict')
-def predict():
+def predict(): #page talks about our algorithm
     return render_template('predict.html')
 
 
 @app.route('/about')
-def about():
+def about(): #about us
     return render_template('about.html')
 
 
 @app.route('/acknow')
-def ack():
+def ack(): #thank you page
     return render_template('acknowledgements.html')
 
 
 @app.route('/test')
 def testing():
-    # html1 = Visualization.show_layout
     return render_template('testingPromo.html')
-    # return render_template('graph.html', script=script, div=div)
 @app.route('/result/', methods=['POST', 'GET'])
 def result():
     error = None
@@ -52,16 +50,15 @@ def result():
                 time = val
                 print(type(time))
 
-        if time == '' or prod == '':
+        if time == '' or prod == '': # checks to see if user filled everything in
                 error = 'Please fill in all fields.'
                 script = ' '
                 div = {}
                 cheapest_dates = ""
-        elif time.isdigit() and int(time)>=80 and int(time)<=3650:
+        elif time.isdigit() and int(time)>=80 and int(time)<=3650: #checks to see if input is a number and in the proper range
             if prod == 'Oil' and time != '':
                 myinterpreter = Interpreter('oil_prices', int(time))
                 myinterpreter.differencing()
-                #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()
                 myinterpreter.get_p_and_q()
                 myinterpreter.build_model()
@@ -71,7 +68,6 @@ def result():
                 cheapest_dates = visualization.find_lowest_prices()
                 script, div = components(plot)
             elif prod == 'Electricity' and time != '':
-                # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
                 myinterpreter = Interpreter('avg_elec_price', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
@@ -97,5 +93,4 @@ if __name__ == '__main__':
         HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
         PORT = int(os.environ.get('PORT', 5000))
         app.run(host=HOST, port=PORT)
-        #app.debug = True
-        #app.run()
+      

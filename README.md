@@ -32,5 +32,5 @@ Click submit to get the best time to buy your project!
 ## Project Website
 In order to access our project website with more information about our project, go to https://vickymmcd.github.io/AmazonSoftDesWarriors/.
 
-##Project Poster
+## Project Poster
 In order to access our project poster, go to https://github.com/vickymmcd/AmazonSoftDesWarriors/blob/master/images/FinalPoster6.pdf.

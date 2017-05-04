@@ -59,7 +59,7 @@ def result():
                 cheapest_dates = ""
         elif time.isdigit() and int(time)>=80 and int(time)<=3650:
             if prod == 'Oil' and time != '':
-                myinterpreter = Interpreter('', '', 'oil_prices', int(time))
+                myinterpreter = Interpreter('oil_prices', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()
@@ -72,7 +72,7 @@ def result():
                 script, div = components(plot)
             elif prod == 'Electricity' and time != '':
                 # myinterpreter = Interpreter('', '', 'avg_elec_prices', 30)
-                myinterpreter = Interpreter('', '', 'avg_elec_price', int(time))
+                myinterpreter = Interpreter('avg_elec_price', int(time))
                 myinterpreter.differencing()
                 #myinterpreter.test_stationarity()
                 myinterpreter.create_acf()
@@ -94,8 +94,8 @@ def result():
 
 if __name__ == '__main__':
     if 'liveconsole' not in gethostname():
-        HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-        PORT = int(os.environ.get('PORT', 5000))
-        app.run(host=HOST, port=PORT)
+        #HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+        #PORT = int(os.environ.get('PORT', 5000))
+        #app.run(host=HOST, port=PORT)
         #app.debug = True
-        #app.run()
+        app.run()
